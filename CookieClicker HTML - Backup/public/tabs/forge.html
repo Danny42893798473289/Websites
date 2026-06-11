@@ -1,0 +1,56 @@
+<div id="forge" class="menu">
+  <div id="forgeLocked" class="themes-panel">
+    <h2 style="margin:0 0 8px">Forge</h2>
+    <p class="small" style="margin:0">Unlocks at <strong>Tornado Prestige level 2</strong>.</p>
+  </div>
+  <div id="forgeContent" class="themes-panel" style="display:none">
+    <h2 style="margin:0 0 8px">Forge</h2>
+    <p class="small" style="margin:0 0 12px">Two anvils (40 min each). Place stones on the anvil, then <strong>Strike</strong>. Higher tiers are forged only here — not sold in the shop. Recipes: 2× same tier → +1 tier, or adjacent tiers → +1 tier (e.g. T1+T2→T3).</p>
+
+    <div class="forge-slots">
+      <div class="forge-slot" data-forge-slot="0">
+        <h3 class="forge-slot__title">Anvil 1</h3>
+        <label class="small">Stone type
+          <select id="anvilType_0" class="stone-select">
+            <option value="worker">Worker</option>
+            <option value="pet">Pet</option>
+          </select>
+        </label>
+        <div class="anvil-stage">
+          <div class="anvil-base" aria-hidden="true">⚒</div>
+          <div class="anvil-slots">
+            <div id="anvilSlot0_0" class="anvil-slot-host"></div>
+            <div id="anvilSlot1_0" class="anvil-slot-host"></div>
+          </div>
+        </div>
+        <div id="forgeInventory_0" class="forge-inventory"></div>
+        <div class="controls" style="margin-top:10px">
+          <button id="anvilStrike_0" type="button" class="primary" onclick="strikeAnvil(0)">Strike anvil</button>
+        </div>
+        <p id="forgeStatus_0" class="small forge-status" style="margin-top:10px"></p>
+      </div>
+
+      <div class="forge-slot" data-forge-slot="1">
+        <h3 class="forge-slot__title">Anvil 2</h3>
+        <label class="small">Stone type
+          <select id="anvilType_1" class="stone-select">
+            <option value="worker">Worker</option>
+            <option value="pet">Pet</option>
+          </select>
+        </label>
+        <div class="anvil-stage">
+          <div class="anvil-base" aria-hidden="true">⚒</div>
+          <div class="anvil-slots">
+            <div id="anvilSlot0_1" class="anvil-slot-host"></div>
+            <div id="anvilSlot1_1" class="anvil-slot-host"></div>
+          </div>
+        </div>
+        <div id="forgeInventory_1" class="forge-inventory"></div>
+        <div class="controls" style="margin-top:10px">
+          <button id="anvilStrike_1" type="button" class="primary" onclick="strikeAnvil(1)">Strike anvil</button>
+        </div>
+        <p id="forgeStatus_1" class="small forge-status" style="margin-top:10px"></p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Werewolf — 6 Player</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="moon"></div>
+  <div class="fog"></div>
+
+  <main id="app">
+    <!-- Join -->
+    <section id="screen-join" class="screen active">
+      <header class="hero compact">
+        <p class="eyebrow">Full digital · 6 players</p>
+        <h1>Werewolf</h1>
+      </header>
+
+      <div class="card">
+        <label for="player-name">Your name</label>
+        <input id="player-name" type="text" maxlength="20" placeholder="Enter name" autocomplete="nickname" />
+        <button type="button" id="btn-create" class="btn primary full">Create new room</button>
+        <p id="join-error" class="error hidden"></p>
+      </div>
+
+      <section class="room-browser card">
+        <div class="room-browser-head">
+          <h3>Open rooms</h3>
+          <button type="button" id="btn-refresh-rooms" class="btn ghost small">Refresh</button>
+        </div>
+        <ul id="room-list" class="room-list"></ul>
+        <p id="room-list-empty" class="hint">No open rooms yet — create one above.</p>
+      </section>
+
+      <details class="rules-hint">
+        <summary>Quick rules</summary>
+        <ul>
+          <li>Chat during discussion (3 min timer) and voting</li>
+          <li>Wolves have private chat on wolf night</li>
+          <li>Good wins if all wolves die; wolves win when wolves ≥ good</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- Lobby -->
+    <section id="screen-lobby" class="screen">
+      <header class="room-header">
+        <span class="room-label">Room</span>
+        <h2 id="display-code">------</h2>
+      </header>
+      <p class="player-count"><span id="player-count">0</span> / 6 players</p>
+      <ul id="player-list" class="player-list compact-list"></ul>
+      <button type="button" id="btn-start" class="btn primary full hidden">Start game</button>
+      <p id="lobby-hint" class="hint">Waiting for players…</p>
+      <button type="button" id="btn-leave-lobby" class="btn ghost full">Leave room</button>
+
+      <div id="chat-lobby-mount"></div>
+    </section>
+
+    <!-- Game -->
+    <section id="screen-game" class="screen">
+      <div class="game-top">
+        <div class="phase-badge" id="phase-badge">Lobby</div>
+        <div class="round" id="round-display"></div>
+      </div>
+
+      <div id="role-card" class="role-card hidden">
+        <span class="role-label">Your role</span>
+        <span id="my-role" class="role-name"></span>
+      </div>
+
+      <div class="game-layout">
+        <div class="game-main">
+          <div id="chat-game-mount"></div>
+        </div>
+        <aside class="game-sidebar">
+          <div id="moderator-panel" class="moderator-panel">
+            <h3>Moderator</h3>
+            <div id="moderator-log" class="moderator-log"></div>
+          </div>
+          <div id="action-panel" class="action-panel hidden"></div>
+          <button type="button" id="btn-leave-game" class="btn ghost full">Leave game</button>
+          <ul id="game-player-list" class="player-list compact-list"></ul>
+        </aside>
+      </div>
+
+      <div id="game-over" class="game-over hidden">
+        <h2 id="winner-text"></h2>
+        <button type="button" class="btn secondary" id="btn-play-again">Play again</button>
+      </div>
+    </section>
+  </main>
+
+  <template id="chat-template">
+    <div class="chat-panel">
+      <div class="chat-header">
+        <span class="chat-hint"></span>
+        <span class="discussion-timer hidden"></span>
+      </div>
+      <div class="chat-messages"></div>
+      <form class="chat-form">
+        <input type="text" class="chat-input" maxlength="500" placeholder="Type a message…" autocomplete="off" />
+        <button type="submit" class="btn primary small">Send</button>
+      </form>
+    </div>
+  </template>
+
+  <script src="socket.io/socket.io.js"></script>
+  <script src="js/client.js" type="module"></script>
+</body>
+</html>

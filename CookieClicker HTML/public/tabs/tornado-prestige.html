@@ -1,0 +1,21 @@
+<div id="tornado-prestige" class="menu">
+  <div class="tornado-prestige-panel">
+    <h2 style="margin:0 0 12px">Tornado Prestige</h2>
+    <p class="small" style="margin:0 0 16px">Level-based hard reset. Requirements: Lv1 1B, Lv2 2B, Lv3 4B, Lv4 10B per 40m. Keeps unlocked garden plots, market, and permanent pets.</p>
+    <div class="prestige-stats">
+      <div class="stat"><small>Level</small><strong id="tornadoCount">0</strong> / 4</div>
+      <div class="stat"><small>Multiplier</small><strong id="tornadoMultiMult">1</strong>×</div>
+      <div class="stat"><small>Equip slots</small><strong id="tornadoEquipSlots">2</strong></div>
+      <div class="stat"><small>Permanent</small><strong id="tornadoPermanentUsed">0</strong>/<strong id="tornadoPermanentSlots">0</strong></div>
+      <div class="stat"><small>Your per 40m</small><strong id="tornadoPer40m">0</strong></div>
+    </div>
+    <p class="small" style="margin:16px 0">
+      Next level requires <strong id="tornadoPer40mReq">1,000,000,000</strong> per 40m.<br>
+      Next rewards: <span id="tornadoNextReward">—</span>
+    </p>
+    <p id="tornadoPrestigeStatus" class="small" style="margin:0 0 12px"></p>
+    <div class="controls">
+      <button id="tornadoPrestigeBtn" class="primary" onclick="doTornadoPrestige()" disabled>Tornado Prestige</button>
+    </div>
+  </div>
+</div>

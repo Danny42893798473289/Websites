@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Password Game</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>🔒 The Password Game</h1>
+      <p class="subtitle">Create a password that satisfies every rule. Progress autosaves locally.</p>
+      <div class="save-status" id="saveStatus" aria-live="polite"></div>
+    </header>
+
+    <main>
+      <section class="password-section">
+        <label for="passwordEditor" class="password-label">Please choose a password</label>
+        <div class="editor-toolbar" id="editorToolbar" hidden>
+          <button type="button" data-cmd="bold" title="Bold"><b>B</b></button>
+          <button type="button" data-cmd="italic" title="Italic"><i>I</i></button>
+          <select id="fontFamily" title="Font family">
+            <option value="">Default</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Wingdings">Wingdings</option>
+            <option value="Arial">Arial</option>
+            <option value="Georgia">Georgia</option>
+          </select>
+          <select id="fontSize" title="Font size">
+            <option value="">Default</option>
+            <option value="1px">1px</option>
+            <option value="4px">4px</option>
+            <option value="9px">9px</option>
+            <option value="16px">16px</option>
+            <option value="25px">25px</option>
+            <option value="28px">28px</option>
+            <option value="36px">36px</option>
+            <option value="49px">49px</option>
+            <option value="64px">64px</option>
+            <option value="81px">81px</option>
+          </select>
+        </div>
+        <div id="passwordEditor" class="password-editor" contenteditable="true" spellcheck="false" role="textbox" aria-multiline="true"></div>
+      </section>
+
+      <section class="rules-section" id="rulesContainer"></section>
+    </main>
+
+    <div class="modal-overlay" id="sacrificeModal" hidden>
+      <div class="modal">
+        <h2>A sacrifice must be made</h2>
+        <p>Pick 2 letters you will no longer be able to use in your password.</p>
+        <div class="letter-grid" id="letterGrid"></div>
+        <p class="selected-letters">Selected: <span id="selectedLetters">—</span></p>
+        <button type="button" id="confirmSacrifice" disabled>Confirm sacrifice</button>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="finalModal" hidden>
+      <div class="modal final-modal">
+        <h2>Is this your final password?</h2>
+        <p>Your password will be cleared. You have <strong>120 seconds</strong> to retype it exactly.</p>
+        <button type="button" id="confirmFinal">Yes, this is my final password</button>
+        <button type="button" id="cancelFinal" class="btn-secondary">No, keep editing</button>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="retypeModal" hidden>
+      <div class="modal retype-modal">
+        <h2>Retype your password!</h2>
+        <div class="timer" id="retypeTimer">2:00</div>
+        <textarea id="retypeInput" rows="4" placeholder="Type your exact password here..."></textarea>
+        <button type="button" id="submitRetype">Submit</button>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="winModal" hidden>
+      <div class="modal win-modal">
+        <h2>🎉 Congratulations!</h2>
+        <p>You beat The Password Game!</p>
+        <button type="button" id="playAgain">Play again</button>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="deathModal" hidden>
+      <div class="modal death-modal">
+        <h2 id="deathTitle">Game Over</h2>
+        <p id="deathMessage"></p>
+        <button type="button" id="restartGame">Start over</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Offline clone inspired by <a href="https://neal.fun/password-game/" target="_blank" rel="noopener">neal.fun</a>. No external APIs — works in China.</p>
+      <button type="button" id="resetProgress" class="link-btn">Reset saved progress</button>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

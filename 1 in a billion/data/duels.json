@@ -1,0 +1,19 @@
+[
+  {
+    "id": "1781178813960_jsd6y9",
+    "challenger": "Enter_username",
+    "opponent": "Danny",
+    "status": "active",
+    "createdAt": 1781178813960,
+    "rolls": {
+      "challenger": {
+        "id": "uncommon_moss",
+        "name": "Moss Egg",
+        "rarity": "Uncommon",
+        "oneIn": 10,
+        "submittedAt": 1781178813963
+      }
+    },
+    "winner": null
+  }
+]

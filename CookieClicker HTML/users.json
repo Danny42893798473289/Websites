@@ -1,0 +1,3522 @@
+{
+  "111": {
+    "password": "1",
+    "data": {
+      "cookies": 4025588919,
+      "grandmas": 101,
+      "farms": 2,
+      "factories": 2,
+      "oils": 1,
+      "mines": 1,
+      "coops": 1,
+      "wormholes": 1,
+      "galaxies": 1,
+      "empties": 1000,
+      "pets": [],
+      "equipped": [],
+      "permanentEquipped": [],
+      "hatching": {
+        "multi": 10,
+        "time": 534727
+      },
+      "expansionPets": [],
+      "expansionHatching": {
+        "id": "exp_20d",
+        "multi": 1,
+        "time": 1654597,
+        "duration": "20 Days"
+      },
+      "marketPlots": [
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        }
+      ],
+      "seeds": [
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008264285
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008282858
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008283117
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008283229
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008283349
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008283478
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008283602
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008283705
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008283814
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008283913
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284025
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284121
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284221
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284334
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284437
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284548
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284656
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284769
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284866
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008284980
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285075
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285191
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285282
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285384
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285483
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285592
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285690
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285791
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008285900
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286009
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286110
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286233
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286336
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286448
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286548
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286658
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286752
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286852
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008286936
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287065
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287165
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287295
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287411
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287515
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287621
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287735
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287845
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008287954
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288039
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288145
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288253
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288372
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288474
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288599
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288736
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288868
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008288951
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008289083
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008289173
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008289330
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008289421
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008289560
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008289664
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008289791
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008289891
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008290019
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008290109
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008290243
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008290354
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008290463
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008290976
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008291102
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008291214
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008291307
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008291408
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008292116
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008292537
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008292596
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008292746
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008292787
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008292824
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008292930
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008292967
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008293115
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008293282
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008293349
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008293465
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008293592
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008293699
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008294462
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008294655
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008294844
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008295023
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008295158
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008296037
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008296214
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008296421
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008296602
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008296768
+        },
+        {
+          "type": "wheat",
+          "purchasedAt": 1779008296972
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302050
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302182
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302294
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302405
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302527
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302609
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302715
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302829
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008302942
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008303058
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008303158
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008303268
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008303361
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008303473
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008303574
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008303683
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008304299
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008304447
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008304549
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008304676
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008304786
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008304899
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305003
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305117
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305219
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305338
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305434
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305550
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305658
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305907
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305947
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008305990
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008306181
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008306223
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008306337
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008306442
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008306551
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008306659
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008306834
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008306928
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307045
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307160
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307271
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307375
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307525
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307617
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307732
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307840
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008307961
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008308075
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008308206
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008308323
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008308447
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008308552
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008308667
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008308773
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008308890
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309000
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309123
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309243
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309340
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309468
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309604
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309717
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309812
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008309937
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310052
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310176
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310293
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310417
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310526
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310644
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310757
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310890
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008310983
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008311273
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008311339
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008311440
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008311549
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008311795
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008311912
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008311998
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008312117
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008312236
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008312350
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008312466
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008312581
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008312690
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008312802
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008312923
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313036
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313147
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313262
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313365
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313483
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313598
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313731
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313838
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008313966
+        },
+        {
+          "type": "potato",
+          "purchasedAt": 1779008314487
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008328993
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008329212
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008329334
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008329424
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008329800
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008329856
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008329891
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008329927
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008330002
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008331278
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008331850
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008332672
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008333604
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008333688
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008333769
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008333872
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008333940
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008334030
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008334143
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008334237
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008334402
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008334490
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008335672
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008335767
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008335909
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008335989
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336105
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336168
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336224
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336286
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336384
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336486
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336608
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336701
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336821
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008336936
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337028
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337144
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337231
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337355
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337444
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337579
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337673
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337785
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337896
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008337994
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338105
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338212
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338333
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338432
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338579
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338653
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338762
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338860
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008338949
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339068
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339176
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339281
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339417
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339591
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339661
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339760
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339874
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008339978
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008340077
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008340206
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008340312
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008340428
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008340543
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008340668
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008342081
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008342341
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008342481
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008342605
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008342716
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008342828
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008342907
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008343029
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008343895
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008344115
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008344307
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008344454
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008344858
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008344934
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008345047
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008345155
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008345244
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008345339
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008345454
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008345578
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008345650
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369164
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369283
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369384
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369477
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369597
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369683
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369797
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369901
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008369991
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008370230
+        },
+        {
+          "type": "pumpkin",
+          "purchasedAt": 1779008370298
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008372553
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008372961
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008373294
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008373485
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008373547
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008373726
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008373834
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008373943
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008374158
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008374358
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008374561
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008374651
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008374751
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008374836
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008374946
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008375037
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008376408
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008376560
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008376730
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008376933
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008377268
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008377575
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008377914
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008378132
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008378463
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008378675
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008379025
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008380726
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008380831
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008380935
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008381027
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008381154
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008381327
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008381581
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008381692
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008381792
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008381895
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382009
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382122
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382229
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382348
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382456
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382620
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382689
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382778
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008382882
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383003
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383138
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383238
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383330
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383452
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383602
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383684
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383780
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008383858
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008384062
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008384122
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008384200
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008384296
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008385081
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008385211
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008385310
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008385421
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008385648
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008385746
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008385874
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008386099
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008386200
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008386312
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008386570
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008386746
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008386863
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008386984
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008387082
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008387211
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008387482
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008387564
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008387626
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008387707
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008387856
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008387939
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008388029
+        },
+        {
+          "type": "carrot",
+          "purchasedAt": 1779008388267
+        }
+      ],
+      "gardenPlots": [
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        }
+      ],
+      "waterCans": [
+        {
+          "type": "advanced",
+          "lastUsedAt": 0
+        },
+        {
+          "type": "advanced",
+          "lastUsedAt": 0
+        },
+        {
+          "type": "advanced",
+          "lastUsedAt": 0
+        },
+        {
+          "type": "advanced",
+          "lastUsedAt": 0
+        },
+        {
+          "type": "advanced",
+          "lastUsedAt": 0
+        }
+      ],
+      "produce": [],
+      "vines": 0,
+      "xp": 0,
+      "boosters": 0,
+      "whyEggs": 0,
+      "tornadoPrestige": 0,
+      "masteryPath": null,
+      "masteryUnlocked": [],
+      "currentTheme": "emerald-night",
+      "unlockedThemes": [
+        "dark-orange",
+        "light-blue",
+        "mint-frost",
+        "sunset-rose",
+        "royal-violet",
+        "emerald-night",
+        "crimson-steel",
+        "arctic-cyan",
+        "golden-amber",
+        "void-neon",
+        "celestial-gold",
+        "quantum-ice",
+        "inferno-core"
+      ],
+      "stoneInventory": {
+        "worker": {},
+        "pet": {}
+      },
+      "appliedBuildingStones": {
+        "grandmas": 0,
+        "farms": 0,
+        "factories": 0,
+        "oils": 0,
+        "mines": 0,
+        "coops": 0,
+        "wormholes": 0,
+        "galaxies": 0,
+        "empties": 0
+      },
+      "appliedPetStones": [],
+      "forgeJobs": [
+        null,
+        null
+      ],
+      "anvilState": [
+        {
+          "type": "worker",
+          "slots": [
+            null,
+            null
+          ]
+        },
+        {
+          "type": "worker",
+          "slots": [
+            null,
+            null
+          ]
+        }
+      ],
+      "nextCookieTickAt": 1779113638664,
+      "permanentSlotMeta": [],
+      "chokeberries": 0,
+      "bankCard": {
+        "tier": "bronze",
+        "balance": 0
+      },
+      "creditCard": null,
+      "bankBound": true,
+      "limbo": 2,
+      "yellowPrestige": 3,
+      "iceAgeCount": 2,
+      "limboRestriction": "none",
+      "shopExpansionPurchases": {},
+      "raritiesRollUnlocked": false,
+      "pendingRarityMult": 1,
+      "permaMastery": false,
+      "iceAgeAwaitingLimbo": false,
+      "tradeSlots": 1,
+      "tradeVolumeToday": 0,
+      "tradeVolumeDate": "2026-05-18",
+      "extraPermanentSlots": 0
+    },
+    "friends": [
+      "圆神",
+      "Knight"
+    ],
+    "tradeOffers": []
+  },
+  "Danny201424": {
+    "password": "Danny@201424",
+    "data": {
+      "cookies": 34979024328,
+      "grandmas": 27,
+      "farms": 0,
+      "factories": 0,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 200,
+      "pets": [],
+      "equipped": [
+        1,
+        1
+      ],
+      "permanentEquipped": [],
+      "hatching": {
+        "multi": 0.05,
+        "time": 2212
+      },
+      "expansionPets": [],
+      "expansionHatching": null,
+      "marketPlots": [
+        {
+          "state": "growing",
+          "plantedAt": 1778847014506,
+          "growTime": 9600
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        }
+      ],
+      "seeds": [],
+      "gardenPlots": [
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        }
+      ],
+      "waterCans": [],
+      "produce": [],
+      "vines": 0,
+      "xp": 0,
+      "boosters": 0,
+      "whyEggs": 0,
+      "tornadoPrestige": 0,
+      "masteryPath": null,
+      "masteryUnlocked": [],
+      "currentTheme": "dark-orange",
+      "unlockedThemes": [
+        "dark-orange"
+      ],
+      "stoneInventory": {
+        "worker": {},
+        "pet": {}
+      },
+      "appliedBuildingStones": {
+        "grandmas": 0,
+        "farms": 0,
+        "factories": 0,
+        "oils": 0,
+        "mines": 0,
+        "coops": 0,
+        "wormholes": 0,
+        "galaxies": 0,
+        "empties": 0
+      },
+      "appliedPetStones": [
+        0,
+        0
+      ],
+      "forgeJobs": [
+        null,
+        null
+      ]
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "belly": {
+    "password": "sjfrp",
+    "data": {
+      "cookies": 95,
+      "grandmas": 4,
+      "farms": 1,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "任": {
+    "password": "1",
+    "data": {
+      "cookies": 999997500000,
+      "grandmas": 54,
+      "farms": 3,
+      "factories": 4,
+      "oils": 0,
+      "mines": 0,
+      "coops": 17,
+      "wormholes": 12,
+      "galaxies": 36,
+      "empties": 2828,
+      "pets": [],
+      "equipped": [],
+      "hatching": {
+        "multi": 1,
+        "time": 85308
+      }
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "fang1951": {
+    "password": "201424",
+    "data": {
+      "cookies": 5,
+      "grandmas": 10,
+      "farms": 4,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "蒋岳霖": {
+    "password": "140823",
+    "data": {
+      "cookies": 40,
+      "grandmas": 5,
+      "farms": 1,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "十号线": {
+    "password": "3.1415926",
+    "data": {
+      "cookies": 1e+33,
+      "grandmas": 18,
+      "farms": 16,
+      "factories": 5,
+      "oils": 11,
+      "mines": 7,
+      "coops": 6,
+      "wormholes": 54,
+      "galaxies": 291,
+      "empties": 10310,
+      "pets": [],
+      "equipped": [],
+      "hatching": {
+        "multi": 0.2,
+        "time": 6726
+      }
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "Danny201404": {
+    "password": "Danny@201404",
+    "data": {},
+    "friends": [],
+    "tradeOffers": []
+  },
+  "段安": {
+    "password": "1",
+    "data": {
+      "cookies": 0,
+      "grandmas": 40,
+      "farms": 0,
+      "factories": 0,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "喜丝.荔枝呈雷鱼": {
+    "password": "20140408",
+    "data": {
+      "cookies": 0,
+      "grandmas": 50,
+      "farms": 10,
+      "factories": 10,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "徐承鑫": {
+    "password": "183636",
+    "data": {
+      "cookies": 0,
+      "grandmas": 70,
+      "farms": 180,
+      "factories": 10,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "任1": {
+    "password": "1",
+    "data": {
+      "cookies": 15,
+      "grandmas": 0,
+      "farms": 0,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "chese": {
+    "password": "20140408",
+    "data": {
+      "cookies": 0,
+      "grandmas": 40,
+      "farms": 0,
+      "factories": 0,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "dannyli": {
+    "password": "1",
+    "data": {
+      "cookies": 5,
+      "grandmas": 0,
+      "farms": 1,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": [],
+    "tradeOffers": []
+  },
+  "圆神": {
+    "password": "3.1415926",
+    "data": {
+      "cookies": 0,
+      "grandmas": 28,
+      "farms": 46,
+      "factories": 12,
+      "oils": 2,
+      "mines": 0,
+      "coops": 3,
+      "wormholes": 8,
+      "galaxies": 9,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "permanentEquipped": [],
+      "hatching": {
+        "multi": 1,
+        "time": 84742
+      },
+      "expansionPets": [],
+      "expansionHatching": null,
+      "marketPlots": [
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        }
+      ],
+      "seeds": [],
+      "gardenPlots": [
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        }
+      ],
+      "waterCans": [],
+      "produce": [],
+      "vines": 0,
+      "xp": 0,
+      "boosters": 0,
+      "whyEggs": 0,
+      "tornadoPrestige": 0,
+      "masteryPath": null,
+      "masteryUnlocked": [],
+      "currentTheme": "dark-orange",
+      "unlockedThemes": [
+        "dark-orange"
+      ],
+      "stoneInventory": {
+        "worker": {},
+        "pet": {}
+      },
+      "appliedBuildingStones": {
+        "grandmas": 0,
+        "farms": 0,
+        "factories": 0,
+        "oils": 0,
+        "mines": 0,
+        "coops": 0,
+        "wormholes": 0,
+        "galaxies": 0,
+        "empties": 0
+      },
+      "appliedPetStones": [],
+      "forgeJobs": [
+        null,
+        null
+      ],
+      "anvilState": [
+        {
+          "type": "worker",
+          "slots": [
+            null,
+            null
+          ]
+        },
+        {
+          "type": "worker",
+          "slots": [
+            null,
+            null
+          ]
+        }
+      ],
+      "nextCookieTickAt": 1779105535257,
+      "permanentSlotMeta": [],
+      "chokeberries": 0,
+      "bankCard": null,
+      "creditCard": null,
+      "bankBound": true,
+      "limbo": 0,
+      "yellowPrestige": 0,
+      "iceAgeCount": 0,
+      "limboRestriction": null,
+      "shopExpansionPurchases": {},
+      "raritiesRollUnlocked": false,
+      "pendingRarityMult": 1,
+      "permaMastery": false,
+      "iceAgeAwaitingLimbo": false,
+      "tradeSlots": 1,
+      "tradeVolumeToday": 10000,
+      "tradeVolumeDate": "2026-05-18",
+      "extraPermanentSlots": 0
+    },
+    "friends": [
+      "111",
+      "Knight"
+    ],
+    "tradeOffers": []
+  },
+  "Knight": {
+    "password": "20140828",
+    "data": {
+      "cookies": 0,
+      "grandmas": 26,
+      "farms": 5,
+      "factories": 5,
+      "oils": 7,
+      "mines": 1,
+      "coops": 0,
+      "wormholes": 33,
+      "galaxies": 26,
+      "empties": 97,
+      "pets": [],
+      "equipped": [],
+      "permanentEquipped": [],
+      "hatching": {
+        "multi": 0.05,
+        "time": 1913
+      },
+      "expansionPets": [],
+      "expansionHatching": null,
+      "marketPlots": [
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        }
+      ],
+      "seeds": [],
+      "gardenPlots": [
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "growing",
+          "type": "cocoa",
+          "plantedAt": 1779107558727,
+          "growTime": 28800,
+          "water": 100,
+          "waterUpdatedAt": 1779107558727
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "growing",
+          "type": "apple",
+          "plantedAt": 1779107561212,
+          "growTime": 38400,
+          "water": 100,
+          "waterUpdatedAt": 1779107561212
+        },
+        {
+          "state": "growing",
+          "type": "melon",
+          "plantedAt": 1779107560203,
+          "growTime": 26400,
+          "water": 100,
+          "waterUpdatedAt": 1779107560203
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        }
+      ],
+      "waterCans": [
+        {
+          "type": "advanced",
+          "lastUsedAt": 0
+        }
+      ],
+      "produce": [],
+      "vines": 0,
+      "xp": 0,
+      "boosters": 0,
+      "whyEggs": 0,
+      "tornadoPrestige": 0,
+      "masteryPath": null,
+      "masteryUnlocked": [],
+      "currentTheme": "dark-orange",
+      "unlockedThemes": [
+        "dark-orange"
+      ],
+      "stoneInventory": {
+        "worker": {},
+        "pet": {}
+      },
+      "appliedBuildingStones": {
+        "grandmas": 0,
+        "farms": 0,
+        "factories": 0,
+        "oils": 0,
+        "mines": 0,
+        "coops": 0,
+        "wormholes": 0,
+        "galaxies": 0,
+        "empties": 0
+      },
+      "appliedPetStones": [],
+      "forgeJobs": [
+        null,
+        null
+      ],
+      "anvilState": [
+        {
+          "type": "worker",
+          "slots": [
+            null,
+            null
+          ]
+        },
+        {
+          "type": "worker",
+          "slots": [
+            null,
+            null
+          ]
+        }
+      ],
+      "nextCookieTickAt": 1779120136274,
+      "permanentSlotMeta": [],
+      "chokeberries": 0,
+      "bankCard": null,
+      "creditCard": null,
+      "bankBound": true,
+      "limbo": 0,
+      "yellowPrestige": 0,
+      "iceAgeCount": 0,
+      "limboRestriction": null,
+      "shopExpansionPurchases": {},
+      "raritiesRollUnlocked": false,
+      "pendingRarityMult": 1,
+      "permaMastery": false,
+      "iceAgeAwaitingLimbo": false,
+      "tradeSlots": 1,
+      "tradeVolumeToday": 10000,
+      "tradeVolumeDate": "2026-05-18",
+      "extraPermanentSlots": 0
+    },
+    "friends": [
+      "圆神",
+      "111"
+    ],
+    "tradeOffers": []
+  }
+}

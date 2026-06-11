@@ -1,0 +1,189 @@
+{
+  "1": {
+    "password": "12345",
+    "friends": []
+  },
+  "111": {
+    "password": "1",
+    "friends": []
+  },
+  "122": {
+    "password": "2",
+    "friends": [
+      "任"
+    ]
+  },
+  "1111": {
+    "password": "11111",
+    "friends": []
+  },
+  "Danny201424": {
+    "password": "201424",
+    "friends": [
+      "Danny",
+      "smellypants"
+    ]
+  },
+  "Danny": {
+    "password": "201424",
+    "friends": [
+      "Danny201424",
+      "。",
+      "smellypants"
+    ]
+  },
+  "十号线": {
+    "password": "3.141596",
+    "friends": []
+  },
+  "任": {
+    "password": "1",
+    "friends": [
+      "秦始皇",
+      "chese",
+      "122"
+    ]
+  },
+  "。": {
+    "password": ".",
+    "friends": [
+      "Danny",
+      "."
+    ]
+  },
+  "en": {
+    "password": "1",
+    "friends": []
+  },
+  ".": {
+    "password": "12345",
+    "friends": [
+      "。"
+    ]
+  },
+  "Ren": {
+    "password": "1",
+    "friends": []
+  },
+  ":": {
+    "password": ".",
+    "friends": []
+  },
+  "?": {
+    "password": ".",
+    "friends": []
+  },
+  ",": {
+    "password": ".",
+    "friends": []
+  },
+  "！": {
+    "password": "12345",
+    "friends": []
+  },
+  ";": {
+    "password": ".",
+    "friends": []
+  },
+  "段安": {
+    "password": "2",
+    "friends": []
+  },
+  "/": {
+    "password": ".",
+    "friends": []
+  },
+  "；": {
+    "password": "12345",
+    "friends": []
+  },
+  "=": {
+    "password": ".",
+    "friends": []
+  },
+  "SYSTEM": {
+    "password": ".",
+    "friends": []
+  },
+  "+": {
+    "password": ".",
+    "friends": []
+  },
+  "Admin": {
+    "password": "201424",
+    "friends": []
+  },
+  "圆神": {
+    "password": "yuanshenqidong",
+    "friends": [
+      "圆神",
+      "圆神"
+    ]
+  },
+  "苏二少": {
+    "password": "1",
+    "friends": []
+  },
+  "张人利": {
+    "password": "1",
+    "friends": []
+  },
+  "chese": {
+    "password": "20140408",
+    "friends": [
+      "麦当劳金拱门套餐",
+      "任"
+    ]
+  },
+  "麦当劳金拱门套餐": {
+    "password": "1",
+    "friends": [
+      "chese"
+    ]
+  },
+  "ŵŵé": {
+    "password": "wwewwe",
+    "friends": []
+  },
+  "大运汽车创飞一切": {
+    "password": "wwe1353135",
+    "friends": []
+  },
+  "knight": {
+    "password": "0828",
+    "friends": []
+  },
+  "秦始皇": {
+    "password": "1",
+    "friends": [
+      "任"
+    ]
+  },
+  "十号线，": {
+    "password": "1",
+    "friends": []
+  },
+  "smellypants": {
+    "password": "12345",
+    "friends": [
+      "Danny201424",
+      "Danny"
+    ]
+  },
+  "jiangyuelin": {
+    "password": "qqpqpywpqrpiweyoeq",
+    "friends": []
+  },
+  "": {
+    "password": "",
+    "friends": []
+  },
+  "Username": {
+    "password": "Password",
+    "friends": []
+  },
+  "。。。。。。": {
+    "password": "3.1415926",
+    "friends": []
+  }
+}

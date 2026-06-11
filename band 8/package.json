@@ -1,0 +1,18 @@
+{
+  "name": "mi-band-8-custom-apps",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Custom Mi Band 8 utility and game apps with Suiteki installation workflow.",
+  "scripts": {
+    "patch:devices": "node scripts/patch-zeus-devices.js",
+    "build:calculator": "node scripts/patch-zeus-devices.js && cd apps/calculator && zeus build -t smart-band-7",
+    "build:dice-game": "node scripts/patch-zeus-devices.js && cd apps/dice-game && zeus build -t smart-band-7",
+    "extract:calculator": "node scripts/extract-device-bin.js calculator",
+    "extract:dice-game": "node scripts/extract-device-bin.js dice-game",
+    "extract:all": "node scripts/extract-device-bin.js calculator && node scripts/extract-device-bin.js dice-game",
+    "build:all": "npm run build:calculator && npm run build:dice-game && npm run extract:all"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

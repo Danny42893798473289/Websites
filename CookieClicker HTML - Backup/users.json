@@ -1,0 +1,1086 @@
+{
+  "111": {
+    "password": "1",
+    "data": {
+      "cookies": 19962700000,
+      "grandmas": 0,
+      "farms": 0,
+      "factories": 0,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 13,
+      "pets": [
+        10
+      ],
+      "equipped": [],
+      "permanentEquipped": [],
+      "hatching": {
+        "multi": 10,
+        "time": 599788
+      },
+      "expansionPets": [
+        {
+          "id": "exp_20d",
+          "multi": 1,
+          "hatchedAt": 1778978286416
+        }
+      ],
+      "expansionHatching": {
+        "id": "exp_20d",
+        "multi": 1,
+        "time": 1719658,
+        "duration": "20 Days"
+      },
+      "marketPlots": [
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        }
+      ],
+      "seeds": [],
+      "gardenPlots": [
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        }
+      ],
+      "waterCans": [],
+      "produce": [],
+      "vines": 0,
+      "xp": 0,
+      "boosters": 0,
+      "whyEggs": 999040,
+      "tornadoPrestige": 2,
+      "masteryPath": "fortune",
+      "masteryUnlocked": [
+        "fortune_root",
+        "prestige_root",
+        "pets_root",
+        "pets_hatch4",
+        "prestige_why4",
+        "fortune_farms4",
+        "fortune_farms15",
+        "prestige_why10",
+        "pets_hatch10",
+        "pets_hatch15",
+        "prestige_gay_grandma",
+        "fortune_mines5",
+        "prestige_twins",
+        "pets_hatch_instant",
+        "prestige_ugay",
+        "prestige_usgay",
+        "fortune_mines10"
+      ],
+      "currentTheme": "sunset-rose",
+      "unlockedThemes": [
+        "dark-orange",
+        "light-blue",
+        "mint-frost",
+        "sunset-rose",
+        "royal-violet",
+        "emerald-night",
+        "crimson-steel",
+        "arctic-cyan",
+        "golden-amber",
+        "void-neon",
+        "celestial-gold",
+        "quantum-ice",
+        "inferno-core"
+      ],
+      "stoneInventory": {
+        "worker": {
+          "1": 3
+        },
+        "pet": {}
+      },
+      "appliedBuildingStones": {
+        "grandmas": 0,
+        "farms": 0,
+        "factories": 0,
+        "oils": 0,
+        "mines": 0,
+        "coops": 0,
+        "wormholes": 0,
+        "galaxies": 0,
+        "empties": 0
+      },
+      "appliedPetStones": [],
+      "forgeJobs": [
+        {
+          "type": "worker",
+          "a": 1,
+          "b": 1,
+          "result": 2,
+          "time": 1035,
+          "mode": "same"
+        },
+        {
+          "type": "worker",
+          "mode": "same",
+          "a": 1,
+          "b": 1,
+          "result": 2,
+          "time": 1685
+        }
+      ],
+      "anvilState": [
+        {
+          "type": "worker",
+          "slots": [
+            null,
+            null
+          ]
+        },
+        {
+          "type": "worker",
+          "slots": [
+            null,
+            null
+          ]
+        }
+      ],
+      "nextCookieTickAt": 1778980519068
+    },
+    "friends": []
+  },
+  "Danny201424": {
+    "password": "Danny@201424",
+    "data": {
+      "cookies": 34979024328,
+      "grandmas": 27,
+      "farms": 0,
+      "factories": 0,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 200,
+      "pets": [],
+      "equipped": [
+        1,
+        1
+      ],
+      "permanentEquipped": [],
+      "hatching": {
+        "multi": 0.05,
+        "time": 2212
+      },
+      "expansionPets": [],
+      "expansionHatching": null,
+      "marketPlots": [
+        {
+          "state": "growing",
+          "plantedAt": 1778847014506,
+          "growTime": 9600
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        }
+      ],
+      "seeds": [],
+      "gardenPlots": [
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "empty"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        },
+        {
+          "state": "locked"
+        }
+      ],
+      "waterCans": [],
+      "produce": [],
+      "vines": 0,
+      "xp": 0,
+      "boosters": 0,
+      "whyEggs": 0,
+      "tornadoPrestige": 0,
+      "masteryPath": null,
+      "masteryUnlocked": [],
+      "currentTheme": "dark-orange",
+      "unlockedThemes": [
+        "dark-orange"
+      ],
+      "stoneInventory": {
+        "worker": {},
+        "pet": {}
+      },
+      "appliedBuildingStones": {
+        "grandmas": 0,
+        "farms": 0,
+        "factories": 0,
+        "oils": 0,
+        "mines": 0,
+        "coops": 0,
+        "wormholes": 0,
+        "galaxies": 0,
+        "empties": 0
+      },
+      "appliedPetStones": [
+        0,
+        0
+      ],
+      "forgeJobs": [
+        null,
+        null
+      ]
+    },
+    "friends": []
+  },
+  "belly": {
+    "password": "sjfrp",
+    "data": {
+      "cookies": 95,
+      "grandmas": 4,
+      "farms": 1,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  },
+  "任": {
+    "password": "1",
+    "data": {
+      "cookies": 999997500000,
+      "grandmas": 54,
+      "farms": 3,
+      "factories": 4,
+      "oils": 0,
+      "mines": 0,
+      "coops": 17,
+      "wormholes": 12,
+      "galaxies": 36,
+      "empties": 2828,
+      "pets": [],
+      "equipped": [],
+      "hatching": {
+        "multi": 1,
+        "time": 85308
+      }
+    },
+    "friends": []
+  },
+  "fang1951": {
+    "password": "201424",
+    "data": {
+      "cookies": 5,
+      "grandmas": 10,
+      "farms": 4,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  },
+  "蒋岳霖": {
+    "password": "140823",
+    "data": {
+      "cookies": 40,
+      "grandmas": 5,
+      "farms": 1,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  },
+  "十号线": {
+    "password": "3.1415926",
+    "data": {
+      "cookies": 1e+33,
+      "grandmas": 18,
+      "farms": 16,
+      "factories": 5,
+      "oils": 11,
+      "mines": 7,
+      "coops": 6,
+      "wormholes": 54,
+      "galaxies": 291,
+      "empties": 10310,
+      "pets": [],
+      "equipped": [],
+      "hatching": {
+        "multi": 0.2,
+        "time": 6726
+      }
+    },
+    "friends": []
+  },
+  "Danny201404": {
+    "password": "Danny@201404",
+    "data": {},
+    "friends": []
+  },
+  "段安": {
+    "password": "1",
+    "data": {
+      "cookies": 0,
+      "grandmas": 40,
+      "farms": 0,
+      "factories": 0,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  },
+  "喜丝.荔枝呈雷鱼": {
+    "password": "20140408",
+    "data": {
+      "cookies": 0,
+      "grandmas": 50,
+      "farms": 10,
+      "factories": 10,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  },
+  "徐承鑫": {
+    "password": "183636",
+    "data": {
+      "cookies": 0,
+      "grandmas": 70,
+      "farms": 180,
+      "factories": 10,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  },
+  "任1": {
+    "password": "1",
+    "data": {
+      "cookies": 15,
+      "grandmas": 0,
+      "farms": 0,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  },
+  "chese": {
+    "password": "20140408",
+    "data": {
+      "cookies": 0,
+      "grandmas": 40,
+      "farms": 0,
+      "factories": 0,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  },
+  "dannyli": {
+    "password": "1",
+    "data": {
+      "cookies": 5,
+      "grandmas": 0,
+      "farms": 1,
+      "factories": 1,
+      "oils": 0,
+      "mines": 0,
+      "coops": 0,
+      "wormholes": 0,
+      "galaxies": 0,
+      "empties": 0,
+      "pets": [],
+      "equipped": [],
+      "hatching": null
+    },
+    "friends": []
+  }
+}

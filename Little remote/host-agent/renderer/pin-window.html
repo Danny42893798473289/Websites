@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Set PIN</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: #1a1d24;
+        color: #e8eaed;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      h2 { font-size: 1.1rem; font-weight: 600; }
+      p { font-size: 0.85rem; color: #9aa0a6; }
+      input {
+        width: 100%;
+        padding: 0.65rem;
+        font-size: 1.25rem;
+        letter-spacing: 0.2em;
+        text-align: center;
+        border: 1px solid #3c4043;
+        border-radius: 8px;
+        background: #0f1117;
+        color: #e8eaed;
+      }
+      input:focus { outline: none; border-color: #8ab4f8; }
+      .row { display: flex; gap: 0.5rem; }
+      button {
+        flex: 1;
+        padding: 0.55rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #save-btn { background: #8ab4f8; color: #0f1117; }
+      #random-btn { background: #3c4043; color: #e8eaed; }
+      #err { color: #f28b82; font-size: 0.8rem; min-height: 1rem; }
+    </style>
+  </head>
+  <body>
+    <h2>Session PIN</h2>
+    <p>Choose 4–8 digits. Same PIN on phone and PC.</p>
+    <input id="pin" type="text" inputmode="numeric" maxlength="8" placeholder="e.g. 1234" />
+    <p id="err"></p>
+    <div class="row">
+      <button id="random-btn" type="button">Random</button>
+      <button id="save-btn" type="button">Save &amp; reconnect</button>
+    </div>
+    <script>
+      const pinEl = document.getElementById('pin');
+      const errEl = document.getElementById('err');
+      window.hostAPI.getHostPin().then((p) => { if (p) pinEl.value = p; });
+      document.getElementById('random-btn').onclick = () => {
+        pinEl.value = String(Math.floor(100000 + Math.random() * 900000));
+        errEl.textContent = '';
+      };
+      document.getElementById('save-btn').onclick = async () => {
+        const result = await window.hostAPI.saveHostPin(pinEl.value.trim());
+        if (!result.ok) errEl.textContent = result.error;
+        else window.close();
+      };
+    </script>
+  </body>
+</html>

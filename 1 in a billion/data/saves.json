@@ -1,0 +1,108 @@
+{
+  "admin": {
+    "version": 1,
+    "username": "admin",
+    "coins": 1000,
+    "gems": 100,
+    "eggs": {
+      "Common": 0,
+      "Uncommon": 0,
+      "Rare": 0,
+      "Epic": 0,
+      "Legendary": 0,
+      "Mythic": 0,
+      "Divine": 0,
+      "Celestial": 0,
+      "Void": 0
+    },
+    "upgrades": {
+      "auto1": 0,
+      "auto2": 0,
+      "auto3": 0,
+      "auto4": 0,
+      "auto5": 0,
+      "luck": 0,
+      "coinMult": 0,
+      "fastRoll": 0,
+      "eggValue": 0
+    },
+    "totalRolls": 500,
+    "totalCoinsEarned": 1000,
+    "totalGemsEarned": 100,
+    "rarestEgg": null,
+    "playtimeMs": 45003.60000002384,
+    "prestigeLevel": 0,
+    "prestigePoints": 0,
+    "achievementsUnlocked": {},
+    "settings": {
+      "darkMode": false,
+      "soundEnabled": true
+    },
+    "daily": {
+      "lastClaimAt": 0
+    },
+    "lastSavedAt": 1780123256349
+  },
+  "Danny": {
+    "version": 1,
+    "username": "Danny",
+    "coins": 5079,
+    "gems": 297,
+    "eggs": {
+      "Common": 67347,
+      "Uncommon": 10100,
+      "Rare": 996,
+      "Epic": 93,
+      "Legendary": 7,
+      "Mythic": 3,
+      "Divine": 0,
+      "Celestial": 0,
+      "Void": 0
+    },
+    "lastEggNames": {
+      "Common": "Gleaming Hatchling of Chance",
+      "Uncommon": "Crackling Echo of Tides",
+      "Rare": "Duskwoven Bloom of Dawn",
+      "Epic": "Ancient Hatchling of Storms",
+      "Legendary": "Duskwoven Shard of Tides",
+      "Mythic": "Starlit Bloom of Tides",
+      "Divine": "",
+      "Celestial": "",
+      "Void": ""
+    },
+    "upgrades": {
+      "auto1": 4,
+      "auto2": 3,
+      "auto3": 3,
+      "auto4": 1,
+      "auto5": 1,
+      "luck": 20,
+      "coinMult": 8,
+      "fastRoll": 6,
+      "eggValue": 3
+    },
+    "totalRolls": 78860,
+    "totalCoinsEarned": 460259,
+    "totalGemsEarned": 297,
+    "rarestEgg": "Mythic",
+    "playtimeMs": 5977610,
+    "prestigeLevel": 0,
+    "prestigePoints": 0,
+    "achievementsUnlocked": {
+      "roll_100": 1780123791971,
+      "rare_egg": 1780127785959,
+      "epic_egg": 1780127836162,
+      "roll_1k": 1780127875160,
+      "legendary_egg": 1780128311859,
+      "roll_10k": 1780128567467
+    },
+    "settings": {
+      "darkMode": false,
+      "soundEnabled": true
+    },
+    "daily": {
+      "lastClaimAt": 1780127781409
+    },
+    "lastSavedAt": 1780133661016
+  }
+}

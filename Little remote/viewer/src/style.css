@@ -1,0 +1,402 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #0f1117;
+  color: #e8eaed;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.panel h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: #9aa0a6;
+  font-size: 0.95rem;
+}
+
+#pin-input {
+  width: 100%;
+  max-width: 220px;
+  padding: 0.75rem 1rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.3em;
+  text-align: center;
+  border: 1px solid #3c4043;
+  border-radius: 8px;
+  background: #1a1d24;
+  color: #e8eaed;
+}
+
+#pin-input:focus {
+  outline: none;
+  border-color: #8ab4f8;
+}
+
+button {
+  padding: 0.65rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #8ab4f8;
+  color: #0f1117;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background: #aecbfa;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  color: #9aa0a6;
+  font-size: 0.875rem;
+  min-height: 1.25rem;
+}
+
+#remote-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+#remote-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+#input-overlay {
+  position: absolute;
+  inset: 0;
+  cursor: none;
+  touch-action: none;
+  outline: none;
+}
+
+#toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+  pointer-events: none;
+}
+
+#toolbar button {
+  pointer-events: auto;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+#game-mode-btn.active,
+#game-mode-btn-mobile.active {
+  background: #81c995;
+  color: #0f1117;
+}
+
+#game-mode-banner {
+  display: none;
+  position: absolute;
+  top: env(safe-area-inset-top, 0);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+  margin-top: 2.5rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  color: #e8eaed;
+  background: rgba(129, 201, 149, 0.25);
+  border: 1px solid #81c995;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+body.game-mode-active #game-mode-banner,
+body.game-mode #game-mode-banner {
+  display: block;
+}
+
+body.game-mode #input-overlay {
+  cursor: none;
+}
+
+body.game-mode #input-overlay.pointer-locked {
+  cursor: none;
+}
+
+#toolbar button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+#toolbar-hint {
+  font-size: 0.75rem;
+  color: #d2e3fc;
+  opacity: 0.92;
+}
+
+#connection-label {
+  font-size: 0.85rem;
+  color: #81c995;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #9aa0a6;
+  text-align: center;
+  max-width: 320px;
+  line-height: 1.4;
+}
+
+.hint code {
+  font-size: 0.75rem;
+  color: #8ab4f8;
+  word-break: break-all;
+}
+
+.mobile-hint {
+  display: none;
+}
+
+.desktop-hint {
+  display: block;
+}
+
+body.is-mobile .mobile-hint {
+  display: block;
+}
+
+body.is-mobile .desktop-hint {
+  display: none;
+}
+
+.mobile-only {
+  display: none;
+}
+
+body.is-mobile .mobile-only {
+  display: flex;
+}
+
+#remote-panel {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+body.is-mobile #remote-video {
+  position: absolute;
+  top: env(safe-area-inset-top, 0);
+  left: 0;
+  right: 0;
+  height: calc(
+    100% - 52px - env(safe-area-inset-bottom, 0) - env(safe-area-inset-top, 0)
+  );
+  object-fit: contain;
+}
+
+body.is-mobile #input-overlay {
+  top: env(safe-area-inset-top, 0);
+  bottom: calc(52px + env(safe-area-inset-bottom, 0));
+}
+
+body.is-mobile #toolbar {
+  top: env(safe-area-inset-top, 0);
+}
+
+#mobile-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: none;
+  gap: 0.35rem;
+  padding: 0.4rem;
+  padding-bottom: calc(0.4rem + env(safe-area-inset-bottom, 0));
+  background: rgba(15, 17, 23, 0.92);
+  border-top: 1px solid #3c4043;
+}
+
+body.is-mobile #mobile-bar {
+  display: flex;
+}
+
+#mobile-bar button {
+  flex: 1;
+  min-height: 44px;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.8rem;
+  background: #2d3139;
+  color: #e8eaed;
+  border-radius: 8px;
+  touch-action: manipulation;
+}
+
+#mobile-bar button:active {
+  background: #8ab4f8;
+  color: #0f1117;
+}
+
+#keyboard-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(52px + env(safe-area-inset-bottom, 0));
+  z-index: 11;
+  display: none;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  background: rgba(15, 17, 23, 0.95);
+  border-top: 1px solid #3c4043;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+#keyboard-panel.open {
+  display: flex;
+}
+
+#mobile-keyboard-input {
+  width: 100%;
+  padding: 0.65rem;
+  font-size: 16px;
+  border: 1px solid #3c4043;
+  border-radius: 8px;
+  background: #1a1d24;
+  color: #e8eaed;
+}
+
+#keyboard-panel [data-action='send-text'] {
+  min-height: 44px;
+  background: #8ab4f8;
+  color: #0f1117;
+}
+
+.key-row {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.key-row button {
+  flex: 1;
+  min-height: 44px;
+  background: #2d3139;
+  color: #e8eaed;
+  font-size: 0.85rem;
+}
+
+.modifiers-row button.active {
+  background: #81c995;
+  color: #0f1117;
+}
+
+#game-keys-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(52px + env(safe-area-inset-bottom, 0));
+  z-index: 11;
+  display: none;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  background: rgba(15, 17, 23, 0.95);
+  border-top: 1px solid #3c4043;
+}
+
+#game-keys-panel.open {
+  display: flex;
+}
+
+.game-keys-hint {
+  font-size: 0.7rem;
+  color: #9aa0a6;
+  text-align: center;
+}
+
+.game-key-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+}
+
+.game-key-grid button {
+  min-height: 44px;
+  background: #2d3139;
+  color: #e8eaed;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.game-key-grid button:active {
+  background: #8ab4f8;
+  color: #0f1117;
+}
+
+body.game-mode-active #mobile-bar [data-action='keyboard'] {
+  opacity: 0.45;
+}
+
+@media (max-width: 768px) {
+  .panel {
+    padding: 1.25rem;
+    padding-top: max(1.25rem, env(safe-area-inset-top));
+  }
+
+  #pin-input {
+    max-width: 100%;
+    font-size: 1.25rem;
+    min-height: 48px;
+  }
+
+  #connect-btn {
+    width: 100%;
+    max-width: 280px;
+    min-height: 48px;
+  }
+
+  .mobile-hint {
+    display: block;
+  }
+
+  #toolbar-hint {
+    display: none;
+  }
+}

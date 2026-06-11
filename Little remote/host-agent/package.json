@@ -1,0 +1,45 @@
+{
+  "name": "@little-remote/host-agent",
+  "version": "1.0.0",
+  "author": "Little Remote",
+  "description": "Little Remote host agent for Windows",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build && electron .",
+    "build": "tsc && tsc -p tsconfig.preload.json && node scripts/copy-renderer.mjs",
+    "pack": "npm run build && electron-builder --win",
+    "start": "electron ."
+  },
+  "build": {
+    "electronVersion": "33.2.1",
+    "appId": "com.littleremote.host",
+    "productName": "Little Remote Host",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "dependencies": {
+    "@little-remote/shared": "*",
+    "@nut-tree-fork/nut-js": "^4.2.2",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.7.2"
+  }
+}

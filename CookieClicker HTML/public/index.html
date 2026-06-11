@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cookieclicker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="bgParticles" aria-hidden="true"></div>
+<div id="milestoneFlash" class="milestone-flash" aria-hidden="true">
+  <div id="milestoneFlashText" class="milestone-flash__text"></div>
+</div>
+<div class="app">
+  <header class="header">
+    <div class="header__start">
+      <div class="brand">
+        <h1>Cookieclicker</h1>
+      </div>
+    </div>
+    <div class="stats stats--header">
+      <div class="stat"><small>Cookies</small><strong id="cookies">0</strong></div>
+      <div class="stat"><small>Multiplier</small><strong id="multi">1</strong></div>
+      <div class="stat"><small>Per 40m</small><strong id="per">0</strong></div>
+      <div class="stat"><small>Next tick</small><strong id="cookieTickTimer">—</strong></div>
+    </div>
+    <div class="header__end">
+      <div class="session-strip">
+        <span id="sessionUser" class="session-chip">Guest</span>
+        <span id="saveIndicator" class="save-chip" data-state="idle">Saved</span>
+      </div>
+      <button type="button" id="mobileUiToggle" class="ghost mobile-ui-toggle" aria-pressed="false" title="Toggle mobile layout">Mobile</button>
+    </div>
+  </header>
+
+  <main class="card">
+    <div class="columns">
+      <section>
+        <div id="loginMenu" class="menu active login">
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+            <h2>Login</h2>
+            <input id="user" placeholder="Username">
+            <input id="pass" type="password" placeholder="Password">
+            <div class="controls">
+              <button class="primary" onclick="login()">Login</button>
+              <button class="ghost" onclick="register()">Register</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="gameMenu" class="menu">
+          <div class="mobile-bar mobile-ui-only" id="mobileBar">
+            <button type="button" id="mobileMenuBtn" class="ghost mobile-bar__btn" aria-expanded="false" aria-controls="navDrawer">Menu</button>
+            <span id="mobileTabLabel" class="mobile-bar__label">Main</span>
+            <button type="button" id="mobileHudBtn" class="ghost mobile-bar__btn" aria-expanded="false" aria-controls="hudPanel">Stats</button>
+          </div>
+          <div id="navDrawer" class="nav-drawer" aria-hidden="true">
+            <div class="nav-drawer__head mobile-ui-only">
+              <strong>Navigation</strong>
+              <button type="button" id="navDrawerClose" class="ghost icon-btn" aria-label="Close menu">&times;</button>
+            </div>
+            <nav class="nav-tabs" id="navTabs">
+              <div class="nav-group">
+                <span class="nav-group__label">Play</span>
+                <div class="nav-group__tabs">
+                  <button type="button" class="ghost nav-tab" data-menu="main" onclick="showMenu('main')"><span class="nav-tab__text">Main</span></button>
+                  <button type="button" class="ghost nav-tab" data-menu="garden" onclick="showMenu('garden')"><span class="nav-tab__text">Garden</span></button>
+                  <button type="button" class="ghost nav-tab" data-menu="market" onclick="showMenu('market')"><span class="nav-tab__text">Market</span></button>
+                </div>
+              </div>
+              <div class="nav-group">
+                <span class="nav-group__label">Pets</span>
+                <div class="nav-group__tabs">
+                  <button type="button" class="ghost nav-tab" data-menu="pets" onclick="showMenu('pets')"><span class="nav-tab__text">Pets</span></button>
+                  <button type="button" class="ghost nav-tab" data-menu="pet-expansion" onclick="showMenu('pet-expansion')"><span class="nav-tab__text">Expansion</span></button>
+                  <button type="button" class="ghost nav-tab" data-menu="inventory" onclick="showMenu('inventory')"><span class="nav-tab__text">Inventory</span></button>
+                </div>
+              </div>
+              <div class="nav-group">
+                <span class="nav-group__label">Meta</span>
+                <div class="nav-group__tabs">
+                  <button type="button" class="ghost nav-tab" data-menu="prestige" onclick="showMenu('prestige')"><span class="nav-tab__text">Prestige</span></button>
+                  <button type="button" class="ghost nav-tab" data-menu="tornado-prestige" onclick="showMenu('tornado-prestige')"><span class="nav-tab__text">Tornado</span></button>
+                  <button type="button" class="ghost nav-tab" data-menu="mastery" onclick="showMenu('mastery')"><span class="nav-tab__text">Mastery</span></button>
+                  <button type="button" class="ghost nav-tab" data-menu="ice-age" onclick="showMenu('ice-age')"><span class="nav-tab__text">Ice Age</span></button>
+                  <button type="button" class="ghost nav-tab" data-menu="trade" onclick="showMenu('trade')"><span class="nav-tab__text">Trade</span></button>
+                </div>
+              </div>
+              <div class="nav-group">
+                <span class="nav-group__label">Late</span>
+                <div class="nav-group__tabs">
+                  <button type="button" class="ghost nav-tab nav-tab--gated" data-menu="stone-shop" onclick="showMenu('stone-shop')"><span class="nav-tab__text">Stones</span><span class="nav-tab__lock">Tornado L2</span></button>
+                  <button type="button" class="ghost nav-tab nav-tab--gated" data-menu="forge" onclick="showMenu('forge')"><span class="nav-tab__text">Forge</span><span class="nav-tab__lock">Tornado L2</span></button>
+                  <button type="button" class="ghost nav-tab nav-tab--gated" data-menu="bank" onclick="showMenu('bank')"><span class="nav-tab__text">Bank</span><span class="nav-tab__lock">Tornado L2</span></button>
+                  <button type="button" class="ghost nav-tab nav-tab--gated" data-menu="upgrade-shop" onclick="showMenu('upgrade-shop')"><span class="nav-tab__text">Portal</span><span class="nav-tab__lock">Tornado L2</span></button>
+                </div>
+              </div>
+              <div class="nav-group">
+                <span class="nav-group__label">Style</span>
+                <div class="nav-group__tabs">
+                  <button type="button" class="ghost nav-tab" data-menu="themes" onclick="showMenu('themes')"><span class="nav-tab__text">Themes</span></button>
+                </div>
+              </div>
+            </nav>
+          </div>
+          <div id="equippedPanel" class="small" style="margin-bottom:12px">Equipped: None</div>
+          <div id="tabPanels"></div>
+        </div>
+      </section>
+
+      <aside id="hudPanel" class="hud-panel">
+        <div class="hud-panel__head mobile-ui-only">
+          <strong>Stats</strong>
+          <button type="button" id="hudDrawerClose" class="ghost icon-btn" aria-label="Close stats">&times;</button>
+        </div>
+        <div class="hud">
+          <div class="stat"><small>XP</small><div id="xpHud">0</div></div>
+          <div class="stat"><small>Boosters</small><div id="boostersHud">0</div></div>
+          <div class="stat"><small>Why Eggs</small><div id="whyEggsHud">0</div></div>
+          <div class="stat"><small>YP</small><div id="ypHud">0</div></div>
+          <div class="stat"><small>S (multi)</small><div id="scoreSHud">0</div></div>
+          <div class="stat"><small>Inventory</small><div id="invHud"></div></div>
+          <div class="stat"><small>Equipped</small><div id="eqHud"></div></div>
+          <div class="stat"><small>Tool</small><div id="toolHud"></div></div>
+          <div class="stat"><small>Hatch</small><div id="hatchHud"></div></div>
+          <div class="stat"><small>Next cookie tick</small><div id="cookieTickHud">—</div></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<div id="mobileOverlay" class="mobile-overlay"></div>
+<div id="toastRoot" class="toast-root" aria-live="polite" aria-atomic="true"></div>
+
+<button type="button" id="chatFab" class="chat-fab ghost" style="display:none" aria-expanded="false" aria-controls="chatDock" aria-label="Open chat">Chat</button>
+
+<div id="chatDock" class="chat-dock" aria-hidden="true" role="dialog" aria-label="Player chat">
+  <div class="chat-dock__panel card">
+    <div class="chat-dock__head">
+      <h3 class="chat-dock__title">Chat</h3>
+      <span id="chatConnStatus" class="small chat-dock__status"></span>
+      <button type="button" id="chatCloseBtn" class="ghost chat-dock__close" aria-label="Close chat">&times;</button>
+    </div>
+    <div class="small chat-dock__online">
+      <strong style="color:var(--muted);font-weight:600">Online</strong>
+      <div id="chatOnlineList" class="chat-online-chips"></div>
+    </div>
+    <div class="chat-tabs">
+      <button type="button" id="chatTabGlobal" class="ghost chat-tab chat-tab--active">Global</button>
+      <button type="button" id="chatTabFriends" class="ghost chat-tab">Friends</button>
+    </div>
+    <div id="chatPanelGlobal" class="chat-panel">
+      <div id="chatGlobalFeed" class="chat-feed"></div>
+      <div class="chat-compose">
+        <input id="chatGlobalInput" type="text" maxlength="500" placeholder="Say something…" autocomplete="off">
+        <button type="button" id="chatGlobalSend" class="primary">Send</button>
+      </div>
+    </div>
+    <div id="chatPanelFriends" class="chat-panel chat-panel--friends" style="display:none">
+      <div class="chat-friends-add">
+        <input id="chatFriendInput" type="text" maxlength="64" placeholder="Friend username">
+        <button type="button" id="chatFriendAddBtn" class="primary">Add</button>
+      </div>
+      <p class="small" style="margin:0">Both players must add each other as friends before DMs work.</p>
+      <div id="chatFriendsList" class="chat-friends-list"></div>
+      <div id="chatDmSection" class="chat-dm" style="display:none">
+        <div class="small chat-dm__label">DM with <strong id="chatDmPeer"></strong></div>
+        <div id="chatDmFeed" class="chat-feed chat-feed--dm"></div>
+        <div class="chat-compose">
+          <input id="chatDmInput" type="text" maxlength="500" placeholder="Private message…" autocomplete="off">
+          <button type="button" id="chatDmSend" class="primary">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/state.js"></script>
+<script src="js/api.js"></script>
+<script src="js/reset.js"></script>
+<script src="js/mastery.js"></script>
+<script src="js/prestige.js"></script>
+<script src="js/tornado-prestige.js"></script>
+<script src="js/bank.js"></script>
+<script src="js/ice-age.js"></script>
+<script src="js/shop-expansion.js"></script>
+<script src="js/rarities.js"></script>
+<script src="js/stones.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/pets.js"></script>
+<script src="js/pet-expansion.js"></script>
+<script src="js/market.js"></script>
+<script src="js/garden.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/trade.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/tabs-loader.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

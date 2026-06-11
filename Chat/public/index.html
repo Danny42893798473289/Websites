@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+
+<div class="auth-card">
+  <h1>Welcome</h1>
+  <p class="subtitle">Sign in or create an account to open the chat.</p>
+
+  <div class="auth-section">
+    <h2>Register</h2>
+    <input id="ruser" placeholder="Username" autocomplete="username">
+    <input id="rpass" type="password" placeholder="Password" autocomplete="new-password">
+    <button type="button" onclick="register()">Create account</button>
+  </div>
+
+  <div class="auth-section">
+    <h2>Login</h2>
+    <input id="user" placeholder="Username" autocomplete="username">
+    <input id="pass" type="password" placeholder="Password" autocomplete="current-password">
+    <button type="button" onclick="login()">Sign in</button>
+  </div>
+</div>
+
+<script>
+async function register() {
+  await fetch("/register", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      username: ruser.value,
+      password: rpass.value
+    })
+  });
+  alert("Registered");
+}
+
+async function login() {
+  const res = await fetch("/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      username: user.value,
+      password: pass.value
+    })
+  });
+
+  const data = await res.json();
+  if (data.success) {
+    localStorage.setItem("user", user.value);
+    localStorage.setItem("pass", pass.value);
+    location.href = "chat.html";
+  } else if (data.kicked && data.until) {
+    const until = new Date(data.until);
+    alert(
+      "This account is temporarily suspended until " +
+        until.toLocaleString() +
+        "."
+    );
+  } else {
+    alert("Login failed");
+  }
+}
+</script>
+
+</body>
+</html>

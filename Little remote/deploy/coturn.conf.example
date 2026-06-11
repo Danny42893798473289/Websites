@@ -1,0 +1,19 @@
+# Example coturn config for Little Remote
+# Install: apt install coturn (Debian/Ubuntu)
+# Place at /etc/turnserver.conf and set TURN_* in .env
+
+listening-port=3478
+fingerprint
+lt-cred-mech
+user=littleremote:YOUR_STRONG_PASSWORD
+realm=littleremote.example.com
+total-quota=100
+stale-nonce=600
+
+# Use your server's public IP
+external-ip=YOUR_SERVER_PUBLIC_IP
+
+# TLS (recommended for production)
+# cert=/etc/letsencrypt/live/your-domain/fullchain.pem
+# pkey=/etc/letsencrypt/live/your-domain/privkey.pem
+# tls-listening-port=5349

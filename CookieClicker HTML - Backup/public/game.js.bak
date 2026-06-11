@@ -1,0 +1,1113 @@
+
+let currentUser="",loaded=false;
+
+let cookies=40;
+let grandmas=0,farms=0,factories=0,oils=0,mines=0;
+let coops=0,wormholes=0,galaxies=0,empties=0;
+
+let pets=[],equipped=[],hatching=null,marketPlots=[],seeds=[],gardenPlots=[],waterCans=[],produce=[];
+let vines = 0;
+let selectedCanIndex = null;
+let xp = 0, boosters = 0, whyEggs = 0;
+let masteryPath = null;
+let masteryUnlocked = [];
+
+const COOKIE_TICK_MS = 2400000;
+const START_COOKIES = 40;
+const WHY_EGG_PER_COOKIES = 50000;
+const PRESTIGE_MIN_COOKIES = 50000;
+
+async function login(){
+let r=await fetch("/login",{method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username:user.value,password:pass.value})});
+let d=await r.json();
+if(d.success){currentUser=user.value;showGame();load();}
+}
+
+async function register(){
+await fetch("/register",{method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username:user.value,password:pass.value})});
+alert("registered");
+}
+
+async function load(){
+let r=await fetch("/load",{method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username:currentUser})});
+let d=await r.json();
+
+if(d){
+  // ✅ FIXED (only change)
+  cookies = Number(d.cookies) || 40;
+  grandmas = Number(d.grandmas) || 0;
+  farms = Number(d.farms) || 0;
+  factories = Number(d.factories) || 0;
+  oils = Number(d.oils) || 0;
+  mines = Number(d.mines) || 0;
+  coops = Number(d.coops) || 0;
+  wormholes = Number(d.wormholes) || 0;
+  galaxies = Number(d.galaxies) || 0;
+  empties = Number(d.empties) || 0;
+
+  pets = Array.isArray(d.pets) ? d.pets : [];
+  equipped = Array.isArray(d.equipped) ? d.equipped : [];
+  hatching = (d.hatching && typeof d.hatching === "object") ? d.hatching : null;
+  marketPlots = Array.isArray(d.marketPlots) ? d.marketPlots : [];
+  ensureMarketPlots();
+  seeds = Array.isArray(d.seeds) ? d.seeds : [];
+  gardenPlots = Array.isArray(d.gardenPlots) ? d.gardenPlots : [];
+  ensureGardenPlots();
+  waterCans = Array.isArray(d.waterCans) ? d.waterCans : [];
+  produce = Array.isArray(d.produce) ? d.produce : [];
+  vines = Number(d.vines) || 0;
+  xp = Number(d.xp) || 0;
+  boosters = Number(d.boosters) || 0;
+  whyEggs = Number(d.whyEggs) || 0;
+  masteryPath = d.masteryPath || null;
+  masteryUnlocked = Array.isArray(d.masteryUnlocked) ? d.masteryUnlocked : [];
+}
+
+loaded=true;
+update();
+}
+
+function save(){
+fetch("/save",{method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username:currentUser,data:{
+  cookies,grandmas,farms,factories,oils,mines,coops,wormholes,galaxies,empties,
+  pets,equipped,hatching,marketPlots,seeds,gardenPlots,waterCans,produce,vines,
+  xp,boosters,whyEggs,masteryPath,masteryUnlocked
+}})});
+}
+
+const MASTERY_PATHS = {
+  fortune: { name: 'Fortune', icon: '🍪' },
+  prestige: { name: 'Ascension', icon: '✨' },
+  pets: { name: 'Beast', icon: '🥚' }
+};
+
+const MASTERY_NODES = [
+  { id: 'fortune_root', path: 'fortune', row: 0, col: 0, cost: 5, requires: [], label: 'Start with 200 cookies', desc: 'After prestige, begin with 200 cookies instead of 40.' },
+  { id: 'fortune_income', path: 'fortune', row: 1, col: 0, cost: 10, requires: ['fortune_root'], label: '+25% building income', desc: 'Main-shop buildings produce 25% more cookies per tick.' },
+  { id: 'fortune_passive', path: 'fortune', row: 2, col: -1, cost: 15, requires: ['fortune_income'], label: '+50% passive cookies', desc: '40-minute passive ticks grant 50% more.' },
+  { id: 'fortune_start500', path: 'fortune', row: 2, col: 1, cost: 15, requires: ['fortune_income'], label: 'Start with 500 cookies', desc: 'After prestige, begin with 500 cookies (overrides 200).' },
+
+  { id: 'prestige_root', path: 'prestige', row: 0, col: 0, cost: 5, requires: [], label: 'Double why egg gain', desc: 'Earn twice as many why eggs when you prestige.' },
+  { id: 'prestige_booster', path: 'prestige', row: 1, col: 0, cost: 10, requires: ['prestige_root'], label: '+1 booster on prestige', desc: 'Gain an extra booster each time you prestige.' },
+  { id: 'prestige_multi', path: 'prestige', row: 2, col: -1, cost: 15, requires: ['prestige_booster'], label: 'Why eggs +0.075 multi', desc: 'Each why egg gives +0.075 multiplier instead of +0.05.' },
+  { id: 'prestige_cap', path: 'prestige', row: 2, col: 1, cost: 15, requires: ['prestige_booster'], label: '+50 why egg cap', desc: 'Increases your maximum why egg storage by 50.' },
+
+  { id: 'pets_root', path: 'pets', row: 0, col: 0, cost: 5, requires: [], label: 'Double hatch speed', desc: 'Pets hatch twice as fast.' },
+  { id: 'pets_slot', path: 'pets', row: 1, col: 0, cost: 10, requires: ['pets_root'], label: 'Third pet slot', desc: 'Equip up to 3 pets at once.' },
+  { id: 'pets_discount', path: 'pets', row: 2, col: -1, cost: 15, requires: ['pets_slot'], label: 'Eggs 25% cheaper', desc: 'All pet eggs cost 25% fewer cookies.' },
+  { id: 'pets_boost', path: 'pets', row: 2, col: 1, cost: 15, requires: ['pets_slot'], label: 'Hatch boosters 2× on pets', desc: 'Booster fast-forward affects hatch timers twice as much.' }
+];
+
+function hasMastery(id){ return masteryUnlocked.includes(id); }
+
+function getMasteryNode(id){ return MASTERY_NODES.find(n => n.id === id); }
+
+function getStartCookies(){
+  if(hasMastery('fortune_start500')) return 500;
+  if(hasMastery('fortune_root')) return 200;
+  return START_COOKIES;
+}
+
+function getWhyEggMultiPerEgg(){
+  return hasMastery('prestige_multi') ? 0.075 : 0.05;
+}
+
+function getWhyEggCap(){
+  return 200 + 10 * xp + (hasMastery('prestige_cap') ? 50 : 0);
+}
+
+function getWhyEggsFromCookies(amount){
+  let earned = Math.round((Number(amount) || 0) / WHY_EGG_PER_COOKIES);
+  if(hasMastery('prestige_root')) earned *= 2;
+  return earned;
+}
+
+function getHatchSpeedMult(){
+  return hasMastery('pets_root') ? 2 : 1;
+}
+
+function getMaxEquipSlots(){
+  return hasMastery('pets_slot') ? 3 : 2;
+}
+
+function getBuildingMult(){
+  return hasMastery('fortune_income') ? 1.25 : 1;
+}
+
+function getPassiveMult(){
+  return hasMastery('fortune_passive') ? 1.5 : 1;
+}
+
+function getPetEggCost(cost){
+  return hasMastery('pets_discount') ? Math.ceil(cost * 0.75) : cost;
+}
+
+function getBoosterHatchMult(){
+  return hasMastery('pets_boost') ? 2 : 1;
+}
+
+function canUnlockMastery(id){
+  const node = getMasteryNode(id);
+  if(!node || hasMastery(id)) return false;
+  if(whyEggs < node.cost) return false;
+  if(masteryPath && masteryPath !== node.path) return false;
+  if(node.requires.length && !node.requires.every(r => hasMastery(r))) return false;
+  if(!masteryPath && node.requires.length) return false;
+  return true;
+}
+
+function unlockMastery(id){
+  const node = getMasteryNode(id);
+  if(!node || !canUnlockMastery(id)) return;
+  if(!confirm(`Unlock "${node.label}" for ${node.cost} why egg(s)?`)) return;
+  whyEggs -= node.cost;
+  masteryUnlocked.push(id);
+  if(!masteryPath) masteryPath = node.path;
+  save();
+  update();
+}
+
+function renderMastery(){
+  const tree = document.getElementById('masteryTree');
+  const info = document.getElementById('masteryInfo');
+  if(!tree) return;
+
+  if(info){
+    if(!masteryPath){
+      info.textContent = 'Choose a path by unlocking its top node. The other two paths will lock permanently.';
+    } else {
+      const p = MASTERY_PATHS[masteryPath];
+      info.textContent = `Locked into ${p.icon} ${p.name} path. Unlock nodes adjacent to ones you already own.`;
+    }
+  }
+
+  tree.innerHTML = '';
+  const paths = ['fortune', 'prestige', 'pets'];
+  const maxRow = Math.max(...MASTERY_NODES.map(n => n.row));
+
+  paths.forEach(pathKey => {
+    const col = document.createElement('div');
+    col.className = 'mastery-path' + (masteryPath && masteryPath !== pathKey ? ' locked-path' : '');
+    const pathMeta = MASTERY_PATHS[pathKey];
+    const header = document.createElement('div');
+    header.className = 'mastery-path-header';
+    header.textContent = `${pathMeta.icon} ${pathMeta.name}`;
+    col.appendChild(header);
+
+    for(let row = 0; row <= maxRow; row++){
+      const rowNodes = MASTERY_NODES.filter(n => n.path === pathKey && n.row === row);
+      if(!rowNodes.length) continue;
+      const rowEl = document.createElement('div');
+      rowEl.className = 'mastery-row';
+      rowNodes.sort((a,b) => a.col - b.col).forEach(node => {
+        const btn = document.createElement('button');
+        const unlocked = hasMastery(node.id);
+        const available = canUnlockMastery(node.id);
+        const lockedPath = masteryPath && masteryPath !== pathKey;
+        btn.className = 'mastery-node';
+        if(unlocked) btn.classList.add('unlocked');
+        else if(lockedPath) btn.classList.add('path-locked');
+        else if(available) btn.classList.add('available');
+        else btn.classList.add('locked');
+        btn.innerHTML = `<span class="mastery-label">${node.label}</span><span class="mastery-cost">${unlocked ? '✓' : node.cost + ' 🥚'}</span>`;
+        btn.title = node.desc;
+        if(available) btn.onclick = () => unlockMastery(node.id);
+        else if(!unlocked) btn.disabled = true;
+        rowEl.appendChild(btn);
+      });
+      col.appendChild(rowEl);
+    }
+    tree.appendChild(col);
+  });
+}
+
+function resetPrestigeProgress(){
+  cookies = getStartCookies();
+  grandmas = 0; farms = 0; factories = 0; oils = 0; mines = 0;
+  coops = 0; wormholes = 0; galaxies = 0; empties = 0;
+  pets = []; equipped = []; hatching = null;
+}
+
+function canPrestige(){
+  return cookies >= PRESTIGE_MIN_COOKIES;
+}
+
+function prestige(){
+  if(!canPrestige()){
+    alert(`You need at least ${PRESTIGE_MIN_COOKIES.toLocaleString()} cookies to prestige.`);
+    return;
+  }
+
+  const earned = getWhyEggsFromCookies(cookies);
+  const cap = getWhyEggCap();
+  const space = Math.max(0, cap - whyEggs);
+  const added = Math.min(earned, space);
+
+  if(!confirm(
+    `Prestige now?\n\nResets: cookies, main shop, pets.\nKeeps: garden, seeds, produce, vines, cans.\n\n+1 XP, +1 booster\n+${added} why egg(s) (${whyEggs} → ${whyEggs + added}, cap ${cap})`
+  )) return;
+
+  whyEggs += added;
+  xp += 1;
+  boosters += 1 + (hasMastery('prestige_booster') ? 1 : 0);
+  resetPrestigeProgress();
+  save();
+  update();
+}
+
+function fastForwardMinutes(minutes){
+  const ticks = minutes / 40;
+  const gain = Math.floor(getBase() * getMulti() * getPassiveMult() * ticks);
+  cookies += gain;
+  if(hatching){
+    const hatchSkip = minutes * 60 * getBoosterHatchMult();
+    hatching.time = Math.max(0, hatching.time - hatchSkip);
+    if(hatching.time <= 0){
+      pets.push(hatching.multi);
+      hatching = null;
+    }
+  }
+  return gain;
+}
+
+function useBooster(count){
+  const cost = count === 2 ? 2 : 1;
+  const minutes = count === 2 ? 120 : 40;
+  if(boosters < cost){
+    const el = document.getElementById('boosterResult');
+    if(el) el.textContent = `Need ${cost} booster(s), you have ${boosters}.`;
+    return;
+  }
+  boosters -= cost;
+  const gained = fastForwardMinutes(minutes);
+  save();
+  update();
+  const el = document.getElementById('boosterResult');
+  if(el) el.textContent = `Fast-forwarded ${minutes} min — gained ${gained.toLocaleString()} cookies.`;
+}
+
+function updatePrestigeUI(){
+  const cap = getWhyEggCap();
+  const preview = getWhyEggsFromCookies(cookies);
+  const ready = canPrestige();
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  set('prestigeXp', xp);
+  set('prestigeBoosters', boosters);
+  set('prestigeWhyEggs', whyEggs);
+  set('prestigeWhyCap', cap);
+  set('prestigeWhyPreview', preview);
+  set('xpHud', xp);
+  set('boostersHud', boosters);
+  set('whyEggsHud', `${whyEggs} / ${cap} (+${getWhyEggMulti().toFixed(2)} multi)`);
+
+  const btn = document.getElementById('prestigeBtn');
+  if(btn){
+    btn.disabled = !ready;
+    btn.title = ready ? '' : `Requires ${PRESTIGE_MIN_COOKIES.toLocaleString()} cookies`;
+  }
+  const status = document.getElementById('prestigeStatus');
+  if(status){
+    status.textContent = ready
+      ? 'Ready to prestige.'
+      : `Need ${Math.max(0, PRESTIGE_MIN_COOKIES - Math.floor(cookies)).toLocaleString()} more cookies (minimum ${PRESTIGE_MIN_COOKIES.toLocaleString()}).`;
+  }
+}
+
+function getBase(){
+const raw = grandmas+farms*12+factories*31+oils*125+mines*200+
+coops*310+wormholes*780+galaxies*20000+empties*250000;
+return Math.floor(raw * getBuildingMult());
+}
+
+function getWhyEggMulti(){ return whyEggs * getWhyEggMultiPerEgg(); }
+
+function getMulti(){
+  let m = 1;
+  equipped.forEach(p => m += p);
+  m += getWhyEggMulti();
+  return m;
+}
+
+// ✅ FIXED
+function buy(val,cost){
+  val = Number(val) || 0;
+  if(cookies >= cost){
+    cookies -= cost;
+    return val + 1;
+  }
+  return val;
+}
+
+function buyGrandma(){grandmas=buy(grandmas,1);update();save();}
+function buyFarm(){farms=buy(farms,10);update();save();}
+function buyFactory(){factories=buy(factories,25);update();save();}
+function buyOil(){oils=buy(oils,100);update();save();}
+function buyMine(){mines=buy(mines,150);update();save();}
+function buyCoop(){coops=buy(coops,200);update();save();}
+function buyWormhole(){wormholes=buy(wormholes,500);update();save();}
+function buyGalaxy(){galaxies=buy(galaxies,10000);update();save();}
+function buyEmpty(){empties=buy(empties,100000);update();save();}
+
+function buyPetTiny(){
+  const cost = getPetEggCost(50);
+  if(cookies>=cost && !hatching){
+    cookies -= cost;
+    hatching = {multi:0.05, time:40*60};
+    save();
+    update();
+  }
+}
+
+function buyPetSmall(){
+  const cost = getPetEggCost(100);
+  if(cookies>=cost && !hatching){
+    cookies -= cost;
+    hatching = {multi:0.2, time:160*60};
+    save();
+    update();
+  }
+}
+
+function buyPetBig(){
+  const cost = getPetEggCost(500);
+  if(cookies>=cost && !hatching){
+    cookies -= cost;
+    hatching = {multi:1, time:1440*60};
+    save();
+    update();
+  }
+}
+
+function buyPetLarge(){
+  const cost = getPetEggCost(1000);
+  if(cookies>=cost && !hatching){
+    cookies -= cost;
+    hatching = {multi:4, time:4*24*60*60};
+    save();
+    update();
+  }
+}
+
+function buyPetEnormas(){
+  const cost = getPetEggCost(2000);
+  if(cookies>=cost && !hatching){
+    cookies -= cost;
+    hatching = {multi:10, time:7*24*60*60};
+    save();
+    update();
+  }
+}
+
+function cancelHatch(){
+  if(hatching){
+    hatching = null;
+    save();
+    update();
+  }
+}
+
+function ensureMarketPlots(){
+  if(!Array.isArray(marketPlots)) marketPlots = [];
+  while(marketPlots.length < 9) marketPlots.push({ state: 'empty' });
+  for(let i=0;i<marketPlots.length;i++){
+    if(!marketPlots[i] || !marketPlots[i].state) marketPlots[i] = { state: 'empty' };
+  }
+}
+
+function ensureGardenPlots(){
+  if(!Array.isArray(gardenPlots)) gardenPlots = [];
+  while(gardenPlots.length < 100) gardenPlots.push({ state: 'locked' });
+  // unlock center 4x4
+  for(let r=3;r<=6;r++){
+    for(let c=3;c<=6;c++){
+      const idx = r*10 + c;
+      if(!gardenPlots[idx] || gardenPlots[idx].state === 'locked') gardenPlots[idx] = { state: 'empty' };
+    }
+  }
+  // ensure other cells exist
+  for(let i=0;i<100;i++){
+    if(!gardenPlots[i]) gardenPlots[i] = { state: 'locked' };
+  }
+}
+
+function buyBasicCan(){
+  if(cookies < 1000) return;
+  cookies -= 1000;
+  waterCans.push({ type: 'basic', lastUsedAt: 0 });
+  save();
+  update();
+}
+
+function buyWheatSeed(){
+  if(cookies < 25000) return;
+  cookies -= 25000;
+  seeds.push({ type: 'wheat', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function buyPotatoSeed(){
+  if(cookies < 25000) return;
+  cookies -= 25000;
+  seeds.push({ type: 'potato', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function buyPumpkinSeed(){
+  if(cookies < 50000) return;
+  cookies -= 50000;
+  seeds.push({ type: 'pumpkin', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function buyCarrotSeed(){
+  if(cookies < 50000) return;
+  cookies -= 50000;
+  seeds.push({ type: 'carrot', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function buyMelonSeed(){
+  if(cookies < 50000) return;
+  cookies -= 50000;
+  seeds.push({ type: 'melon', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function buyCocoaSeed(){
+  if(cookies < 50000) return;
+  cookies -= 50000;
+  seeds.push({ type: 'cocoa', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function buyAppleSeed(){
+  if(cookies < 75000) return;
+  cookies -= 75000;
+  seeds.push({ type: 'apple', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function buyNetherWartSeed(){
+  if(cookies < 100000) return;
+  cookies -= 100000;
+  seeds.push({ type: 'netherwart', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function buyBananaSeed(){
+  if(cookies < 150000) return;
+  cookies -= 150000;
+  seeds.push({ type: 'banana', purchasedAt: Date.now() });
+  save();
+  update();
+}
+
+function renderMarket(){
+  const grid = document.getElementById('marketGrid');
+  if(!grid) return;
+  grid.innerHTML = '<div class="small">Seeds available in the Market — buy them to add to your Inventory.</div>';
+}
+
+// element refs to avoid relying on duplicate global id variables
+const invEl = document.getElementById("inv");
+const eqEl = document.getElementById("eq");
+const hatchEl = document.getElementById("hatch");
+const cancelHatchBtn = document.getElementById("cancelHatchBtn");
+const invHud = document.getElementById("invHud");
+const marketGrid = document.getElementById("marketGrid");
+const eqHud = document.getElementById("eqHud");
+const toolHud = document.getElementById("toolHud");
+const hatchHud = document.getElementById("hatchHud");
+const equippedPanel = document.getElementById("equippedPanel");
+
+function update(){
+cookies = Number(cookies) || 0; // ✅ FIX
+
+document.getElementById("cookies").textContent=Math.floor(cookies);
+document.getElementById("multi").textContent=getMulti().toFixed(2);
+document.getElementById("per").textContent=Math.floor(getBase()*getMulti()*getPassiveMult());
+
+g.textContent=grandmas;f.textContent=farms;fa.textContent=factories;
+o.textContent=oils;m.textContent=mines;c.textContent=coops;
+w.textContent=wormholes;ga.textContent=galaxies;e.textContent=empties;
+
+if(hatching){
+  hatchEl.textContent = "Hatching: "+Math.floor(hatching.time/60)+" mins";
+  if(cancelHatchBtn) cancelHatchBtn.style.display = 'inline-flex';
+} else {
+  hatchEl.textContent = "None";
+  if(cancelHatchBtn) cancelHatchBtn.style.display = 'none';
+}
+
+// render inventory (detailed) in pets view as cards
+invEl.innerHTML = "";
+const invList = document.createElement('div');
+invList.className = 'pet-list';
+pets.forEach((p,i)=>{
+  const card = document.createElement('div');
+  card.className = 'pet-card';
+  const label = document.createElement('div');
+  label.className = 'pet-label';
+  label.textContent = petLabel(p);
+  const actions = document.createElement('div');
+  actions.className = 'pet-actions';
+  const equipBtn = document.createElement('button');
+  equipBtn.className = 'ghost';
+  equipBtn.textContent = 'Equip';
+  equipBtn.onclick = ()=>{ if(equipped.length<getMaxEquipSlots()){ equipped.push(p); pets.splice(i,1); save(); update(); } };
+  const delBtn = document.createElement('button');
+  delBtn.className = 'trash';
+  delBtn.title = 'Delete pet';
+  delBtn.textContent = '🗑️';
+  delBtn.onclick = ()=>{ pets.splice(i,1); save(); update(); };
+  actions.appendChild(equipBtn);
+  actions.appendChild(delBtn);
+  card.appendChild(label);
+  card.appendChild(actions);
+   renderGarden(); // Also render the garden each update so timers and states refresh
+  invList.appendChild(card);
+});
+invEl.appendChild(invList);
+
+// render equipped as cards with unequip + delete
+eqEl.innerHTML = "";
+const eqList = document.createElement('div');
+eqList.className = 'pet-list';
+equipped.forEach((p,i)=>{
+  const card = document.createElement('div');
+  card.className = 'pet-card';
+  const label = document.createElement('div');
+  label.className = 'pet-label';
+  label.textContent = petLabel(p);
+  const actions = document.createElement('div');
+  actions.className = 'pet-actions';
+  const unequipBtn = document.createElement('button');
+  unequipBtn.className = 'ghost';
+  unequipBtn.textContent = 'Unequip';
+  unequipBtn.onclick = ()=>{ pets.push(p); equipped.splice(i,1); save(); update(); };
+  const delBtn = document.createElement('button');
+  delBtn.className = 'trash';
+  delBtn.title = 'Delete equipped pet';
+  delBtn.textContent = '🗑️';
+  delBtn.onclick = ()=>{ equipped.splice(i,1); save(); update(); };
+  actions.appendChild(unequipBtn);
+  actions.appendChild(delBtn);
+  card.appendChild(label);
+  card.appendChild(actions);
+  eqList.appendChild(card);
+});
+eqEl.appendChild(eqList);
+
+// render HUD summaries
+const totalProduceCount = produce.reduce((sum,item)=>sum + (item.count || 1),0);
+if(invHud) invHud.textContent = `${pets.length} pets, ${seeds.length} seeds, ${vines} vines, ${totalProduceCount} produce`;
+if(eqHud) eqHud.textContent = equipped.length;
+if(toolHud) {
+  if(selectedCanIndex !== null && waterCans[selectedCanIndex]) {
+    const selectedCan = waterCans[selectedCanIndex];
+    const canLabel = selectedCan.type === 'basic' ? 'Basic Can' : selectedCan.type;
+    toolHud.textContent = `${canLabel} selected`;
+  } else {
+    toolHud.textContent = 'None';
+  }
+}
+if(hatchHud) hatchHud.textContent = hatching ? Math.floor(hatching.time/60)+" mins" : "None";
+renderMarket();
+// render seeds in the pets inventory view below pet cards
+const seedsSection = document.createElement('div');
+seedsSection.className = 'seeds-list';
+if(seeds.length === 0){
+  const none = document.createElement('div'); none.className='small'; none.textContent = 'No seeds in inventory'; seedsSection.appendChild(none);
+} else {
+  seeds.forEach((s,i)=>{
+    const el = document.createElement('div'); el.className='seed-item';
+    const text = document.createElement('span');
+    const seedEmoji = s.type === 'potato' ? '🥔'
+      : s.type === 'pumpkin' ? '🎃'
+      : s.type === 'carrot' ? '🥕'
+      : s.type === 'melon' ? '🍈'
+      : s.type === 'cocoa' ? '🌰'
+      : s.type === 'apple' ? '🍎'
+      : s.type === 'netherwart' ? '🍄'
+      : s.type === 'banana' ? '🍌' : '🌾';
+    text.textContent = `${seedEmoji} ${s.type} seed`;
+    const plantBtn = document.createElement('button'); plantBtn.className='primary'; plantBtn.textContent='Plant'; plantBtn.onclick = ()=>{ showMenu('garden'); alert('Click a garden plot to plant the seed.'); };
+    const del = document.createElement('button'); del.className='trash'; del.textContent='🗑️'; del.onclick = ()=>{ seeds.splice(i,1); save(); update(); };
+    el.appendChild(text); el.appendChild(plantBtn); el.appendChild(del);
+    seedsSection.appendChild(el);
+  });
+}
+invEl.appendChild(seedsSection);
+// render water cans in inventory
+const cansSection = document.createElement('div');
+cansSection.className = 'cans-list';
+if(waterCans.length === 0){
+  const none2 = document.createElement('div'); none2.className='small'; none2.textContent = 'No water cans'; cansSection.appendChild(none2);
+} else {
+  waterCans.forEach((c,i)=>{
+    const el = document.createElement('div'); el.className='can-item';
+    const txt = document.createElement('span'); txt.textContent = (c.type==='basic' ? 'Basic Can' : c.type)+' ';
+    const sel = document.createElement('button'); sel.className='primary'; sel.textContent = (selectedCanIndex===i ? 'Selected' : 'Select'); sel.onclick = ()=>{ selectedCanIndex = i; update(); };
+    const del = document.createElement('button'); del.className='trash'; del.textContent='🗑️'; del.onclick = ()=>{ waterCans.splice(i,1); if(selectedCanIndex===i) selectedCanIndex=null; save(); update(); };
+    const cooldownLabel = document.createElement('span'); cooldownLabel.style.marginLeft='8px';
+    if(c.lastUsedAt){ const rem = Math.max(0, Math.ceil((10*60*1000 - (Date.now()-c.lastUsedAt))/60000)); if(rem>0) cooldownLabel.textContent = `CD ${rem}m`; }
+    el.appendChild(txt); el.appendChild(sel); el.appendChild(del); el.appendChild(cooldownLabel);
+    cansSection.appendChild(el);
+  });
+}
+invEl.appendChild(cansSection);
+// render ethereal vine inventory
+const vinesSection = document.createElement('div');
+vinesSection.className = 'vines-list';
+if(vines === 0){
+  const noneV = document.createElement('div'); noneV.className='small'; noneV.textContent='No ethereal vines'; vinesSection.appendChild(noneV);
+} else {
+  const vineItem = document.createElement('div'); vineItem.className='produce-item';
+  vineItem.textContent = `🌿 Ethereal Vines x${vines}`;
+  vinesSection.appendChild(vineItem);
+}
+invEl.appendChild(vinesSection);
+// render produce inventory
+const produceSection = document.createElement('div');
+produceSection.className = 'produce-list';
+if(produce.length === 0){
+  const none3 = document.createElement('div'); none3.className='small'; none3.textContent='No harvested produce'; produceSection.appendChild(none3);
+} else {
+  produce.forEach((item,i)=>{
+    const el = document.createElement('div'); el.className='produce-item';
+    const count = item.count || 1;
+    const emoji = item.type === 'potato' ? '🥔'
+      : item.type === 'pumpkin' ? '🎃'
+      : item.type === 'carrot' ? '🥕'
+      : item.type === 'melon' ? '🍈'
+      : item.type === 'cocoa' ? '🌰'
+      : item.type === 'apple' ? '🍎'
+      : item.type === 'netherwart' ? '🍄'
+      : item.type === 'banana' ? '🍌'
+      : item.type === 'duskgrain' ? '✨' : '🌾';
+    const text = document.createElement('span'); text.textContent = `${emoji} ${item.type} x${count} (${item.value.toLocaleString()} each)`;
+    const sell = document.createElement('button'); sell.className='primary'; sell.textContent='Sell'; sell.onclick = ()=>{ cookies += item.value * count; produce.splice(i,1); save(); update(); };
+    el.appendChild(text); el.appendChild(sell);
+    produceSection.appendChild(el);
+  });
+}
+invEl.appendChild(produceSection);
+// render equipped panel in left column with labels
+function petLabel(p){
+  if(p===0.05) return 'Tiny Egg (+0.05)';
+  if(p===0.2) return 'Small Egg (+0.2)';
+  if(p===1) return 'Big Egg (+1)';
+  if(p===4) return 'Large Egg (+4)';
+  if(p===10) return 'Enormas Egg (+10)';
+  return '+'+p;
+}
+if(equippedPanel){
+  if(equipped.length===0){
+    equippedPanel.textContent = 'Equipped: None';
+  } else {
+    equippedPanel.innerHTML = 'Equipped: ' + equipped.map(p => `<span style="display:inline-block;padding:4px 8px;margin-right:6px;background:rgba(255,255,255,0.03);border-radius:8px">${petLabel(p)}</span>`).join('');
+  }
+}
+updatePrestigeUI();
+renderMastery();
+}
+
+setInterval(()=>{
+if(hatching){
+hatching.time -= getHatchSpeedMult();
+if(hatching.time<=0){
+pets.push(hatching.multi);
+hatching=null;
+}
+}
+update();
+},1000);
+
+setInterval(()=>{
+cookies+=Math.floor(getBase()*getMulti()*getPassiveMult());
+update();
+if(loaded) save();
+},COOKIE_TICK_MS);
+
+setInterval(()=>{
+if(loaded) save();
+},5000);
+
+function showGame(){
+loginMenu.classList.remove("active");
+gameMenu.classList.add("active");
+}
+
+function showMenu(id){
+  document.querySelectorAll("#gameMenu .menu").forEach(m=>m.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if(id === 'garden') renderGarden();
+  if(id === 'mastery') renderMastery();
+}
+
+function renderGarden(){
+  const grid = document.getElementById('gardenGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  for(let row=0;row<10;row++){
+    for(let col=0;col<10;col++){
+      const cell = document.createElement('div');
+      const idx = row*10 + col;
+      let plot = gardenPlots[idx] || { state: 'locked' };
+      const unlocked = !(plot.state === 'locked');
+      cell.className = 'garden-cell '+(unlocked ? 'unlocked' : 'locked');
+      let label = '';
+      let emoji = '';
+      cell.title = '';
+      if(!unlocked) {
+        label = 'Locked';
+      } else if(plot.state === 'empty') {
+        maybeStartWheatMutation(idx);
+        const updatedPlot = gardenPlots[idx];
+        if(updatedPlot.state === 'ready') {
+          plot = updatedPlot;
+          const currentWater = getCurrentWater(plot, idx);
+          emoji = plot.type === 'duskgrain' ? '✨'
+            : plot.type === 'potato' ? '🥔'
+            : plot.type === 'pumpkin' ? '🎃'
+            : plot.type === 'carrot' ? '🥕'
+            : plot.type === 'melon' ? '🍈'
+            : plot.type === 'cocoa' ? '🌰'
+            : plot.type === 'apple' ? '🍎'
+            : plot.type === 'netherwart' ? '🍄'
+            : plot.type === 'banana' ? '🍌' : '🌾';
+          const effectLabel = getEffectLabel(idx);
+          cell.title = `Ready to harvest — Water: ${currentWater}%` + (effectLabel ? ` | ${effectLabel}` : '');
+        } else {
+          const remaining = getWheatMutationRemaining(idx);
+          if(remaining !== null) {
+            cell.title = `Wheat flower forming — ${remaining}m until Duskgrain`;
+          } else {
+            cell.title = 'Empty plot';
+          }
+        }
+      } else if(plot.state === 'growing'){
+        const elapsed = Math.floor((Date.now() - plot.plantedAt)/1000);
+        const growthModifier = getGrowthModifier(idx);
+        const effectiveGrowTime = Math.max(Math.floor(plot.growTime * growthModifier), 0);
+        const remaining = Math.max(effectiveGrowTime - elapsed, 0);
+        const currentWater = getCurrentWater(plot, idx);
+        if(currentWater <= 0){
+          gardenPlots[idx] = { state: 'empty' };
+          save();
+          continue;
+        }
+        if(remaining <= 0){ plot.state = 'ready'; save(); }
+        else {
+          emoji = plot.type === 'potato' ? '🥔'
+            : plot.type === 'pumpkin' ? '🎃'
+            : plot.type === 'carrot' ? '🥕'
+            : plot.type === 'melon' ? '🍈'
+            : plot.type === 'cocoa' ? '🌰'
+            : plot.type === 'apple' ? '🍎'
+            : plot.type === 'netherwart' ? '🍄'
+            : plot.type === 'banana' ? '🍌' : '🌾';
+          const effectLabel = getEffectLabel(idx);
+          cell.title = `Growing ${Math.ceil(remaining/60)}m — Water: ${currentWater}%` + (effectLabel ? ` | ${effectLabel}` : '');
+          // allow watering when growing
+          cell.onclick = ()=>{ if(selectedCanIndex!==null) waterPlot(idx); };
+        }
+      } else if(plot.state === 'ready'){
+        const currentWater = getCurrentWater(plot, idx);
+        if(currentWater <= 0){
+          gardenPlots[idx] = { state: 'empty' };
+          save();
+          continue;
+        }
+        emoji = plot.type === 'duskgrain' ? '✨'
+          : plot.type === 'potato' ? '🥔'
+          : plot.type === 'pumpkin' ? '🎃'
+          : plot.type === 'carrot' ? '🥕'
+          : plot.type === 'melon' ? '🍈'
+          : plot.type === 'cocoa' ? '🌰'
+          : plot.type === 'apple' ? '🍎'
+          : plot.type === 'netherwart' ? '🍄'
+          : plot.type === 'banana' ? '🍌' : '🌾';
+        const effectLabel = getEffectLabel(idx);
+        cell.title = `Ready to harvest — Water: ${currentWater}%` + (effectLabel ? ` | ${effectLabel}` : '');
+      }
+      cell.textContent = emoji || label;
+      if(unlocked){
+        if(plot.state === 'empty') cell.onclick = ()=>plantFromGarden(idx);
+        if(plot.state === 'ready') cell.onclick = ()=>harvestGarden(idx);
+      } else {
+        if(vines > 0) {
+          cell.onclick = ()=>useVineToUnlockSlot(idx);
+          cell.title = 'Spend 1 ethereal vine to unlock this plot';
+        } else {
+          cell.title = 'Locked plot — collect ethereal vines to unlock';
+        }
+      }
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function getAdjacentIndices(idx){
+  const row = Math.floor(idx / 10);
+  const col = idx % 10;
+  const adjacent = [];
+  if(col > 0) adjacent.push(idx - 1);
+  if(col < 9) adjacent.push(idx + 1);
+  if(row > 0) adjacent.push(idx - 10);
+  if(row < 9) adjacent.push(idx + 10);
+  return adjacent;
+}
+
+function getAdjacentTypes(idx){
+  const types = {};
+  getAdjacentIndices(idx).forEach(i=>{
+    const plot = gardenPlots[i];
+    if(plot && plot.state !== 'empty' && plot.state !== 'locked' && plot.type){
+      types[plot.type] = true;
+    }
+  });
+  return types;
+}
+
+function isWheatFlowerCenter(idx){
+  const plot = gardenPlots[idx];
+  if(!plot || plot.state !== 'empty') return false;
+  return getAdjacentIndices(idx).every(i => {
+    const adjacent = gardenPlots[i];
+    return adjacent && adjacent.state !== 'empty' && adjacent.state !== 'locked' && adjacent.type === 'wheat';
+  });
+}
+
+function getWheatMutationRemaining(idx){
+  const plot = gardenPlots[idx];
+  if(!plot || plot.state !== 'empty' || !plot.mutationStartedAt) return null;
+  return Math.max(0, Math.ceil((40*60*1000 - (Date.now() - plot.mutationStartedAt)) / 60000));
+}
+
+function maybeStartWheatMutation(idx){
+  const plot = gardenPlots[idx];
+  if(!plot || plot.state !== 'empty') return;
+  if(isWheatFlowerCenter(idx)){
+    if(!plot.mutationStartedAt){
+      plot.mutationStartedAt = Date.now();
+      save();
+      return;
+    }
+    if(Date.now() - plot.mutationStartedAt >= 40*60*1000){
+      gardenPlots[idx] = {
+        state: 'ready',
+        type: 'duskgrain',
+        plantedAt: Date.now(),
+        growTime: 0,
+        water: 100,
+        waterUpdatedAt: Date.now()
+      };
+      save();
+    }
+  } else if(plot.mutationStartedAt){
+    delete plot.mutationStartedAt;
+  }
+}
+
+function getGrowthModifier(idx){
+  const adj = getAdjacentTypes(idx);
+  if(adj.banana) return 0;
+  if(adj.apple) return 0.5;
+  return 1;
+}
+
+function getWaterDecayModifier(idx){
+  const adj = getAdjacentTypes(idx);
+  return (adj.pumpkin || adj.melon) ? 0.5 : 1;
+}
+
+function getHarvestMultiplier(idx){
+  const adj = getAdjacentTypes(idx);
+  let mult = 1;
+  if(adj.wheat) mult *= 2;
+  if(adj.banana) mult *= 4;
+  return mult;
+}
+
+function getMutationChance(idx){
+  const adj = getAdjacentTypes(idx);
+  return adj.potato ? 0.1 : 0.05;
+}
+
+function getVineDropChance(idx){
+  const adj = getAdjacentTypes(idx);
+  if(adj.apple) return 0;
+  if(adj.netherwart) return 0.2;
+  return 0.05;
+}
+
+function getEffectLabel(idx){
+  const adj = getAdjacentTypes(idx);
+  const labels = [];
+  if(adj.wheat) labels.push('x2 drops');
+  if(adj.potato) labels.push('mutation x2');
+  if(adj.pumpkin) labels.push('retain water');
+  if(adj.melon) labels.push('retain water');
+  if(adj.apple) labels.push('half growth, no vine');
+  if(adj.netherwart) labels.push('vine x2');
+  if(adj.banana) labels.push('x4 drops, instant growth');
+  return labels.join('; ');
+}
+
+function getCropRarity(type){
+  const map = {
+    wheat:'common',
+    potato:'common',
+    pumpkin:'common',
+    carrot:'common',
+    melon:'common',
+    cocoa:'common',
+    apple:'common',
+    netherwart:'common',
+    banana:'common',
+    duskgrain:'epic'
+  };
+  return map[type] || 'common';
+}
+
+function getVineDropRate(type){
+  const rarity = getCropRarity(type);
+  return rarity === 'common' ? 0.25
+    : rarity === 'rare' ? 0.5
+    : rarity === 'epic' ? 0.75
+    : rarity === 'legendary' ? 1 : 0.25;
+}
+
+function getEtherealVineDropChance(type, idx){
+  let chance = getVineDropRate(type);
+  const adj = getAdjacentTypes(idx);
+  if(adj.apple) return 0;
+  if(adj.netherwart) chance = Math.min(1, chance * 2);
+  return chance;
+}
+
+function useVineToUnlockSlot(idx){
+  const plot = gardenPlots[idx];
+  if(!plot || plot.state !== 'locked') return;
+  if(vines <= 0){ alert('No ethereal vines available'); return; }
+  vines -= 1;
+  gardenPlots[idx] = { state: 'empty' };
+  save();
+  update();
+  renderGarden();
+}
+
+function plantFromGarden(idx){
+  if(!gardenPlots[idx] || gardenPlots[idx].state !== 'empty'){ alert('Plot not available'); return; }
+  if(!Array.isArray(seeds) || seeds.length === 0){ alert('No seeds in inventory'); return; }
+  const seed = seeds.splice(0,1)[0];
+  const type = seed.type || 'wheat';
+  const growTimeMap = {
+    wheat: 4 * 40 * 60,
+    potato: 4 * 40 * 60,
+    pumpkin: 440 * 60,
+    carrot: 200 * 60,
+    melon: 440 * 60,
+    cocoa: 12 * 40 * 60,
+    apple: 16 * 40 * 60,
+    netherwart: 8 * 40 * 60,
+    banana: 1 * 40 * 60
+  };
+  const growTime = growTimeMap[type] || 4 * 40 * 60;
+  gardenPlots[idx] = {
+    state: 'growing', type, plantedAt: Date.now(), growTime,
+    water: 100, waterUpdatedAt: Date.now()
+  };
+  save();
+  update();
+  renderGarden();
+}
+
+function getCurrentWater(plot, idx){
+  if(!plot) return 0;
+  const base = (typeof plot.water === 'number') ? plot.water : 100;
+  const last = plot.waterUpdatedAt || plot.plantedAt || Date.now();
+  const modifier = getWaterDecayModifier(idx);
+  const decays = Math.floor((Date.now() - last) / (40*60*1000));
+  return Math.max(0, base - decays * 20 * modifier);
+}
+
+function waterPlot(idx){
+  const plot = gardenPlots[idx];
+  if(!plot || plot.state !== 'growing') return;
+  if(selectedCanIndex === null){ alert('Select a water can from Inventory first'); return; }
+  const can = waterCans[selectedCanIndex];
+  if(!can){ alert('Selected can not found'); selectedCanIndex = null; return; }
+  const now = Date.now();
+  const cooldown = 10 * 60 * 1000;
+  if(can.lastUsedAt && (now - can.lastUsedAt) < cooldown){
+    const rem = Math.ceil((cooldown - (now - can.lastUsedAt)) / 60000);
+    alert('Can is on cooldown: '+rem+'m remaining');
+    return;
+  }
+  const current = getCurrentWater(plot, idx);
+  const added = 25; // basic can
+  const newWater = Math.min(100, current + added);
+  plot.water = newWater;
+  plot.waterUpdatedAt = now;
+  can.lastUsedAt = now;
+  save();
+  update();
+  renderGarden();
+}
+
+function harvestGarden(idx){
+  const plot = gardenPlots[idx];
+  if(!plot) return;
+  if(plot.state !== 'ready') return;
+  const valueMap = {
+    wheat: 200000,
+    potato: 120000,
+    pumpkin: 500000,
+    carrot: 250000,
+    melon: 500000,
+    cocoa: 600000,
+    apple: 750000,
+    netherwart: 480000,
+    banana: 200000,
+    duskgrain: 2500000
+  };
+  const worth = valueMap[plot.type] || 0;
+  const amount = getHarvestMultiplier(idx);
+  if(Math.random() < getEtherealVineDropChance(plot.type, idx)){
+    vines += 1;
+  }
+  const stack = produce.find(item => item.type === plot.type && item.value === worth && (item.count || 1) < 64);
+  if(stack){
+    stack.count = (stack.count || 1) + amount;
+    stack.harvestedAt = Date.now();
+  } else {
+    produce.push({
+      type: plot.type,
+      value: worth,
+      count: amount,
+      harvestedAt: Date.now(),
+      mutationChance: getMutationChance(idx),
+      vineDropChance: getVineDropChance(idx)
+    });
+  }
+  gardenPlots[idx] = { state: 'empty' };
+  save();
+  update();
+  renderGarden();
+}
+
+renderGarden();

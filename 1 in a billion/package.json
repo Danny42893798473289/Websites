@@ -1,0 +1,9 @@
+{
+  "name": "egg-roller-idle",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Egg Roller Idle browser game backend",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

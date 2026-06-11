@@ -1,0 +1,14 @@
+{
+  "config": 319,
+  "runtime": 15,
+  "init": 119,
+  "cacheElements": 71,
+  "bindEvents": 32,
+  "auth": 350,
+  "loops": 40,
+  "rolling": 311,
+  "renderAll": 675,
+  "shop": 156,
+  "save": 94,
+  "feedback": 68
+}

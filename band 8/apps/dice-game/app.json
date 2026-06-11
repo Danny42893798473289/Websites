@@ -1,0 +1,72 @@
+{
+  "configVersion": "v2",
+  "app": {
+    "appId": 4100002,
+    "appName": "Band8Dice",
+    "appType": "app",
+    "version": {
+      "code": 1,
+      "name": "1.0.0"
+    },
+    "icon": "icon.png",
+    "package": "com.custom.band8.dice",
+    "vender": "custom",
+    "description": "A quick dice game for Mi Band 8."
+  },
+  "permissions": [],
+  "runtime": {
+    "apiVersion": {
+      "compatible": "1.0.0",
+      "target": "1.0.0",
+      "minVersion": "1.0.0"
+    }
+  },
+  "targets": {
+    "smart-band-7": {
+      "module": {
+        "page": {
+          "pages": [
+            "page/index"
+          ]
+        }
+      },
+      "platforms": [
+        {
+          "name": "smart-band-7",
+          "deviceSource": 260
+        },
+        {
+          "name": "smart-band-7",
+          "deviceSource": 261
+        },
+        {
+          "name": "smart-band-7",
+          "deviceSource": 262
+        },
+        {
+          "name": "smart-band-7",
+          "deviceSource": 263
+        },
+        {
+          "name": "smart-band-7",
+          "deviceSource": 264
+        },
+        {
+          "name": "smart-band-7",
+          "deviceSource": 265
+        },
+        {
+          "name": "smart-band-7",
+          "deviceSource": 266
+        }
+      ],
+      "designWidth": 192
+    }
+  },
+  "i18n": {
+    "en-US": {
+      "appName": "Band8Dice"
+    }
+  },
+  "defaultLanguage": "en-US"
+}

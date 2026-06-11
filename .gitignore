@@ -1,0 +1,25 @@
+# Dependencies (reinstall with npm install)
+node_modules/
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Logs and OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+release/
+out/
+build/
+
+# Editor
+.vscode/
+.idea/
+
+# Egg Roller atomic-write leftovers
+*.tmp-*

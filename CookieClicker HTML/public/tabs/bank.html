@@ -1,0 +1,26 @@
+<div id="bank" class="menu">
+  <div id="bankLocked" class="bank-panel">
+    <h2 style="margin:0 0 12px">Bank</h2>
+    <p class="small" style="margin:0">Unlocked at Tornado Prestige level 2.</p>
+  </div>
+  <div id="bankContent" class="bank-panel" style="display:none">
+    <h2 style="margin:0 0 12px">Bank</h2>
+    <p class="small">Bank cards keep cookies through soft prestige. Credit cards borrow cookies for a limited time.</p>
+    <p>Stored: <strong id="bankBalance">0</strong> / <strong id="bankMax">0</strong></p>
+    <div style="margin:8px 0">
+      <button class="primary" onclick="bankDeposit()">Deposit all</button>
+      <button class="ghost" onclick="bankWithdraw()">Withdraw all</button>
+      <button class="ghost" onclick="unbindBankCard()">Unbind card (100c)</button>
+    </div>
+    <h3 style="font-size:14px">Buy bank card</h3>
+    <div id="bankCardList"></div>
+    <h3 style="font-size:14px;margin-top:16px">Credit card</h3>
+    <p>Debt: <strong id="creditDebt">0</strong> | Due: <strong id="creditDue">—</strong></p>
+    <div id="creditCardList"></div>
+    <div style="margin-top:8px">
+      <input type="number" id="creditBorrowAmt" placeholder="Borrow amount" style="max-width:120px">
+      <button class="ghost" onclick="creditBorrow(document.getElementById('creditBorrowAmt').value)">Borrow</button>
+      <button class="primary" onclick="creditPayback()">Pay back</button>
+    </div>
+  </div>
+</div>

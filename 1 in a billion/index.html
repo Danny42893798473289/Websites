@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#5b7cfa" />
+  <title>Egg Roller Idle</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <section id="login-panel" class="card login-card">
+      <h1>Egg Roller Idle</h1>
+      <p class="muted">Roll dice, hatch impossibly rare eggs, and automate everything.</p>
+      <form id="login-form">
+        <label for="username">Username</label>
+        <input id="username" type="text" autocomplete="username" placeholder="Enter username" required />
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="Enter password" required />
+        <div class="auth-actions">
+          <button id="login-btn" type="submit">Login</button>
+          <button id="register-btn" type="button">Register</button>
+        </div>
+      </form>
+      <p id="login-error" class="error hidden"></p>
+      <p class="hint">Create an account with Register, then log in.</p>
+    </section>
+
+    <main id="game-root" class="hidden">
+      <header class="top-bar card">
+        <div>
+          <h2>Egg Roller Idle</h2>
+          <p class="muted">Welcome, <span id="player-name">Player</span></p>
+        </div>
+        <div class="currency-stack">
+          <div class="currency">Coins: <span id="coins">0</span></div>
+          <div class="currency">Gems: <span id="gems">0</span></div>
+          <div class="currency">RPS: <span id="rps">0.00</span></div>
+          <button id="logout-btn" class="small danger">Logout</button>
+        </div>
+      </header>
+
+      <nav class="tab-bar card">
+        <button class="tab-btn active" data-tab="roll">Roll</button>
+        <button class="tab-btn" data-tab="collection">Collection</button>
+        <button class="tab-btn" data-tab="shops">Shops</button>
+        <button class="tab-btn" data-tab="progression">Progression</button>
+        <button class="tab-btn" data-tab="social">Social</button>
+        <button class="tab-btn" data-tab="stats">Stats</button>
+        <button class="tab-btn" data-tab="settings">Settings</button>
+      </nav>
+
+      <section class="grid">
+        <article id="rolling-card" class="card tab-panel" data-panel="roll">
+          <h3>Rolling Area</h3>
+          <div class="rolling-main">
+            <button id="roll-btn" class="big-roll">Roll</button>
+            <div class="dice-display">
+              <div>Last Roll: <span id="last-roll">-</span></div>
+              <div>Last Egg: <span id="last-egg">None</span></div>
+              <div class="muted">Manual Streak: <span id="streak-count">0</span></div>
+              <div class="muted">Streak Bonus: <span id="streak-bonus">0%</span></div>
+            </div>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>Prestige Progress</span>
+              <span id="prestige-progress-text">0 / 5000 rolls</span>
+            </div>
+            <div class="progress-bar"><div id="prestige-progress" class="progress-fill"></div></div>
+          </div>
+          <div class="action-row">
+            <button id="sell-rare-btn">Sell Rare+ Eggs for Gems</button>
+            <button id="prestige-btn" class="warn">Rebirth (Prestige)</button>
+          </div>
+          <div class="action-row secondary-actions">
+            <button id="lucky-roll-btn">Lucky Roll (25 Gems)</button>
+            <div id="lucky-roll-timer" class="muted action-note">Ready</div>
+          </div>
+          <p id="feed" class="feed muted">Start rolling to discover eggs.</p>
+        </article>
+
+        <article class="card tab-panel" data-panel="roll">
+          <h3>Roll History</h3>
+          <div id="event-log" class="event-log"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="collection">
+          <h3>Egg Collection</h3>
+          <div id="egg-log" class="egg-log"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="collection">
+          <h3>Egg Museum</h3>
+          <p class="muted">Pin up to 3 normal or shiny eggs from the codex to show off on your profile.</p>
+          <div id="museum-showcase" class="museum-showcase"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="collection">
+          <h3>Egg Codex</h3>
+          <p class="muted">Discover every egg variant. Shinies have their own codex and do not count toward set bonuses.</p>
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>Codex Completion</span>
+              <span id="codex-progress-text">0 / 0</span>
+            </div>
+            <div class="progress-bar"><div id="codex-progress" class="progress-fill"></div></div>
+          </div>
+          <div id="egg-codex" class="egg-codex"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="shops">
+          <h3>Coin Shop</h3>
+          <div id="shop-list" class="shop-list"></div>
+        </article>
+
+        <article class="card gem-shop-card tab-panel" data-panel="shops">
+          <h3>Gem Shop</h3>
+          <p class="muted">Permanent upgrades purchased with gems.</p>
+          <div id="gem-shop-list" class="shop-list"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="progression">
+          <h3>Set Bonuses</h3>
+          <p class="muted">Complete all variants in a rarity to unlock permanent passives.</p>
+          <div id="set-bonuses" class="set-bonuses"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="progression">
+          <h3>Companion Hatchery</h3>
+          <p class="muted">Hatch variants into passive companions.</p>
+          <div id="companion-panel" class="companion-panel"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="progression">
+          <h3>Fusion Lab</h3>
+          <p class="muted">Craft useful boosts from duplicate eggs.</p>
+          <div id="fusion-lab" class="fusion-lab"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="progression">
+          <h3>Ascension</h3>
+          <p class="muted">Reset prestige for Ascension Points and stronger permanent boosts.</p>
+          <div class="stats-grid">
+            <div>Ascension Level <span id="asc-level">0</span></div>
+            <div>Ascension Points <span id="asc-points">0</span></div>
+          </div>
+          <div id="asc-upgrades" class="shop-list"></div>
+          <button id="ascend-btn" class="warn">Ascend</button>
+        </article>
+
+        <article class="card tab-panel" data-panel="social">
+          <h3>Global Event</h3>
+          <p id="global-event-banner" class="muted">No active event.</p>
+        </article>
+
+        <article class="card tab-panel" data-panel="social">
+          <h3>Leaderboard</h3>
+          <div class="action-row secondary-actions">
+            <select id="leaderboard-mode">
+              <option value="totalRolls">Total Rolls</option>
+              <option value="rarest">Rarest Find</option>
+              <option value="shinies">Shiny Hunters</option>
+              <option value="codex">Codex Completion</option>
+            </select>
+            <button id="refresh-leaderboard-btn">Refresh</button>
+            <div id="leaderboard-rank" class="muted action-note">Rank: -</div>
+          </div>
+          <div id="leaderboard-list" class="shop-list"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="social">
+          <h3>Player Profile Lookup</h3>
+          <div class="settings-row">
+            <input id="profile-lookup-input" type="text" placeholder="Username" />
+            <button id="profile-lookup-btn">View Profile</button>
+          </div>
+          <div id="profile-card" class="stats-grid"></div>
+        </article>
+
+        <article class="card tab-panel admin-only" data-panel="social">
+          <h3>Admin Tools</h3>
+          <p class="muted section-hint">Danny only. Grant coins to any account (including yourself). Accounts that don't exist yet will be auto-created with a temporary password.</p>
+          <div class="settings-row">
+            <input id="admin-target-username" type="text" placeholder="Target username" />
+            <input id="admin-coin-amount" type="number" step="1" value="1000000" style="width: 140px" />
+            <button id="admin-give-coins-btn">Give Coins</button>
+          </div>
+          <div id="admin-grant-result" class="muted action-note"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="social">
+          <h3>Roll Duels</h3>
+          <p class="muted">Challenge another player. Each side submits a 60-second best roll; highest rarity wins gems and a 24h luck buff.</p>
+          <div class="settings-row">
+            <input id="duel-username-input" type="text" placeholder="Challenge username" />
+            <button id="duel-challenge-btn">Challenge</button>
+          </div>
+          <div class="action-row secondary-actions">
+            <button id="duel-refresh-btn">Refresh Duels</button>
+            <button id="duel-roll-btn">Submit Duel Roll</button>
+          </div>
+          <div id="duel-panel" class="shop-list"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="stats">
+          <h3>Statistics</h3>
+          <div class="stats-grid">
+            <div>Total Rolls <span id="stat-rolls">0</span></div>
+            <div>Total Coins Earned <span id="stat-coins">0</span></div>
+            <div>Total Gems Earned <span id="stat-gems">0</span></div>
+            <div>Rarest Egg Found <span id="stat-rarest">None</span></div>
+            <div>Time Played <span id="stat-time">00:00:00</span></div>
+            <div>Rolls Per Second <span id="stat-rps">0.00</span></div>
+            <div>Prestige Level <span id="stat-prestige">0</span></div>
+            <div>Active Title <span id="stat-title">New Roller</span></div>
+            <div>Shinies Found <span id="stat-shinies">0</span></div>
+            <div>Rolls Since Egg <span id="stat-dry-egg">0</span></div>
+            <div>Rolls Since Rare+ <span id="stat-dry-rare">0</span></div>
+            <div>Jackpots Hit <span id="stat-jackpots">0</span></div>
+          </div>
+          <h4>Achievements</h4>
+          <div id="achievements" class="achievements"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="settings">
+          <h3>Settings & Rewards</h3>
+          <h4 class="section-title">Themes</h4>
+          <p class="muted section-hint">Unlock visual themes with gems. Classic is free.</p>
+          <div id="theme-shop-list" class="theme-shop"></div>
+          <h4 class="section-title">Preferences</h4>
+          <div class="settings-row">
+            <label><input type="checkbox" id="dark-mode-toggle" /> Dark Mode</label>
+          </div>
+          <div class="settings-row">
+            <label><input type="checkbox" id="sound-toggle" checked /> Sound Effects</label>
+          </div>
+          <div class="settings-row">
+            <button id="daily-btn">Claim Daily Reward</button>
+            <span id="daily-text" class="muted"></span>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>Daily Reward Cooldown</span>
+              <span id="daily-progress-text">Ready now</span>
+            </div>
+            <div class="progress-bar"><div id="daily-progress" class="progress-fill"></div></div>
+          </div>
+          <div class="settings-row">
+            <button id="save-btn" class="small">Save Now</button>
+            <button id="reset-btn" class="small danger">Reset Local Save</button>
+          </div>
+          <div class="settings-row">
+            <span id="offline-info" class="muted">Offline progress applies automatically when you log in.</span>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div id="rare-popup" class="rare-popup hidden"></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

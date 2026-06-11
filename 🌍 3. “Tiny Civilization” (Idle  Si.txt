@@ -1,0 +1,4 @@
+🌍 3. “Tiny Civilization” (Idle / Simulation)
+You control a microscopic civilization (like inside a drop of water).
+They evolve over time depending on your choices.
+Mix of idle + decision-based gameplay.

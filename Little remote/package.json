@@ -1,0 +1,17 @@
+{
+  "name": "little-remote",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "server",
+    "host-agent",
+    "viewer"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev -w server",
+    "dev:viewer": "npm run dev -w viewer",
+    "dev:host": "npm run dev -w host-agent",
+    "build": "npm run build -w shared && npm run build -w server && npm run build -w viewer",
+    "start:server": "npm run start -w server"
+  }
+}

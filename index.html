@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tiny Civilization+</title>
+<style>
+body{
+    font-family: Arial;
+    background: radial-gradient(circle at top,#0f172a,#020617);
+    color:white;
+    text-align:center;
+}
+.container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+    padding:20px;
+}
+.card{
+    background:rgba(17,24,39,0.85);
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.5);
+}
+button{
+    padding:10px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#22c55e,#4ade80);
+    color:white;
+    cursor:pointer;
+}
+button:disabled{
+    background:#374151;
+    cursor:not-allowed;
+}
+.bar{
+    height:10px;
+    background:#1f2937;
+    border-radius:10px;
+    overflow:hidden;
+}
+.fill{
+    height:100%;
+    background:#22c55e;
+    width:0%;
+}
+.enemy{color:#f87171;}
+</style>
+</head>
+<body>
+
+<h1>🌍 Tiny Civilization+</h1>
+
+<div class="container">
+
+<div class="card">
+<h3>Resources</h3>
+<p>🟢 Biomass: <span id="biomass">0</span></p>
+<div class="bar"><div id="bioBar" class="fill"></div></div>
+<p>👥 Population: <span id="population">1</span></p>
+<p>🧬 DNA: <span id="dna">0</span></p>
+<p>⚔️ Attack: <span id="attack">1</span></p>
+</div>
+
+<div class="card">
+<h3>Enemies</h3>
+<p class="enemy">🦠 Count: <span id="enemies">0</span></p>
+<button onclick="attackEnemies()">⚔️ Attack</button>
+</div>
+
+<div class="card">
+<h3>Actions</h3>
+<button onclick="gather()">Gather Biomass</button>
+</div>
+
+<div class="card">
+<h3>Evolution</h3>
+<button id="speedBtn" onclick="evolve('speed')">⚡ Growth</button>
+<button id="effBtn" onclick="evolve('efficiency')">🌱 Efficiency</button>
+<button id="dnaBtn" onclick="evolve('dna')">🧬 DNA Boost</button>
+<button id="atkBtn" onclick="evolve('attack')">⚔️ Attack</button>
+</div>
+
+<div class="card">
+<h3>Environment</h3>
+<p>🌡 Temp: <span id="temp">Normal</span></p>
+<p>💨 Oxygen: <span id="oxygen">Normal</span></p>
+</div>
+
+<div class="card">
+<h3>Log</h3>
+<p id="log">Your civilization begins...</p>
+</div>
+
+</div>
+
+<script>
+let defaultGame={
+    biomass:0,
+    population:1,
+    dna:0,
+    growthRate:1,
+    efficiency:1,
+    dnaRate:1,
+    enemies:0,
+    attack:1,
+    upgrades:{speed:0,efficiency:0,dna:0,attack:0}
+};
+
+let game={...defaultGame};
+
+if(localStorage.save){
+    try{
+        game={...defaultGame,...JSON.parse(localStorage.save)};
+    }catch(e){game={...defaultGame};}
+}
+
+function getCost(type){
+    return Math.floor(20*Math.pow(1.5,game.upgrades[type]));
+}
+
+function log(t){
+    document.getElementById('log').innerText=t;
+}
+
+function update(){
+    document.getElementById('biomass').innerText=Math.floor(game.biomass);
+    document.getElementById('population').innerText=game.population;
+    document.getElementById('dna').innerText=Math.floor(game.dna);
+    document.getElementById('enemies').innerText=game.enemies;
+    document.getElementById('attack').innerText=game.attack;
+
+    let bar=(game.biomass%20)/20*100;
+    document.getElementById('bioBar').style.width=bar+"%";
+
+    document.getElementById('speedBtn').title="Cost: "+getCost('speed')+" DNA";
+    document.getElementById('effBtn').title="Cost: "+getCost('efficiency')+" DNA";
+    document.getElementById('dnaBtn').title="Cost: "+getCost('dna')+" DNA";
+    document.getElementById('atkBtn').title="Cost: "+getCost('attack')+" DNA";
+}
+
+function gather(){
+    game.biomass+=5*game.efficiency;
+}
+
+function evolve(type){
+    let cost=getCost(type);
+    if(game.dna<cost)return;
+
+    game.dna-=cost;
+    game.upgrades[type]++;
+
+    if(type==='speed'){game.growthRate+=0.5;log('Growth improved');}
+    if(type==='efficiency'){game.efficiency+=0.5;log('Efficiency improved');}
+    if(type==='dna'){game.dnaRate+=0.5;log('DNA improved');}
+    if(type==='attack'){game.attack+=1;log('Attack improved');}
+}
+
+function attackEnemies(){
+    if(game.enemies<=0){log('No enemies');return;}
+    let killed=Math.min(game.enemies,game.attack);
+    game.enemies-=killed;
+    game.dna+=killed*2;
+    log('Killed '+killed+' enemies');
+}
+
+function randomEvent(){
+    let r=Math.random();
+    if(r<0.25){game.biomass+=30;log('Nutrient bloom');}
+    else if(r<0.5){game.population=Math.max(1,game.population-1);log('Disease');}
+    else if(r<0.75){game.enemies+=Math.floor(Math.random()*4)+1;log('Enemies appeared');}
+    else{log('Mutation');game.dna+=5;}
+}
+
+function env(){
+    document.getElementById('temp').innerText=['Cold','Normal','Hot'][Math.floor(Math.random()*3)];
+    document.getElementById('oxygen').innerText=['Low','Normal','High'][Math.floor(Math.random()*3)];
+}
+
+setInterval(()=>{
+    game.biomass+=game.population*game.growthRate*0.4;
+
+    if(game.biomass>20){game.population++;game.biomass-=20;}
+
+    game.dna+=game.population*0.05*game.dnaRate;
+
+    if(game.enemies>0 && Math.random()<0.3){
+        let loss=Math.min(game.population,Math.ceil(game.enemies*0.2));
+        game.population-=loss;
+        log('Enemies attacked -'+loss);
+    }
+
+    if(Math.random()<0.05)randomEvent();
+    if(Math.random()<0.02)env();
+
+    update();
+},1000);
+
+setInterval(()=>{
+    localStorage.save=JSON.stringify(game);
+},5000);
+
+update();
+</script>
+
+</body>
+</html>

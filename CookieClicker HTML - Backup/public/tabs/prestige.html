@@ -1,0 +1,53 @@
+<div id="prestige" class="menu">
+
+            <div class="prestige-panel">
+
+              <h2 style="margin:0 0 12px">Prestige</h2>
+
+              <p class="small" style="margin:0 0 16px">Reset cookies, main shop, and pets. Keeps garden, seeds, produce, vines, and water cans. Use Tornado Prestige for a full garden wipe.</p>
+
+              <div class="prestige-stats">
+
+                <div class="stat"><small>XP</small><strong id="prestigeXp">0</strong></div>
+
+                <div class="stat"><small>Boosters</small><strong id="prestigeBoosters">0</strong></div>
+
+                <div class="stat"><small>Why Eggs</small><strong id="prestigeWhyEggs">0</strong></div>
+
+                <div class="stat"><small>Why Egg Cap</small><strong id="prestigeWhyCap">200</strong></div>
+
+              </div>
+
+              <div class="prestige-preview small" style="margin:16px 0">
+
+                <div>Why eggs from current cookies: <strong id="prestigeWhyPreview">0</strong> (1 per 50,000, rounded)</div>
+
+                <div style="margin-top:6px">On prestige: +1 XP, +1 booster, why eggs above. Each why egg gives +0.05 multiplier. Requires 50,000 cookies.</div>
+
+              </div>
+
+              <p id="prestigeStatus" class="small" style="margin:0 0 12px"></p>
+
+              <div class="controls" style="margin-bottom:12px">
+
+                <button id="prestigeBtn" class="primary" onclick="prestige()" disabled>Prestige</button>
+
+              </div>
+
+              <h3 style="margin:0 0 8px;font-size:14px">Use boosters</h3>
+
+              <p class="small" style="margin:0 0 12px">Fast-forward passive cookie income (and hatch timers).</p>
+
+              <div class="controls">
+
+                <button class="primary" onclick="useBooster(1)">Use 1 booster → 40 min</button>
+
+                <button class="primary" onclick="useBooster(2)">Use 2 boosters → 120 min</button>
+
+              </div>
+
+              <p id="boosterResult" class="small" style="margin-top:12px"></p>
+
+            </div>
+
+          </div>

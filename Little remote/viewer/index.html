@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Little Remote — Viewer</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="connect-panel" class="panel">
+        <h1>Little Remote</h1>
+        <p class="subtitle">Enter the session PIN from the host PC</p>
+        <input
+          id="pin-input"
+          type="text"
+          inputmode="numeric"
+          maxlength="8"
+          placeholder="PIN (4–8 digits)"
+          autocomplete="off"
+        />
+        <button id="connect-btn" type="button">Connect</button>
+        <p id="status" class="status">Disconnected</p>
+        <p class="hint desktop-hint">
+          Desktop shortcuts: <code>Ctrl+Enter</code> connect, <code>G</code> game mode, <code>Esc</code> exit game mode.
+        </p>
+        <p class="hint mobile-hint">
+          On phone: open <code id="lan-hint"></code>. Drag to move · 1-finger tap = left click · 2-finger tap = right click.
+        </p>
+      </div>
+      <div id="remote-panel" class="hidden">
+        <video id="remote-video" autoplay playsinline webkit-playsinline muted></video>
+        <div id="input-overlay" tabindex="0" aria-label="Remote screen touch area"></div>
+        <div id="toolbar">
+          <span id="connection-label">Connected</span>
+          <span id="toolbar-hint">Press G for game mode</span>
+          <button id="game-mode-btn" type="button" title="Lock cursor for games (Esc to unlock)">
+            🎮 Game
+          </button>
+          <button id="disconnect-btn" type="button">Disconnect</button>
+        </div>
+        <div id="game-mode-banner" class="game-mode-only">
+          Game mode — drag to look · Esc unlocks cursor · WASD on keyboard
+        </div>
+        <div id="mobile-bar" class="mobile-only">
+          <button type="button" id="game-mode-btn-mobile" title="Game mode">🎮</button>
+          <button type="button" data-action="scroll-up" title="Scroll up">▲</button>
+          <button type="button" data-action="scroll-down" title="Scroll down">▼</button>
+          <button type="button" data-action="game-keys" title="Game keys">Keys</button>
+          <button type="button" data-action="keyboard" title="Keyboard">⌨</button>
+        </div>
+        <div id="game-keys-panel" class="mobile-only">
+          <p class="game-keys-hint">Drag to look · 1-finger tap left click · 2-finger tap right click</p>
+          <div class="game-key-grid">
+            <button type="button" data-key="w" data-code="KeyW">W</button>
+            <button type="button" data-key="a" data-code="KeyA">A</button>
+            <button type="button" data-key="s" data-code="KeyS">S</button>
+            <button type="button" data-key="d" data-code="KeyD">D</button>
+            <button type="button" data-key=" " data-code="Space">Space</button>
+            <button type="button" data-key="e" data-code="KeyE">E</button>
+            <button type="button" data-key="q" data-code="KeyQ">Q</button>
+            <button type="button" data-key="Shift" data-code="ShiftLeft" data-shift="true">Shift</button>
+            <button type="button" data-key="Control" data-code="ControlLeft">Ctrl</button>
+            <button type="button" data-key="1" data-code="Digit1">1</button>
+            <button type="button" data-key="2" data-code="Digit2">2</button>
+            <button type="button" data-key="3" data-code="Digit3">3</button>
+            <button type="button" data-key="Escape" data-code="Escape">Esc</button>
+          </div>
+        </div>
+        <div id="keyboard-panel" class="mobile-only">
+          <input
+            id="mobile-keyboard-input"
+            type="text"
+            placeholder="Type here (phone keyboard)…"
+            autocomplete="off"
+            autocapitalize="off"
+          />
+          <button type="button" data-action="send-text">Send text</button>
+          <div class="key-row modifiers-row">
+            <button type="button" data-modifier="ctrlKey">Ctrl</button>
+            <button type="button" data-modifier="altKey">Alt</button>
+            <button type="button" data-modifier="shiftKey">Shift</button>
+          </div>
+          <div class="key-row">
+            <button type="button" data-key="Enter" data-code="Enter">Enter</button>
+            <button type="button" data-key="Backspace" data-code="Backspace">⌫</button>
+            <button type="button" data-key="Tab" data-code="Tab">Tab</button>
+            <button type="button" data-key="Escape" data-code="Escape">Esc</button>
+          </div>
+          <div class="key-row">
+            <button type="button" data-key="w" data-code="KeyW">W</button>
+            <button type="button" data-key="a" data-code="KeyA">A</button>
+            <button type="button" data-key="s" data-code="KeyS">S</button>
+            <button type="button" data-key="d" data-code="KeyD">D</button>
+            <button type="button" data-key=" " data-code="Space">Space</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

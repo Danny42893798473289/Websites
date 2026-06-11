@@ -1,0 +1,16 @@
+<div id="trade" class="menu">
+  <div class="themes-panel">
+    <h2 style="margin:0 0 12px">Trade</h2>
+    <p class="small">Trade with mutual friends. Daily limit: <span id="tradeDailyUsed">0</span> / <span id="tradeDailyLimit">0</span></p>
+    <p class="small">Trade slots: <span id="tradeSlots">1</span></p>
+    <label class="small">Friend</label>
+    <select id="tradeFriendSelect" style="display:block;margin:8px 0;max-width:240px"></select>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <input type="number" id="tradeGiveCookies" placeholder="You give cookies" style="max-width:140px">
+      <input type="number" id="tradeWantCookies" placeholder="You want cookies" style="max-width:140px">
+      <button type="button" class="primary" onclick="sendTradeOffer()">Send offer</button>
+    </div>
+    <h3 style="font-size:14px">Offers</h3>
+    <div id="tradeOffersList"></div>
+  </div>
+</div>
