@@ -10,6 +10,7 @@ import { refreshLeaderboard, updateAdminVisibility } from "./social.js";
 import { checkSetCompletions } from "./progression.js";
 import { checkAchievements } from "./economy.js";
 import { applyTheme } from "./themes.js";
+import { applyStaticUI, applyLanguage, setLang } from "./i18n.js";
 
 function yieldToBrowser(ms = 50) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -117,6 +118,7 @@ export async function loginAs(username, userRecord) {
   runtime.currentUser = username;
   updateAdminVisibility();
   runtime.state = mergeSaveWithDefaultsFast(username, userRecord);
+  if (runtime.state.settings?.language) setLang(runtime.state.settings.language);
 
   const el = runtime.el;
   el.loginPanel.classList.add("hidden");
@@ -125,6 +127,7 @@ export async function loginAs(username, userRecord) {
   runtime.previousCoins = runtime.state.coins;
   runtime.previousGems = runtime.state.gems;
   clearLoginError();
+  applyStaticUI();
   setFeed("Logged in! Loading your save…");
   renderCore();
 
@@ -139,6 +142,7 @@ export async function loginAs(username, userRecord) {
     await applyOfflineProgress({ loginBoot: true });
     renderCore();
     renderHeavyForTab(runtime.activeTab || "roll");
+    applyLanguage();
     startLoops();
     void refreshLeaderboard();
     void fetchGlobalEventFromServer();

@@ -80,6 +80,7 @@ export function cacheElements() {
   el.prestigeProgress = document.getElementById("prestige-progress");
   el.prestigeProgressText = document.getElementById("prestige-progress-text");
 
+  el.languageSelect = document.getElementById("language-select");
   el.darkModeToggle = document.getElementById("dark-mode-toggle");
   el.soundToggle = document.getElementById("sound-toggle");
   el.dailyBtn = document.getElementById("daily-btn");

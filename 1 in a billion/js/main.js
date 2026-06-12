@@ -30,10 +30,12 @@ import {
   updateDailyUI
 } from "./render.js";
 import { sellEgg } from "./economy.js";
+import { applyStaticUI, applyLanguage, onLanguageChange } from "./i18n.js";
 
 export function init() {
   initDeviceProfile();
   cacheElements();
+  applyStaticUI();
   bindEvents();
   runtime.activeTab = "roll";
   setActiveTab("roll");
@@ -67,6 +69,11 @@ export function bindEvents() {
   bindClick(runtime.el.sellRareBtn, sellRareEggs);
   bindClick(runtime.el.prestigeBtn, doPrestige);
   bindClick(runtime.el.luckyRollBtn, doLuckyRoll);
+  bindChange(runtime.el.languageSelect, () => {
+    onLanguageChange();
+    applyLanguage();
+    if (runtime.state) save();
+  });
   bindChange(runtime.el.darkModeToggle, onToggleDarkMode);
   bindChange(runtime.el.soundToggle, () => {
     if (runtime.state) {
@@ -140,7 +147,7 @@ export function bindEvents() {
 document.addEventListener("DOMContentLoaded", () => {
   try {
     init();
-    // Ensure admin sections start hidden for non-Danny (the CSS rule + this keeps it that way until loginAs adds the class).
+    applyLanguage();
     updateAdminVisibility();
   } catch (err) {
     console.error("Init failed:", err);

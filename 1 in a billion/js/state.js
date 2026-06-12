@@ -82,6 +82,7 @@ export function createDefaultState(username, userRecord) {
     settings: {
       darkMode: false,
       soundEnabled: true,
+      language: "en",
       activeTheme: "classic",
       unlockedThemes: ["classic"]
     },
@@ -190,6 +191,7 @@ export function sanitizeState(s) {
   s.activeTitle = s.activeTitle || s.titles[0] || "newRoller";
   s.settings.darkMode = !!s.settings.darkMode;
   s.settings.soundEnabled = s.settings.soundEnabled !== false;
+  s.settings.language = s.settings.language === "zh" ? "zh" : "en";
   if (!Array.isArray(s.settings.unlockedThemes)) s.settings.unlockedThemes = ["classic"];
   if (!s.settings.unlockedThemes.includes("classic")) s.settings.unlockedThemes.unshift("classic");
   s.settings.activeTheme = s.settings.activeTheme || "classic";

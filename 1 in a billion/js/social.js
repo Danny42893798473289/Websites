@@ -6,6 +6,7 @@ import { maybeGetEgg } from "./rolling.js";
 import { setFeed } from "./feedback.js";
 import { save } from "./save.js";
 import { renderCore } from "./render.js";
+import { t, tTitleLabel } from "./i18n.js";
 
 export async function refreshLeaderboard() {
   if (!runtime.currentUser) return;
@@ -17,18 +18,18 @@ export async function refreshLeaderboard() {
       return `
           <div class="leader-item">
             <div class="shop-item-top">
-              <strong>#${index + 1} ${escapeHtml(entry.username)} <span class="shiny-pill">${escapeHtml(entry.title || "New Roller")}</span></strong>
+              <strong>#${index + 1} ${escapeHtml(entry.username)} <span class="shiny-pill">${escapeHtml(entry.title || tTitleLabel("newRoller", "New Roller"))}</span></strong>
               <span>${metric}</span>
             </div>
-            <div class="muted">Rarest: ${escapeHtml(entry.rarestEgg || "None")} | Prestige: ${formatNumber(entry.prestigeLevel || 0)} | Shinies: ${formatNumber(entry.shinies || 0)}</div>
+            <div class="muted">${t("social.lbEntry", { rarest: escapeHtml(entry.rarestEgg || t("status.none")), prestige: formatNumber(entry.prestigeLevel || 0), shinies: formatNumber(entry.shinies || 0) })}</div>
           </div>
         `;
     }).join("");
-    runtime.el.leaderboardList.innerHTML = rows || "<div class='muted'>No leaderboard data yet.</div>";
-    runtime.el.leaderboardRank.textContent = data.viewerRank ? `Rank: #${data.viewerRank}` : "Rank: -";
+    runtime.el.leaderboardList.innerHTML = rows || `<div class='muted'>${t("social.lbEmpty")}</div>`;
+    runtime.el.leaderboardRank.textContent = data.viewerRank ? t("social.rank", { rank: `#${data.viewerRank}` }) : t("social.rankDash");
   } catch (err) {
-    runtime.el.leaderboardList.innerHTML = "<div class='muted'>Leaderboard unavailable.</div>";
-    runtime.el.leaderboardRank.textContent = "Rank: -";
+    runtime.el.leaderboardList.innerHTML = `<div class='muted'>${t("social.lbUnavailable")}</div>`;
+    runtime.el.leaderboardRank.textContent = t("social.rankDash");
   }
 }
 
@@ -46,7 +47,7 @@ export async function lookupProfile() {
     const data = await apiRequest(`/api/profile/${encodeURIComponent(username)}`, { method: "GET" });
     const p = data.profile;
     if (!p) {
-      runtime.el.profileCard.innerHTML = "<div class='muted'>Player not found.</div>";
+      runtime.el.profileCard.innerHTML = `<div class='muted'>${t("social.profileNotFound")}</div>`;
       return;
     }
     runtime.el.profileCard.innerHTML = `
@@ -60,7 +61,7 @@ export async function lookupProfile() {
         <div>Showcase <span>${renderProfileShowcase(p.showcase || [])}</span></div>
       `;
   } catch (err) {
-    runtime.el.profileCard.innerHTML = "<div class='muted'>Could not fetch profile.</div>";
+    runtime.el.profileCard.innerHTML = `<div class='muted'>${t("social.profileError")}</div>`;
   }
 }
 
@@ -95,7 +96,7 @@ export async function refreshDuels() {
     const data = await apiRequest(`/api/duel/active?viewer=${encodeURIComponent(runtime.currentUser)}`, { method: "GET" });
     renderDuels(data.duels || []);
   } catch (err) {
-    runtime.el.duelPanel.innerHTML = "<div class='muted'>Duels unavailable.</div>";
+    runtime.el.duelPanel.innerHTML = `<div class='muted'>${t("social.duelsUnavailable")}</div>`;
   }
 }
 

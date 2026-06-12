@@ -52,6 +52,10 @@ import {
 } from "./progression.js";
 import { getCurrentRPS, getManualStreakBonus } from "./rolling.js";
 import { isThemeUnlocked } from "./themes.js";
+import {
+  t, tAchievement, tEventLabel, tGemShopName, tRarity, tSetBonusLabel,
+  tShopName, tThemeDesc, tThemeName, tTitleLabel
+} from "./i18n.js";
 
 export function renderCore() {
   if (!runtime.state) return;
@@ -172,8 +176,8 @@ export function updateActionPanels() {
   const ready = now >= runtime.state.luckyRollAvailableAt;
   runtime.el.luckyRollBtn.disabled = !ready || runtime.state.gems < LUCKY_ROLL_COST_GEMS;
   runtime.el.luckyRollTimer.textContent = ready
-    ? `Ready${runtime.state.gems < LUCKY_ROLL_COST_GEMS ? " (need gems)" : ""}`
-    : `Cooldown: ${formatDuration(runtime.state.luckyRollAvailableAt - now)}`;
+    ? t("roll.ready")
+    : `${formatDuration(runtime.state.luckyRollAvailableAt - now)}`;
 }
 
 export function pulseValue(element) {
@@ -203,14 +207,14 @@ export function renderEggCollection() {
         const shinyCount = runtime.state ? runtime.state.shinyCollection[variant.id] || 0 : 0;
         if (count <= 0 && shinyCount <= 0) return "";
         const sellButton = count > 0 && r.gemValue > 0
-          ? `<button class="small" data-sell-egg="${variant.id}">Sell 1</button>`
+          ? `<button class="small" data-sell-egg="${variant.id}">${t("collection.sell1")}</button>`
           : "";
         const shinyButton = shinyCount > 0 && r.gemValue > 0
-          ? `<button class="small shiny-button" data-sell-shiny="${variant.id}">Sell Shiny</button>`
+          ? `<button class="small shiny-button" data-sell-shiny="${variant.id}">${t("status.sellShiny")}</button>`
           : "";
         return `
             <div class="egg-sub-item">
-              <span>${escapeHtml(variant.name)}${shinyCount > 0 ? ` <span class="shiny-pill">Shiny x${formatNumber(shinyCount)}</span>` : ""}</span>
+              <span>${escapeHtml(variant.name)}${shinyCount > 0 ? ` <span class="shiny-pill">${t("status.shiny")} x${formatNumber(shinyCount)}</span>` : ""}</span>
               <span class="collection-actions">
                 <span>${formatNumber(count)}</span>
                 ${sellButton}
@@ -226,12 +230,12 @@ export function renderEggCollection() {
         <div class="egg-rarity-group">
           <div class="egg-item">
             <div>
-              <strong style="color:${r.color}">${r.name}</strong>
-              <div class="muted">Odds: 1 in ${formatNumber(r.oneIn)}</div>
+              <strong style="color:${r.color}">${tRarity(r.name)}</strong>
+              <div class="muted">${t("collection.odds", { odds: formatNumber(r.oneIn) })}</div>
             </div>
             <div>${formatNumber(total)}</div>
           </div>
-          ${variants || `<div class="egg-sub-item muted">No variants found yet</div>`}
+          ${variants || `<div class="egg-sub-item muted">${t("collection.noVariants")}</div>`}
         </div>
       `;
   });
@@ -239,10 +243,10 @@ export function renderEggCollection() {
     .map((egg) => {
       const count = Number(runtime.state.eggCollection[egg.id] || 0);
       if (count <= 0) return "";
-      const sellButton = Number(egg.gemValue || 0) > 0 ? `<button class="small" data-sell-egg="${egg.id}">Sell 1</button>` : "";
+      const sellButton = Number(egg.gemValue || 0) > 0 ? `<button class="small" data-sell-egg="${egg.id}">${t("collection.sell1")}</button>` : "";
       return `
           <div class="egg-sub-item">
-            <span style="color:${egg.color}">${escapeHtml(egg.name)} [Fusion]</span>
+            <span style="color:${egg.color}">${escapeHtml(egg.name)} [${tRarity("Fusion")}]</span>
             <span class="collection-actions">
               <span>${formatNumber(count)}</span>
               ${sellButton}
@@ -257,12 +261,12 @@ export function renderEggCollection() {
       <div class="egg-rarity-group">
         <div class="egg-item">
           <div>
-            <strong style="color:#a855f7">Fusion Eggs</strong>
-            <div class="muted">Crafted in Fusion Lab</div>
+            <strong style="color:#a855f7">${t("status.fusionEggs")}</strong>
+            <div class="muted">${t("collection.craftedInLab")}</div>
           </div>
           <div>${formatNumber(FUSION_EGG_TYPES.reduce((sum, egg) => sum + Number(runtime.state.eggCollection[egg.id] || 0), 0))}</div>
         </div>
-        ${fusionRows || `<div class="egg-sub-item muted">No fusion eggs crafted yet</div>`}
+        ${fusionRows || `<div class="egg-sub-item muted">${t("collection.noFusion")}</div>`}
       </div>
     `;
 
@@ -281,8 +285,8 @@ export function renderEggCodex() {
         const shinyOwned = runtime.state ? Number(runtime.state.shinyCollection[variant.id] || 0) : 0;
         const unlocked = runtime.state ? isEggDiscovered(runtime.state, variant.id) : false;
         const title = unlocked ? variant.name : "???";
-        const description = unlocked ? variant.description : "Roll to discover this egg.";
-        const status = unlocked ? (owned > 0 ? "Unlocked" : "Discovered (sold)") : "Locked";
+        const description = unlocked ? variant.description : t("status.rollDiscover");
+        const status = unlocked ? (owned > 0 ? t("status.unlocked") : t("status.discoveredSold")) : t("status.locked");
         const titleColor = unlocked ? r.color : "var(--muted)";
 
         return `
@@ -292,9 +296,9 @@ export function renderEggCodex() {
                 <span class="codex-status">${status}</span>
               </div>
               <div class="muted">${description}</div>
-              <div class="muted">${unlocked ? `Rarity: ${r.name} (1 in ${formatNumber(r.oneIn)})` : "Rarity: ???"}</div>
-              <div class="muted">Owned: ${formatNumber(owned)}${shinyOwned > 0 ? ` | Shinies owned: ${formatNumber(shinyOwned)}` : ""}</div>
-              ${unlocked || shinyOwned > 0 ? `<div class="settings-row"><button class="small" data-pin-egg="${variant.id}" data-pin-shiny="false">Pin</button>${shinyOwned > 0 ? `<button class="small shiny-button" data-pin-egg="${variant.id}" data-pin-shiny="true">Pin Shiny</button>` : ""}</div>` : ""}
+              <div class="muted">${unlocked ? t("status.rarity", { name: tRarity(r.name), odds: formatNumber(r.oneIn) }) : t("status.rarityHidden")}</div>
+              <div class="muted">${t("status.owned", { n: formatNumber(owned) })}${shinyOwned > 0 ? ` | ${t("status.shiniesOwned", { n: formatNumber(shinyOwned) })}` : ""}</div>
+              ${unlocked || shinyOwned > 0 ? `<div class="settings-row"><button class="small" data-pin-egg="${variant.id}" data-pin-shiny="false">${t("status.pin")}</button>${shinyOwned > 0 ? `<button class="small shiny-button" data-pin-egg="${variant.id}" data-pin-shiny="true">${t("status.pinShiny")}</button>` : ""}</div>` : ""}
             </div>
           `;
       })
@@ -302,7 +306,7 @@ export function renderEggCodex() {
 
     return `
         <div class="codex-rarity-group">
-          <div class="codex-rarity-header" style="color:${r.color}">${r.name}</div>
+          <div class="codex-rarity-header" style="color:${r.color}">${tRarity(r.name)}</div>
           ${variantRows}
         </div>
       `;
@@ -315,19 +319,19 @@ export function renderEggCodex() {
         <div class="codex-item ${unlocked ? "" : "locked"}">
           <div class="codex-title">
             <strong style="color:${unlocked ? egg.color : "var(--muted)"}">${unlocked ? escapeHtml(egg.name) : "???"}</strong>
-            <span class="codex-status">${unlocked ? (owned > 0 ? "Unlocked" : "Discovered (sold)") : "Locked"}</span>
+            <span class="codex-status">${unlocked ? (owned > 0 ? t("status.unlocked") : t("status.discoveredSold")) : t("status.locked")}</span>
           </div>
-          <div class="muted">${unlocked ? escapeHtml(egg.description) : "Fuse different eggs to discover this."}</div>
-          <div class="muted">${unlocked ? "Rarity: Fusion (Crafted)" : "Rarity: ???"}</div>
-          <div class="muted">Owned: ${formatNumber(owned)}</div>
-          ${unlocked ? `<div class="settings-row"><button class="small" data-pin-egg="${egg.id}" data-pin-shiny="false">Pin</button></div>` : ""}
+          <div class="muted">${unlocked ? escapeHtml(egg.description) : t("status.fuseDiscover")}</div>
+          <div class="muted">${unlocked ? t("status.rarityFusion") : t("status.rarityHidden")}</div>
+          <div class="muted">${t("status.owned", { n: formatNumber(owned) })}</div>
+          ${unlocked ? `<div class="settings-row"><button class="small" data-pin-egg="${egg.id}" data-pin-shiny="false">${t("status.pin")}</button></div>` : ""}
         </div>
       `;
   }).join("");
 
   const fusionSection = `
       <div class="codex-rarity-group">
-        <div class="codex-rarity-header" style="color:#a855f7">Fusion</div>
+        <div class="codex-rarity-header" style="color:#a855f7">${tRarity("Fusion")}</div>
         ${fusionCodexRows}
       </div>
     `;
@@ -341,29 +345,29 @@ export function renderEggCodex() {
           return `
               <div class="codex-item ${unlocked ? "shiny-entry" : "locked"}">
                 <div class="codex-title">
-                  <strong style="color:${unlocked ? r.color : "var(--muted)"}">${unlocked ? `Shiny ${escapeHtml(variant.name)}` : "???"}</strong>
-                  <span class="codex-status">${unlocked ? (owned > 0 ? "Shiny Unlocked" : "Shiny Found (sold)") : "Locked"}</span>
+                  <strong style="color:${unlocked ? r.color : "var(--muted)"}">${unlocked ? t("codex.shinyPrefix", { name: escapeHtml(variant.name) }) : "???"}</strong>
+                  <span class="codex-status">${unlocked ? (owned > 0 ? t("status.shinyUnlocked") : t("status.shinyFoundSold")) : t("status.locked")}</span>
                 </div>
-                <div class="muted">${unlocked ? "A sparkling variant for collectors. Does not count toward set bonuses." : "Find the shiny version of this egg."}</div>
-                <div class="muted">Owned: ${formatNumber(owned)}</div>
-                ${unlocked ? `<div class="settings-row"><button class="small shiny-button" data-pin-egg="${variant.id}" data-pin-shiny="true" ${owned > 0 ? "" : "disabled"}>Pin Shiny</button></div>` : ""}
+                <div class="muted">${unlocked ? t("status.shinyHint") : t("status.shinyFind")}</div>
+                <div class="muted">${t("status.owned", { n: formatNumber(owned) })}</div>
+                ${unlocked ? `<div class="settings-row"><button class="small shiny-button" data-pin-egg="${variant.id}" data-pin-shiny="true" ${owned > 0 ? "" : "disabled"}>${t("status.pinShiny")}</button></div>` : ""}
               </div>
             `;
         }).join("");
         return `
             <div class="codex-rarity-group">
-              <div class="codex-rarity-header" style="color:${r.color}">Shiny ${r.name}</div>
+              <div class="codex-rarity-header" style="color:${r.color}">${t("codex.shinyGroup", { name: tRarity(r.name) })}</div>
               ${variantRows}
             </div>
           `;
       }).join("")
-    : `<div class="settings-row"><button class="small shiny-button" data-expand-shiny-codex>Show Shiny Codex Details</button></div>`;
+    : `<div class="settings-row"><button class="small shiny-button" data-expand-shiny-codex>${t("codex.expandShiny")}</button></div>`;
 
   runtime.el.eggCodex.innerHTML = `
       ${rows.join("")}
       ${fusionSection}
       <div class="codex-rarity-group shiny-codex-section">
-        <div class="codex-rarity-header">Shiny Codex (${formatNumber(shinyDiscovered)} / ${formatNumber(shinyTotal)})</div>
+        <div class="codex-rarity-header">${t("codex.shinyTitle")} (${t("codex.shinyProgress", { found: formatNumber(shinyDiscovered), total: formatNumber(shinyTotal) })})</div>
         <div class="progress-bar"><div class="progress-fill shiny-progress" style="width:${shinyTotal > 0 ? (shinyDiscovered / shinyTotal) * 100 : 0}%"></div></div>
       </div>
       ${shinyRows}
@@ -380,15 +384,15 @@ export function renderMuseumShowcase() {
     const item = items[index];
     const egg = item ? ALL_EGG_BY_ID[item.eggId] : null;
     if (!egg) {
-      return `<div class="showcase-slot empty">Slot ${index + 1}<span class="muted">Pin an egg from the codex.</span></div>`;
+      return `<div class="showcase-slot empty">${t("museum.slot", { n: index + 1 })}<span class="muted">${t("museum.pinHint")}</span></div>`;
     }
     return `
         <div class="showcase-slot ${item.shiny ? "shiny-entry" : ""}">
           <div class="codex-title">
-            <strong style="color:${egg.color}">${item.shiny ? "Shiny " : ""}${escapeHtml(egg.name)}</strong>
-            <button class="small danger" data-remove-showcase="${index}">Remove</button>
+            <strong style="color:${egg.color}">${item.shiny ? `${t("status.shiny")} ` : ""}${escapeHtml(egg.name)}</strong>
+            <button class="small danger" data-remove-showcase="${index}">${t("museum.remove")}</button>
           </div>
-          <div class="muted">${escapeHtml(egg.rarity)} showcase pick</div>
+          <div class="muted">${t("museum.showcasePick", { rarity: tRarity(egg.rarity) })}</div>
         </div>
       `;
   }).join("");
@@ -424,7 +428,7 @@ export function renderEventLog() {
         </div>
       `;
   });
-  runtime.el.eventLog.innerHTML = rows.join("") || "<div class=\"muted\">No events yet.</div>";
+  runtime.el.eventLog.innerHTML = rows.join("") || `<div class="muted">${t("status.noEvents")}</div>`;
 }
 
 export function renderSetBonuses() {
@@ -436,10 +440,10 @@ export function renderSetBonuses() {
     return `
         <div class="set-item ${complete ? "done" : ""}">
           <div class="codex-title">
-            <strong style="color:${rarity.color}">${rarity.name} Set</strong>
-            <span class="codex-status">${complete ? "Active" : `${discovered}/${variants.length}`}</span>
+            <strong style="color:${rarity.color}">${t("set.setName", { name: tRarity(rarity.name) })}</strong>
+            <span class="codex-status">${complete ? t("status.active") : `${discovered}/${variants.length}`}</span>
           </div>
-          <div class="muted">${bonus ? bonus.label : "No bonus configured."}</div>
+          <div class="muted">${bonus ? tSetBonusLabel(rarity.name, bonus.label) : t("status.noBonus")}</div>
         </div>
       `;
   }).join("");
@@ -456,13 +460,13 @@ export function renderCompanions() {
         <div class="companion-item">
           <div class="codex-title">
             <strong>${companion.name}</strong>
-            <span class="codex-status">${isActive ? "Active" : hatched ? "Hatched" : "Locked"}</span>
+            <span class="codex-status">${isActive ? t("status.active") : hatched ? t("status.hatched") : t("status.locked")}</span>
           </div>
-          <div class="muted">${companion.rarity} companion, bonus: ${formatCompanionBonus(companion)}</div>
-          <div class="muted">Egg owned: ${formatNumber(ownedEggs)} | Hatch cost: ${formatNumber(companion.hatchCost)} gems</div>
+          <div class="muted">${t("companion.line", { rarity: tRarity(companion.rarity), bonus: formatCompanionBonus(companion) })}</div>
+          <div class="muted">${t("companion.eggOwned", { n: formatNumber(ownedEggs) })} | ${t("companion.hatchCost", { n: formatNumber(companion.hatchCost) })}</div>
           <div class="settings-row">
-            <button data-hatch="${companion.id}" ${canHatch ? "" : "disabled"}>Hatch</button>
-            <button data-activate="${companion.id}" ${hatched ? "" : "disabled"}>${isActive ? "Active" : "Activate"}</button>
+            <button data-hatch="${companion.id}" ${canHatch ? "" : "disabled"}>${t("companion.hatch")}</button>
+            <button data-activate="${companion.id}" ${hatched ? "" : "disabled"}>${isActive ? t("status.active") : t("status.activate")}</button>
           </div>
         </div>
       `;
@@ -478,9 +482,9 @@ export function renderCompanions() {
 
 export function renderFusionLab() {
   const tiers = [
-    { id: "base", label: "Base Recipes" },
-    { id: "advanced", label: "Advanced Recipes" },
-    { id: "super", label: "Super Fusion Recipes" }
+    { id: "base", label: t("fusion.tier.base") },
+    { id: "advanced", label: t("fusion.tier.advanced") },
+    { id: "super", label: t("fusion.tier.super") }
   ];
   const query = runtime.fusionSearchQuery.trim().toLowerCase();
   const filteredRecipes = FUSION_RECIPES.filter((recipe) => {
@@ -509,13 +513,13 @@ export function renderFusionLab() {
           <div class="fusion-item ${runtime.fusionSelectedRecipeId === recipe.id ? "done" : ""}">
             <div class="codex-title">
               <strong>${escapeHtml(recipe.name)}</strong>
-              <span class="codex-status">${canCraft ? "Ready" : "Missing Eggs"}</span>
+              <span class="codex-status">${canCraft ? t("status.ready") : t("status.missing")}</span>
             </div>
-            <div class="muted">Crafts: <span style="color:${resultEgg?.color || "var(--text)"}">${escapeHtml(resultEgg?.name || recipe.resultId)}</span></div>
+            <div class="muted">${t("fusion.crafts")} <span style="color:${resultEgg?.color || "var(--text)"}">${escapeHtml(resultEgg?.name || recipe.resultId)}</span></div>
             <div class="muted">${ingredientsText}</div>
             <div class="settings-row">
-              <button data-fuse="${recipe.id}" ${canCraft ? "" : "disabled"}>Fuse</button>
-              <button data-track-fusion="${recipe.id}">Track Chain</button>
+              <button data-fuse="${recipe.id}" ${canCraft ? "" : "disabled"}>${t("fusion.fuse")}</button>
+              <button data-track-fusion="${recipe.id}">${t("fusion.track")}</button>
             </div>
           </div>
         `;
@@ -532,18 +536,18 @@ export function renderFusionLab() {
   const chainHtml = renderFusionChainsVisualizer();
   runtime.el.fusionLab.innerHTML = `
       <div class="fusion-toolbar">
-        <input id="fusion-search-input" placeholder="Search recipes, results, ingredients..." value="${escapeHtml(runtime.fusionSearchQuery)}" />
+        <input id="fusion-search-input" placeholder="${t("fusion.searchPh")}" value="${escapeHtml(runtime.fusionSearchQuery)}" />
         <select id="fusion-tier-filter">
-          <option value="all" ${runtime.fusionTierFilter === "all" ? "selected" : ""}>All Tiers</option>
-          <option value="base" ${runtime.fusionTierFilter === "base" ? "selected" : ""}>Base</option>
-          <option value="advanced" ${runtime.fusionTierFilter === "advanced" ? "selected" : ""}>Advanced</option>
-          <option value="super" ${runtime.fusionTierFilter === "super" ? "selected" : ""}>Super</option>
+          <option value="all" ${runtime.fusionTierFilter === "all" ? "selected" : ""}>${t("fusion.allTiers")}</option>
+          <option value="base" ${runtime.fusionTierFilter === "base" ? "selected" : ""}>${t("fusion.tier.base")}</option>
+          <option value="advanced" ${runtime.fusionTierFilter === "advanced" ? "selected" : ""}>${t("fusion.tier.advanced")}</option>
+          <option value="super" ${runtime.fusionTierFilter === "super" ? "selected" : ""}>${t("fusion.tier.super")}</option>
         </select>
-        <div class="muted">Showing ${filteredRecipes.length} / ${FUSION_RECIPES.length} recipes</div>
+        <div class="muted">${t("fusion.showing", { shown: filteredRecipes.length, total: FUSION_RECIPES.length })}</div>
       </div>
-      ${grouped || "<div class=\"muted\">No fusion recipes match this filter.</div>"}
+      ${grouped || `<div class="muted">${t("fusion.noMatch")}</div>`}
       <div class="fusion-chain-panel">
-        <h4>Fusion Chains Visualizer</h4>
+        <h4>${t("fusion.chainsTitle")}</h4>
         ${chainHtml}
       </div>
     `;
@@ -587,21 +591,21 @@ export function renderAscension() {
     ? `
         <div class="shop-item">
           <div class="shop-item-top">
-            <strong>Dice Upgrade</strong>
+            <strong>${t("asc.diceUpgrade")}</strong>
             <span>${purchases}/${MAX_DICE_PURCHASES}</span>
           </div>
-          <div class="muted">Current: ${currentDice.name} (${currentDice.label}) → ${nextDice.name} (${nextDice.label})</div>
-          <div class="muted">Cost: ${DICE_AP_COST} AP | Rolls use 1–${nextDice.sides}</div>
-          <button data-buy-dice ${runtime.state.ascensionPoints >= DICE_AP_COST ? "" : "disabled"}>Buy New Die</button>
+          <div class="muted">${t("asc.upgradeLine", { cur: currentDice.name, curLabel: currentDice.label, next: nextDice.name, nextLabel: nextDice.label })}</div>
+          <div class="muted">${t("asc.costAp", { cost: DICE_AP_COST, sides: nextDice.sides })}</div>
+          <button data-buy-dice ${runtime.state.ascensionPoints >= DICE_AP_COST ? "" : "disabled"}>${t("asc.buyDie")}</button>
         </div>
       `
     : `
         <div class="shop-item">
           <div class="shop-item-top">
-            <strong>Dice Upgrade</strong>
+            <strong>${t("asc.diceUpgrade")}</strong>
             <span>${MAX_DICE_PURCHASES}/${MAX_DICE_PURCHASES}</span>
           </div>
-          <div class="muted">Maxed: ${currentDice.name} (${currentDice.label}, 1–${currentDice.sides})</div>
+          <div class="muted">${t("asc.maxed", { name: currentDice.name, label: currentDice.label, sides: currentDice.sides })}</div>
         </div>
       `;
 
@@ -613,10 +617,10 @@ export function renderAscension() {
         <div class="shop-item">
           <div class="shop-item-top">
             <strong>${upgrade.name}</strong>
-            <span>Lv ${level}</span>
+            <span>${t("status.lv", { n: level })}</span>
           </div>
-          <div class="muted">Cost: ${cost} AP | Effect: ${upgrade.effect}</div>
-          <button data-asc-buy="${upgrade.id}" ${canBuy ? "" : "disabled"}>Buy</button>
+          <div class="muted">${t("asc.effectLine", { cost, effect: upgrade.effect })}</div>
+          <button data-asc-buy="${upgrade.id}" ${canBuy ? "" : "disabled"}>${t("status.buyPlain")}</button>
         </div>
       `;
   }).join("");
@@ -636,15 +640,15 @@ export function renderAscension() {
 
 export function renderGlobalEvent() {
   if (!runtime.state) {
-    runtime.el.globalEventBanner.textContent = "No active event.";
+    runtime.el.globalEventBanner.textContent = t("social.noEvent");
     return;
   }
   const eventData = getCurrentGlobalEvent();
   if (!eventData) {
-    runtime.el.globalEventBanner.textContent = "No active event.";
+    runtime.el.globalEventBanner.textContent = t("social.noEvent");
     return;
   }
-  runtime.el.globalEventBanner.textContent = `${eventData.label} is active for today.`;
+  runtime.el.globalEventBanner.textContent = t("social.eventActive", { label: tEventLabel(eventData.id, eventData.label) });
 }
 
 export function renderShop() {
@@ -657,11 +661,11 @@ export function renderShop() {
     return `
         <div class="shop-item">
           <div class="shop-item-top">
-            <strong>${item.name}</strong>
-            <span>Lv ${level}</span>
+            <strong>${tShopName(item.id, item.name)}</strong>
+            <span>${t("status.lv", { n: level })}</span>
           </div>
           <div class="muted">${effectText}</div>
-          <button data-buy="${item.id}" ${affordable ? "" : "disabled"}>Buy (${formatNumber(cost)} coins)</button>
+          <button data-buy="${item.id}" ${affordable ? "" : "disabled"}>${t("status.buy", { cost: formatNumber(cost) })}</button>
         </div>
       `;
   }).join("");
@@ -684,11 +688,11 @@ export function renderGemShop() {
     return `
         <div class="shop-item gem-item">
           <div class="shop-item-top">
-            <strong>${item.name}</strong>
-            <span>Lv ${level}</span>
+            <strong>${tGemShopName(item.id, item.name)}</strong>
+            <span>${t("status.lv", { n: level })}</span>
           </div>
           <div class="muted">${effectText}</div>
-          <button data-gem-buy="${item.id}" ${affordable ? "" : "disabled"}>Buy (${formatNumber(cost)} gems)</button>
+          <button data-gem-buy="${item.id}" ${affordable ? "" : "disabled"}>${t("status.buyGems", { cost: formatNumber(cost) })}</button>
         </div>
       `;
   }).join("");
@@ -706,7 +710,7 @@ export function renderStats() {
   if (runtime.el.statRolls) runtime.el.statRolls.textContent = formatNumber(runtime.state.totalRolls);
   if (runtime.el.statCoins) runtime.el.statCoins.textContent = formatNumber(Math.floor(runtime.state.totalCoinsEarned));
   if (runtime.el.statGems) runtime.el.statGems.textContent = formatNumber(Math.floor(runtime.state.totalGemsEarned));
-  if (runtime.el.statRarest) runtime.el.statRarest.textContent = runtime.state.rarestEgg || "None";
+  if (runtime.el.statRarest) runtime.el.statRarest.textContent = runtime.state.rarestEgg || t("status.none");
   if (runtime.el.statTime) runtime.el.statTime.textContent = formatDuration(runtime.state.playtimeMs);
   if (runtime.el.statRps) runtime.el.statRps.textContent = getCurrentRPS().toFixed(2);
   if (runtime.el.statPrestige) runtime.el.statPrestige.textContent = String(runtime.state.prestigeLevel);
@@ -715,12 +719,15 @@ export function renderStats() {
   if (runtime.el.statDryEgg) runtime.el.statDryEgg.textContent = formatNumber(stats.rollsSinceLastEgg || 0);
   if (runtime.el.statDryRare) runtime.el.statDryRare.textContent = formatNumber(stats.rollsSinceLastRarePlus || 0);
   if (runtime.el.statJackpots) runtime.el.statJackpots.textContent = formatNumber(stats.jackpotsHit || 0);
-  if (runtime.el.statTitle) runtime.el.statTitle.textContent = getTitleLabel(runtime.state.activeTitle);
+  if (runtime.el.statTitle) runtime.el.statTitle.textContent = tTitleLabel(runtime.state.activeTitle, getTitleLabel(runtime.state.activeTitle));
 
   const progressPercent = Math.min(100, (runtime.state.rollsSincePrestige / PRESTIGE_TARGET_ROLLS) * 100);
   if (runtime.el.prestigeProgress) runtime.el.prestigeProgress.style.width = `${progressPercent}%`;
   if (runtime.el.prestigeProgressText) {
-    runtime.el.prestigeProgressText.textContent = `${formatNumber(runtime.state.rollsSincePrestige)} / ${formatNumber(PRESTIGE_TARGET_ROLLS)} rolls`;
+    runtime.el.prestigeProgressText.textContent = t("roll.prestigeRolls", {
+      current: formatNumber(runtime.state.rollsSincePrestige),
+      target: formatNumber(PRESTIGE_TARGET_ROLLS)
+    });
   }
 }
 
@@ -729,8 +736,8 @@ export function renderAchievements() {
     const done = !!(runtime.state && runtime.state.achievementsUnlocked[a.id]);
     return `
         <div class="achievement-item ${done ? "done" : ""}">
-          <div><strong>${a.title}</strong></div>
-          <div class="muted">${done ? "Unlocked" : "Locked"} - Reward: ${a.rewardGems} gems</div>
+          <div><strong>${tAchievement(a.id, a.title)}</strong></div>
+          <div class="muted">${done ? t("achievement.unlocked") : t("achievement.locked")} - ${t("status.rewardGems", { n: a.rewardGems })}</div>
         </div>
       `;
   }).join("");
@@ -746,9 +753,9 @@ export function updateDailyUI() {
   const nextAt = runtime.state.daily.lastClaimAt + DAILY_REWARD_COOLDOWN_MS;
   if (runtime.state.daily.lastClaimAt === 0 || now >= nextAt) {
     runtime.el.dailyBtn.disabled = false;
-    runtime.el.dailyText.textContent = "Daily reward is ready.";
+    runtime.el.dailyText.textContent = t("settings.dailyReadyMsg");
     runtime.el.dailyProgress.style.width = "100%";
-    runtime.el.dailyProgressText.textContent = "Ready now";
+    runtime.el.dailyProgressText.textContent = t("settings.dailyReady");
     return;
   }
 
@@ -756,9 +763,9 @@ export function updateDailyUI() {
   const passed = DAILY_REWARD_COOLDOWN_MS - remaining;
   const pct = Math.max(0, Math.min(100, (passed / DAILY_REWARD_COOLDOWN_MS) * 100));
   runtime.el.dailyBtn.disabled = true;
-  runtime.el.dailyText.textContent = `${formatDuration(remaining)} remaining`;
+  runtime.el.dailyText.textContent = t("settings.dailyRemain", { time: formatDuration(remaining) });
   runtime.el.dailyProgress.style.width = `${pct}%`;
-  runtime.el.dailyProgressText.textContent = `${formatDuration(remaining)} left`;
+  runtime.el.dailyProgressText.textContent = t("settings.dailyLeft", { time: formatDuration(remaining) });
 }
 
 export function renderThemeShop() {
@@ -768,22 +775,22 @@ export function renderThemeShop() {
     const unlocked = isThemeUnlocked(runtime.state, theme.id);
     const equipped = active === theme.id;
     const canAfford = runtime.state.gems >= theme.cost;
-    let actionLabel = "Equip";
+    let actionLabel = t("status.equip");
     let actionClass = "secondary";
     if (!unlocked && theme.cost > 0) {
-      actionLabel = `Unlock (${formatNumber(theme.cost)} gems)`;
+      actionLabel = t("status.unlockGems", { cost: formatNumber(theme.cost) });
       actionClass = canAfford ? "primary" : "ghost";
     } else if (equipped) {
-      actionLabel = "Equipped";
+      actionLabel = t("status.equipped");
       actionClass = "ghost";
     }
     return `
       <div class="theme-card ${equipped ? "equipped" : ""} ${unlocked ? "unlocked" : "locked"}">
         <div class="theme-swatch" style="background:${theme.swatch}"></div>
         <div class="theme-info">
-          <strong>${escapeHtml(theme.name)}</strong>
-          <span class="muted">${escapeHtml(theme.desc)}</span>
-          ${!unlocked && theme.cost > 0 ? `<span class="theme-cost">${formatNumber(theme.cost)} gems</span>` : ""}
+          <strong>${escapeHtml(tThemeName(theme.id, theme.name))}</strong>
+          <span class="muted">${escapeHtml(tThemeDesc(theme.id, theme.desc))}</span>
+          ${!unlocked && theme.cost > 0 ? `<span class="theme-cost">${t("theme.gemsCost", { n: formatNumber(theme.cost) })}</span>` : ""}
         </div>
         <button type="button" class="small ${actionClass}" data-theme-action="${theme.id}" ${equipped ? "disabled" : ""}>
           ${actionLabel}

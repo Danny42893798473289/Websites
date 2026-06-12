@@ -1,0 +1,547 @@
+import { runtime } from "./runtime.js";
+
+const STORAGE_KEY = "egg_roller_language";
+
+const UI = {
+  en: {
+    "app.title": "Egg Roller Idle",
+    "login.tagline": "Roll dice, hatch impossibly rare eggs, and automate everything.",
+    "login.username": "Username",
+    "login.password": "Password",
+    "login.usernamePh": "Enter username",
+    "login.passwordPh": "Enter password",
+    "login.submit": "Login",
+    "login.register": "Register",
+    "login.hint": "Create an account with Register, then log in.",
+    "login.serverHint": "Start the game with node server.js, then open http://localhost:8787 in your browser (do not open this HTML file directly).",
+    "ui.welcomePrefix": "Welcome,",
+    "ui.coins": "Coins:",
+    "ui.gems": "Gems:",
+    "ui.rps": "RPS:",
+    "ui.logout": "Logout",
+    "tab.roll": "Roll",
+    "tab.collection": "Collection",
+    "tab.shops": "Shops",
+    "tab.progression": "Progression",
+    "tab.social": "Social",
+    "tab.stats": "Stats",
+    "tab.settings": "Settings",
+    "roll.area": "Rolling Area",
+    "roll.btn": "Roll",
+    "roll.lastRoll": "Last Roll:",
+    "roll.dice": "Dice:",
+    "roll.lastEgg": "Last Egg:",
+    "roll.streak": "Manual Streak:",
+    "roll.streakBonus": "Streak Bonus:",
+    "roll.prestigeProgress": "Prestige Progress",
+    "roll.prestigeRolls": "{current} / {target} rolls",
+    "roll.sellRare": "Sell Rare+ Eggs for Gems",
+    "roll.prestige": "Rebirth (Prestige)",
+    "roll.lucky": "Lucky Roll (25 Gems)",
+    "roll.ready": "Ready",
+    "roll.feedStart": "Start rolling to discover eggs.",
+    "roll.history": "Roll History",
+    "collection.eggs": "Egg Collection",
+    "collection.museum": "Egg Museum",
+    "collection.museumHint": "Pin up to 3 normal or shiny eggs from the codex to show off on your profile.",
+    "collection.codex": "Egg Codex",
+    "collection.codexHint": "Discover every egg variant. Shinies have their own codex and do not count toward set bonuses.",
+    "collection.codexProgress": "Codex Completion",
+    "shops.coin": "Coin Shop",
+    "shops.gem": "Gem Shop",
+    "shops.gemHint": "Permanent upgrades purchased with gems.",
+    "prog.sets": "Set Bonuses",
+    "prog.setsHint": "Complete all variants in a rarity to unlock permanent passives.",
+    "prog.companions": "Companion Hatchery",
+    "prog.companionsHint": "Hatch variants into passive companions.",
+    "prog.fusion": "Fusion Lab",
+    "prog.fusionHint": "Craft useful boosts from duplicate eggs.",
+    "prog.ascension": "Ascension",
+    "prog.ascensionHint": "Reset prestige for Ascension Points and stronger permanent boosts.",
+    "prog.ascLevel": "Ascension Level",
+    "prog.ascPoints": "Ascension Points",
+    "prog.ascend": "Ascend",
+    "social.event": "Global Event",
+    "social.noEvent": "No active event.",
+    "social.eventActive": "{label} is active for today.",
+    "social.leaderboard": "Leaderboard",
+    "social.lb.totalRolls": "Total Rolls",
+    "social.lb.rarest": "Rarest Find",
+    "social.lb.shinies": "Shiny Hunters",
+    "social.lb.codex": "Codex Completion",
+    "social.refresh": "Refresh",
+    "social.rank": "Rank: {rank}",
+    "social.rankDash": "Rank: -",
+    "social.lbEmpty": "No leaderboard data yet.",
+    "social.lbUnavailable": "Leaderboard unavailable.",
+    "social.lbEntry": "Rarest: {rarest} | Prestige: {prestige} | Shinies: {shinies}",
+    "social.profileNotFound": "Player not found.",
+    "social.profileError": "Could not fetch profile.",
+    "social.duelsUnavailable": "Duels unavailable.",
+    "social.profile": "Player Profile Lookup",
+    "social.profilePh": "Username",
+    "social.viewProfile": "View Profile",
+    "social.admin": "Admin Tools",
+    "social.adminHint": "Danny only. Grant coins to any account (including yourself).",
+    "social.adminTargetPh": "Target username",
+    "social.giveCoins": "Give Coins",
+    "social.duels": "Roll Duels",
+    "social.duelsHint": "Challenge another player. Each side submits a 60-second best roll; highest rarity wins gems and a 24h luck buff.",
+    "social.duelPh": "Challenge username",
+    "social.challenge": "Challenge",
+    "social.refreshDuels": "Refresh Duels",
+    "social.submitDuel": "Submit Duel Roll",
+    "stats.title": "Statistics",
+    "stats.totalRolls": "Total Rolls",
+    "stats.totalCoins": "Total Coins Earned",
+    "stats.totalGems": "Total Gems Earned",
+    "stats.rarest": "Rarest Egg Found",
+    "stats.time": "Time Played",
+    "stats.rps": "Rolls Per Second",
+    "stats.prestige": "Prestige Level",
+    "stats.titleLabel": "Active Title",
+    "stats.shinies": "Shinies Found",
+    "stats.dryEgg": "Rolls Since Egg",
+    "stats.dryRare": "Rolls Since Rare+",
+    "stats.jackpots": "Jackpots Hit",
+    "stats.achievements": "Achievements",
+    "settings.title": "Settings & Rewards",
+    "settings.themes": "Themes",
+    "settings.themesHint": "Unlock visual themes with gems. Classic is free.",
+    "settings.prefs": "Preferences",
+    "settings.language": "Language",
+    "settings.darkMode": "Dark Mode",
+    "settings.sound": "Sound Effects",
+    "settings.daily": "Claim Daily Reward",
+    "settings.dailyCooldown": "Daily Reward Cooldown",
+    "settings.dailyReady": "Ready now",
+    "settings.dailyReadyMsg": "Daily reward is ready.",
+    "settings.dailyLeft": "{time} left",
+    "settings.dailyRemain": "{time} remaining",
+    "settings.save": "Save Now",
+    "settings.reset": "Reset Local Save",
+    "settings.offline": "Offline progress applies automatically when you log in.",
+    "status.none": "None",
+    "status.locked": "Locked",
+    "status.unlocked": "Unlocked",
+    "status.discoveredSold": "Discovered (sold)",
+    "status.shinyUnlocked": "Shiny Unlocked",
+    "status.shinyFoundSold": "Shiny Found (sold)",
+    "status.active": "Active",
+    "status.hatched": "Hatched",
+    "status.ready": "Ready",
+    "status.missing": "Missing Eggs",
+    "status.noEvents": "No events yet.",
+    "status.noBonus": "No bonus configured.",
+    "status.lv": "Lv {n}",
+    "status.buyPlain": "Buy",
+    "status.buy": "Buy ({cost} coins)",
+    "status.buyGems": "Buy ({cost} gems)",
+    "status.equip": "Equip",
+    "status.equipped": "Equipped",
+    "status.unlockGems": "Unlock ({cost} gems)",
+    "status.activate": "Activate",
+    "status.rewardGems": "Reward: {n} gems",
+    "status.rarity": "Rarity: {name} (1 in {odds})",
+    "status.rarityHidden": "Rarity: ???",
+    "status.rarityFusion": "Rarity: Fusion (Crafted)",
+    "status.rollDiscover": "Roll to discover this egg.",
+    "status.fuseDiscover": "Fuse different eggs to discover this.",
+    "status.shinyHint": "A sparkling variant for collectors. Does not count toward set bonuses.",
+    "status.shinyFind": "Find the shiny version of this egg.",
+    "status.shiny": "Shiny",
+    "status.fusionEggs": "Fusion Eggs",
+    "status.pin": "Pin",
+    "status.sell": "Sell",
+    "status.sellShiny": "Sell Shiny",
+    "fusion.searchPh": "Search recipes, results, ingredients...",
+    "fusion.tier.base": "Base Recipes",
+    "fusion.tier.advanced": "Advanced Recipes",
+    "fusion.tier.super": "Super Fusion Recipes",
+    "codex.shinyTitle": "Shiny Codex",
+    "codex.expandShiny": "Show Shiny Codex",
+    "codex.shinyPrefix": "Shiny {name}",
+    "codex.shinyGroup": "Shiny {name}",
+    "codex.shinyProgress": "{found} / {total}",
+    "status.owned": "Owned: {n}",
+    "status.shiniesOwned": "Shinies owned: {n}",
+    "status.pinShiny": "Pin Shiny",
+    "collection.odds": "Odds: 1 in {odds}",
+    "collection.noVariants": "No variants found yet",
+    "collection.noFusion": "No fusion eggs crafted yet",
+    "collection.craftedInLab": "Crafted in Fusion Lab",
+    "collection.sell1": "Sell 1",
+    "museum.slot": "Slot {n}",
+    "museum.pinHint": "Pin an egg from the codex.",
+    "museum.remove": "Remove",
+    "museum.showcasePick": "{rarity} showcase pick",
+    "fusion.crafts": "Crafts:",
+    "fusion.fuse": "Fuse",
+    "fusion.track": "Track Chain",
+    "fusion.allTiers": "All Tiers",
+    "fusion.tierAll": "All",
+    "fusion.showing": "Showing {shown} / {total} recipes",
+    "fusion.noMatch": "No fusion recipes match this filter.",
+    "fusion.chainsTitle": "Fusion Chains Visualizer",
+    "companion.hatch": "Hatch",
+    "companion.eggOwned": "Egg owned: {n}",
+    "companion.hatchCost": "Hatch cost: {n} gems",
+    "companion.line": "{rarity} companion, bonus: {bonus}",
+    "asc.diceUpgrade": "Dice Upgrade",
+    "asc.buyDie": "Buy New Die",
+    "asc.maxed": "Maxed: {name} ({label}, 1–{sides})",
+    "asc.upgradeLine": "Current: {cur} ({curLabel}) → {next} ({nextLabel})",
+    "asc.costAp": "Cost: {cost} AP | Rolls use 1–{sides}",
+    "asc.effectLine": "Cost: {cost} AP | Effect: {effect}",
+    "set.setName": "{name} Set",
+    "achievement.locked": "Locked",
+    "achievement.unlocked": "Unlocked",
+    "social.adminHintLong": "Danny only. Grant coins to any account (including yourself). Accounts that don't exist yet will be auto-created with a temporary password.",
+    "theme.gemsCost": "{n} gems"
+  },
+  zh: {
+    "app.title": "扭蛋放置",
+    "login.tagline": "掷骰子，孵化极稀有的蛋，并全自动挂机成长。",
+    "login.username": "用户名",
+    "login.password": "密码",
+    "login.usernamePh": "输入用户名",
+    "login.passwordPh": "输入密码",
+    "login.submit": "登录",
+    "login.register": "注册",
+    "login.hint": "先注册账号，再登录游戏。",
+    "login.serverHint": "请用 node server.js 启动游戏，然后在浏览器打开 http://localhost:8787（不要直接双击打开 HTML 文件）。",
+    "ui.welcomePrefix": "欢迎，",
+    "ui.coins": "金币：",
+    "ui.gems": "宝石：",
+    "ui.rps": "每秒掷骰：",
+    "ui.logout": "退出登录",
+    "tab.roll": "掷骰",
+    "tab.collection": "收藏",
+    "tab.shops": "商店",
+    "tab.progression": "成长",
+    "tab.social": "社交",
+    "tab.stats": "统计",
+    "tab.settings": "设置",
+    "roll.area": "掷骰区",
+    "roll.btn": "掷骰",
+    "roll.lastRoll": "上次点数：",
+    "roll.dice": "骰子：",
+    "roll.lastEgg": "上次蛋：",
+    "roll.streak": "连击次数：",
+    "roll.streakBonus": "连击加成：",
+    "roll.prestigeProgress": "转生进度",
+    "roll.prestigeRolls": "{current} / {target} 次掷骰",
+    "roll.sellRare": "出售稀有+蛋换宝石",
+    "roll.prestige": "转生（重生）",
+    "roll.lucky": "幸运掷骰（25 宝石）",
+    "roll.ready": "可用",
+    "roll.feedStart": "开始掷骰以发现新蛋。",
+    "roll.history": "掷骰记录",
+    "collection.eggs": "蛋收藏",
+    "collection.museum": "蛋博物馆",
+    "collection.museumHint": "从图鉴中挑选最多 3 枚普通或闪亮蛋展示在个人资料上。",
+    "collection.codex": "蛋图鉴",
+    "collection.codexHint": "发现每一种蛋。闪亮蛋有独立图鉴，不计入套装加成。",
+    "collection.codexProgress": "图鉴完成度",
+    "shops.coin": "金币商店",
+    "shops.gem": "宝石商店",
+    "shops.gemHint": "用宝石购买永久升级。",
+    "prog.sets": "套装加成",
+    "prog.setsHint": "收集某稀有度全部变种以解锁永久被动。",
+    "prog.companions": "伙伴孵化室",
+    "prog.companionsHint": "将变种孵化成被动伙伴。",
+    "prog.fusion": "融合实验室",
+    "prog.fusionHint": "用重复蛋合成强力加成。",
+    "prog.ascension": "飞升",
+    "prog.ascensionHint": "重置转生获得飞升点与更强永久加成。",
+    "prog.ascLevel": "飞升等级",
+    "prog.ascPoints": "飞升点数",
+    "prog.ascend": "飞升",
+    "social.event": "全服活动",
+    "social.noEvent": "当前没有活动。",
+    "social.eventActive": "今日活动：{label}",
+    "social.leaderboard": "排行榜",
+    "social.lb.totalRolls": "总掷骰数",
+    "social.lb.rarest": "最稀有发现",
+    "social.lb.shinies": "闪亮猎人",
+    "social.lb.codex": "图鉴完成度",
+    "social.refresh": "刷新",
+    "social.rank": "排名：{rank}",
+    "social.rankDash": "排名：-",
+    "social.lbEmpty": "暂无排行榜数据。",
+    "social.lbUnavailable": "排行榜不可用。",
+    "social.lbEntry": "最稀有：{rarest} | 转生：{prestige} | 闪亮：{shinies}",
+    "social.profileNotFound": "未找到该玩家。",
+    "social.profileError": "无法获取资料。",
+    "social.duelsUnavailable": "对决不可用。",
+    "social.profile": "玩家资料查询",
+    "social.profilePh": "用户名",
+    "social.viewProfile": "查看资料",
+    "social.admin": "管理员工具",
+    "social.adminHint": "仅 Danny 可用。可向任意账号（含自己）发放金币。",
+    "social.adminTargetPh": "目标用户名",
+    "social.giveCoins": "发放金币",
+    "social.duels": "掷骰对决",
+    "social.duelsHint": "挑战其他玩家。双方各提交 60 秒内最佳掷骰，稀有度更高者获胜并获得宝石与 24 小时幸运加成。",
+    "social.duelPh": "挑战用户名",
+    "social.challenge": "发起挑战",
+    "social.refreshDuels": "刷新对决",
+    "social.submitDuel": "提交对决掷骰",
+    "stats.title": "统计数据",
+    "stats.totalRolls": "总掷骰数",
+    "stats.totalCoins": "累计金币",
+    "stats.totalGems": "累计宝石",
+    "stats.rarest": "最稀有蛋",
+    "stats.time": "游戏时长",
+    "stats.rps": "每秒掷骰",
+    "stats.prestige": "转生等级",
+    "stats.titleLabel": "当前称号",
+    "stats.shinies": "闪亮蛋数量",
+    "stats.dryEgg": "距上次出蛋",
+    "stats.jackpots": "大奖次数",
+    "stats.dryRare": "距上次稀有+",
+    "settings.title": "设置与奖励",
+    "settings.themes": "主题",
+    "settings.themesHint": "用宝石解锁视觉主题。经典主题免费。",
+    "settings.prefs": "偏好设置",
+    "settings.language": "语言",
+    "settings.darkMode": "深色模式",
+    "settings.sound": "音效",
+    "settings.daily": "领取每日奖励",
+    "settings.dailyCooldown": "每日奖励冷却",
+    "settings.dailyReady": "现在可领",
+    "settings.dailyReadyMsg": "每日奖励已就绪。",
+    "settings.dailyLeft": "剩余 {time}",
+    "settings.dailyRemain": "剩余 {time}",
+    "settings.save": "立即保存",
+    "settings.reset": "重置本地存档",
+    "settings.offline": "登录时自动结算离线进度。",
+    "status.none": "无",
+    "status.locked": "未解锁",
+    "status.unlocked": "已解锁",
+    "status.discoveredSold": "已发现（已出售）",
+    "status.shinyUnlocked": "闪亮已解锁",
+    "status.shinyFoundSold": "闪亮已发现（已出售）",
+    "status.active": "生效中",
+    "status.hatched": "已孵化",
+    "status.ready": "可合成",
+    "status.missing": "材料不足",
+    "status.noEvents": "暂无事件。",
+    "status.noBonus": "未配置加成。",
+    "status.lv": "等级 {n}",
+    "status.buyPlain": "购买",
+    "status.buy": "购买（{cost} 金币）",
+    "status.buyGems": "购买（{cost} 宝石）",
+    "status.equip": "装备",
+    "status.equipped": "已装备",
+    "status.unlockGems": "解锁（{cost} 宝石）",
+    "status.activate": "激活",
+    "status.rewardGems": "奖励：{n} 宝石",
+    "status.rarity": "稀有度：{name}（1/{odds}）",
+    "status.rarityHidden": "稀有度：???",
+    "status.rarityFusion": "稀有度：融合（合成）",
+    "status.rollDiscover": "掷骰以发现此蛋。",
+    "status.fuseDiscover": "融合不同蛋以发现此蛋。",
+    "status.shinyHint": "收藏向闪亮变种，不计入套装加成。",
+    "status.shinyFind": "找到此蛋的闪亮版本。",
+    "status.shiny": "闪亮",
+    "status.fusionEggs": "融合蛋",
+    "status.pin": "展示",
+    "status.sell": "出售",
+    "status.sellShiny": "出售闪亮",
+    "fusion.searchPh": "搜索配方、结果、材料…",
+    "fusion.tier.base": "基础配方",
+    "fusion.tier.advanced": "高级配方",
+    "fusion.tier.super": "超级融合配方",
+    "codex.shinyTitle": "闪亮图鉴",
+    "codex.expandShiny": "显示闪亮图鉴",
+    "codex.shinyPrefix": "闪亮 {name}",
+    "codex.shinyGroup": "闪亮 {name}",
+    "codex.shinyProgress": "{found} / {total}",
+    "status.owned": "拥有：{n}",
+    "status.shiniesOwned": "闪亮：{n}",
+    "status.pinShiny": "展示闪亮",
+    "collection.odds": "概率：1/{odds}",
+    "collection.noVariants": "尚未发现变种",
+    "collection.noFusion": "尚未合成融合蛋",
+    "collection.craftedInLab": "在融合实验室合成",
+    "collection.sell1": "出售 1 个",
+    "museum.slot": "展位 {n}",
+    "museum.pinHint": "从图鉴中选择蛋展示。",
+    "museum.remove": "移除",
+    "museum.showcasePick": "{rarity} 展示",
+    "fusion.crafts": "产出：",
+    "fusion.fuse": "融合",
+    "fusion.track": "追踪链",
+    "fusion.allTiers": "全部等级",
+    "fusion.tierAll": "全部",
+    "fusion.showing": "显示 {shown} / {total} 条配方",
+    "fusion.noMatch": "没有符合筛选的融合配方。",
+    "fusion.chainsTitle": "融合链可视化",
+    "companion.hatch": "孵化",
+    "companion.eggOwned": "拥有蛋：{n}",
+    "companion.hatchCost": "孵化费用：{n} 宝石",
+    "companion.line": "{rarity} 伙伴，加成：{bonus}",
+    "asc.diceUpgrade": "骰子升级",
+    "asc.buyDie": "购买新骰",
+    "asc.maxed": "已满级：{name}（{label}，1–{sides}）",
+    "asc.upgradeLine": "当前：{cur}（{curLabel}）→ {next}（{nextLabel}）",
+    "asc.costAp": "费用：{cost} 飞升点 | 掷骰范围 1–{sides}",
+    "asc.effectLine": "费用：{cost} 飞升点 | 效果：{effect}",
+    "set.setName": "{name} 套装",
+    "achievement.locked": "未解锁",
+    "achievement.unlocked": "已解锁",
+    "social.adminHintLong": "仅 Danny 可用。可向任意账号（含自己）发放金币。不存在的账号将自动创建并设置临时密码。",
+    "theme.gemsCost": "{n} 宝石"
+  }
+};
+
+const RARITY_ZH = {
+  Common: "普通", Uncommon: "罕见", Rare: "稀有", Epic: "史诗", Legendary: "传说",
+  Fabled: "神话", Mythic: "魔神", Divine: "神圣", Celestial: "天界", Void: "虚空",
+  Astral: "星界", Ethereal: "灵界", Omnipotent: "全能", Infinity: "无限", Absolute: "绝对", Fusion: "融合"
+};
+
+const SHOP_ZH = {
+  auto1: "自动掷骰 I", auto2: "自动掷骰 II", auto3: "自动掷骰 III", auto4: "自动掷骰 IV", auto5: "自动掷骰 V",
+  luck: "幸运升级", coinMult: "金币倍率", fastRoll: "更快掷骰", eggValue: "蛋价值提升"
+};
+
+const GEM_SHOP_ZH = {
+  gemLuck: "宝石幸运加成", gemCoins: "宝石金币狂潮", gemAuto: "宝石自动加成",
+  gemValue: "宝石出售加成", gemPrestige: "宝石转生之力"
+};
+
+const THEME_ZH = {
+  classic: { name: "经典", desc: "清爽默认外观" },
+  meadow: { name: "草地", desc: "清新绿色与柔和阳光" },
+  sunset: { name: "日落", desc: "暖橙与粉色天空" },
+  ocean: { name: "海洋", desc: "深蓝与海浪泡沫" },
+  neon: { name: "霓虹", desc: "赛博朋克光效" },
+  sakura: { name: "樱花", desc: "樱花粉色调" },
+  ember: { name: "余烬", desc: "熔金与火焰色调" },
+  void: { name: "虚空", desc: "深紫深渊风格" },
+  celestial: { name: "天界", desc: "星光金色终极外观" }
+};
+
+const ACHIEVEMENT_ZH = {
+  roll_100: "掷骰新手", roll_1k: "骰子磨工", roll_10k: "挂机老手",
+  coins_1m: "金币大亨", gems_500: "宝石囤积者", rare_egg: "稀有收藏家",
+  epic_egg: "史诗发现者", legendary_egg: "传说猎人", void_egg: "虚空触碰者",
+  astral_egg: "宇宙见证者", infinity_egg: "无尽发现者", absolute_egg: "绝对之一",
+  first_shiny: "闪亮火花", shiny_10: "闪光宝库", shiny_divine: "神圣奇迹", jackpot_1: "大奖掷骰者"
+};
+
+const TITLE_ZH = {
+  newRoller: "新掷骰者", diceGrinder: "骰子磨工", codexHunter: "图鉴猎人",
+  codexMaster: "图鉴大师", shinyCollector: "闪亮收藏家", voidWalker: "虚空行者", absoluteOne: "绝对之一"
+};
+
+const SET_BONUS_ZH = {
+  Common: "+5% 手动连击价值", Uncommon: "+3% 幸运", Rare: "+5% 蛋出售价值",
+  Epic: "+8% 金币获取", Legendary: "+0.5 次/秒掷骰", Fabled: "+4% 每日奖励",
+  Mythic: "+10% 幸运掷骰品质", Divine: "+0.75 次/秒掷骰", Celestial: "+7% 幸运",
+  Void: "+10% 金币获取", Astral: "+12% 蛋出售价值", Ethereal: "+15% 离线效率",
+  Omnipotent: "+12% 每日奖励", Infinity: "+20% 幸运掷骰品质", Absolute: "+25% 全局幸运"
+};
+
+const EVENT_ZH = {
+  eventLuck: "双倍幸运周末", eventCoins: "金币狂潮", eventEggValue: "宝石鉴定展", eventLuckyRoll: "幸运掷骰嘉年华"
+};
+
+export function getLang() {
+  const fromState = runtime.state?.settings?.language;
+  if (fromState === "en" || fromState === "zh") return fromState;
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored === "zh" ? "zh" : "en";
+}
+
+export function setLang(lang) {
+  const safe = lang === "zh" ? "zh" : "en";
+  localStorage.setItem(STORAGE_KEY, safe);
+  if (runtime.state?.settings) runtime.state.settings.language = safe;
+  return safe;
+}
+
+export function t(key, vars = {}) {
+  const lang = getLang();
+  let text = UI[lang]?.[key] ?? UI.en[key] ?? key;
+  for (const [k, v] of Object.entries(vars)) {
+    text = text.replaceAll(`{${k}}`, String(v));
+  }
+  return text;
+}
+
+export function tRarity(name) {
+  return getLang() === "zh" ? (RARITY_ZH[name] || name) : name;
+}
+
+export function tShopName(id, fallback) {
+  return getLang() === "zh" ? (SHOP_ZH[id] || fallback) : fallback;
+}
+
+export function tGemShopName(id, fallback) {
+  return getLang() === "zh" ? (GEM_SHOP_ZH[id] || fallback) : fallback;
+}
+
+export function tThemeName(id, fallback) {
+  return getLang() === "zh" ? (THEME_ZH[id]?.name || fallback) : fallback;
+}
+
+export function tThemeDesc(id, fallback) {
+  return getLang() === "zh" ? (THEME_ZH[id]?.desc || fallback) : fallback;
+}
+
+export function tAchievement(id, fallback) {
+  return getLang() === "zh" ? (ACHIEVEMENT_ZH[id] || fallback) : fallback;
+}
+
+export function tTitleLabel(id, fallback) {
+  return getLang() === "zh" ? (TITLE_ZH[id] || fallback) : fallback;
+}
+
+export function tSetBonusLabel(rarity, fallback) {
+  return getLang() === "zh" ? (SET_BONUS_ZH[rarity] || fallback) : fallback;
+}
+
+export function tEventLabel(id, fallback) {
+  return getLang() === "zh" ? (EVENT_ZH[id] || fallback) : fallback;
+}
+
+export function applyStaticUI() {
+  document.documentElement.lang = getLang() === "zh" ? "zh-CN" : "en";
+  document.title = t("app.title");
+
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    const tab = btn.getAttribute("data-tab");
+    if (tab) btn.textContent = t(`tab.${tab}`);
+  });
+
+  const langSelect = document.getElementById("language-select");
+  if (langSelect) langSelect.value = getLang();
+}
+
+export function applyLanguage() {
+  applyStaticUI();
+  if (!runtime.state) return;
+  import("./render.js").then(({ renderCore, renderHeavyForTab }) => {
+    renderCore();
+    renderHeavyForTab(runtime.activeTab || "roll");
+  });
+}
+
+export function onLanguageChange() {
+  const select = runtime.el.languageSelect;
+  if (!select) return;
+  setLang(select.value);
+}
