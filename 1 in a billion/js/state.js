@@ -1,5 +1,6 @@
 import {
   ASCENSION_CONFIG,
+  MAX_DICE_PURCHASES,
   EGG_TYPES,
   EGG_VARIANTS,
   FUSION_EGG_TYPES,
@@ -65,6 +66,7 @@ export function createDefaultState(username, userRecord) {
     ascensionLevel: 0,
     ascensionPoints: 0,
     ascensionUpgrades: {},
+    dicePurchases: 0,
     currentEventId: null,
     currentEventGeneratedAt: 0,
     currentEventData: null,
@@ -165,6 +167,7 @@ export function sanitizeState(s) {
   s.activeCompanionId = s.activeCompanionId || null;
   s.ascensionLevel = Number(s.ascensionLevel || 0);
   s.ascensionPoints = Number(s.ascensionPoints || 0);
+  s.dicePurchases = Math.min(MAX_DICE_PURCHASES, Math.max(0, Number(s.dicePurchases || 0)));
   s.currentEventGeneratedAt = Number(s.currentEventGeneratedAt || 0);
   s.currentEventFetchedAt = Number(s.currentEventFetchedAt || 0);
   s.currentEventId = s.currentEventId || null;

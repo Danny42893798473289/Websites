@@ -2,6 +2,10 @@ import {
   ACHIEVEMENTS,
   ALL_EGG_BY_ID,
   ASCENSION_CONFIG,
+  DICE_AP_COST,
+  MAX_DICE_PURCHASES,
+  getDiceInfo,
+  getNextDiceUpgrade,
   COMPANION_VARIANTS,
   DAILY_REWARD_COOLDOWN_MS,
   EGG_TYPES,
@@ -37,6 +41,7 @@ import { getCurrentGlobalEvent } from "./events.js";
 import {
   activateCompanion,
   buyAscensionUpgrade,
+  buyDiceUpgrade,
   canCraftFusionRecipe,
   craftFusion,
   formatCompanionBonus,
@@ -158,6 +163,10 @@ export function updateActionPanels() {
   const streakBonusPercent = Math.round(getManualStreakBonus() * 100);
   runtime.el.streakCount.textContent = formatNumber(runtime.state.manualStreak);
   runtime.el.streakBonus.textContent = `${streakBonusPercent}%`;
+  if (runtime.el.diceType) {
+    const dice = getDiceInfo(runtime.state);
+    runtime.el.diceType.textContent = `${dice.label} (1–${dice.sides})`;
+  }
 
   const now = Date.now();
   const ready = now >= runtime.state.luckyRollAvailableAt;
@@ -571,7 +580,32 @@ export function renderAscension() {
   runtime.el.ascPoints.textContent = formatNumber(runtime.state.ascensionPoints);
   runtime.el.ascendBtn.disabled = runtime.state.prestigeLevel < ASCENSION_CONFIG.minPrestige;
 
-  const html = ASCENSION_CONFIG.upgrades.map((upgrade) => {
+  const purchases = Number(runtime.state.dicePurchases || 0);
+  const currentDice = getDiceInfo(runtime.state);
+  const nextDice = getNextDiceUpgrade(runtime.state);
+  const diceHtml = nextDice
+    ? `
+        <div class="shop-item">
+          <div class="shop-item-top">
+            <strong>Dice Upgrade</strong>
+            <span>${purchases}/${MAX_DICE_PURCHASES}</span>
+          </div>
+          <div class="muted">Current: ${currentDice.name} (${currentDice.label}) → ${nextDice.name} (${nextDice.label})</div>
+          <div class="muted">Cost: ${DICE_AP_COST} AP | Rolls use 1–${nextDice.sides}</div>
+          <button data-buy-dice ${runtime.state.ascensionPoints >= DICE_AP_COST ? "" : "disabled"}>Buy New Die</button>
+        </div>
+      `
+    : `
+        <div class="shop-item">
+          <div class="shop-item-top">
+            <strong>Dice Upgrade</strong>
+            <span>${MAX_DICE_PURCHASES}/${MAX_DICE_PURCHASES}</span>
+          </div>
+          <div class="muted">Maxed: ${currentDice.name} (${currentDice.label}, 1–${currentDice.sides})</div>
+        </div>
+      `;
+
+  const html = diceHtml + ASCENSION_CONFIG.upgrades.map((upgrade) => {
     const level = Number(runtime.state.ascensionUpgrades[upgrade.id] || 0);
     const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.growth, level));
     const canBuy = runtime.state.ascensionPoints >= cost;
@@ -587,6 +621,14 @@ export function renderAscension() {
       `;
   }).join("");
   runtime.el.ascUpgrades.innerHTML = html;
+  const buyDiceBtn = runtime.el.ascUpgrades.querySelector("button[data-buy-dice]");
+  if (buyDiceBtn) {
+    buyDiceBtn.addEventListener("click", () => {
+      buyDiceUpgrade();
+      renderCore();
+      renderAscension();
+    });
+  }
   runtime.el.ascUpgrades.querySelectorAll("button[data-asc-buy]").forEach((btn) => {
     btn.addEventListener("click", () => buyAscensionUpgrade(btn.getAttribute("data-asc-buy")));
   });

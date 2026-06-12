@@ -19,6 +19,7 @@ import {
   STREAK_BONUS_MAX,
   STREAK_BONUS_STEP,
   STREAK_TIMEOUT_MS,
+  getDiceSides,
   getRarityIndex,
   pickRandomEggForRarity,
   syncRarityTotals
@@ -149,7 +150,7 @@ export function performRoll(count, isManual) {
   }
 
   for (let i = 0; i < count; i += 1) {
-    const die = 1 + Math.floor(Math.random() * 6);
+    const die = rollDie();
     lastDie = die;
     const manualStreakBonus = isManual ? 1 + getManualStreakBonus() : 1;
     const coinMult = getCoinMultiplier();
@@ -307,7 +308,7 @@ export function doLuckyRoll() {
   runtime.state.manualStreak += 1;
   runtime.state.lastManualRollAt = now;
 
-  const die = 1 + Math.floor(Math.random() * 6);
+  const die = rollDie();
   const coinGain = Math.floor(die * getCoinMultiplier() * (1 + getManualStreakBonus()));
   runtime.state.coins += coinGain;
   runtime.state.totalCoinsEarned += coinGain;
@@ -345,6 +346,11 @@ export function doLuckyRoll() {
     playToneByRarity(forcedEgg.rarity);
     checkAchievements();
   }
+}
+
+function rollDie() {
+  const sides = getDiceSides(runtime.state);
+  return 1 + Math.floor(Math.random() * sides);
 }
 
 function randomOneIn(oneIn) {

@@ -414,6 +414,33 @@ export const FUSION_RECIPES = [
     { id: "fuse_phantom_2", resultId: "fusion_phantom", name: "Spectral Matrix", ingredients: [{ eggId: getVariantId("Astral", 5), count: 1 }, { eggId: "fusion_eclipse", count: 1 }, { eggId: getVariantId("Celestial", 4), count: 1 }] }
   ].filter((recipe) => recipe.ingredients.every((ing) => !!ing.eggId));
 
+export const DICE_AP_COST = 2;
+export const MAX_DICE_PURCHASES = 2;
+
+export const DICE_TIERS = [
+  { sides: 6, label: "d6", name: "Starter Die" },
+  { sides: 8, label: "d8", name: "Crystal Die" },
+  { sides: 10, label: "d10", name: "Astral Die" }
+];
+
+export function getDicePurchases(saveState) {
+  return Math.min(MAX_DICE_PURCHASES, Math.max(0, Number(saveState?.dicePurchases || 0)));
+}
+
+export function getDiceSides(saveState) {
+  return DICE_TIERS[getDicePurchases(saveState)].sides;
+}
+
+export function getDiceInfo(saveState) {
+  return DICE_TIERS[getDicePurchases(saveState)];
+}
+
+export function getNextDiceUpgrade(saveState) {
+  const purchases = getDicePurchases(saveState);
+  if (purchases >= MAX_DICE_PURCHASES) return null;
+  return DICE_TIERS[purchases + 1];
+}
+
 export const ASCENSION_CONFIG = {
     minPrestige: 5,
     baseGain: 1,

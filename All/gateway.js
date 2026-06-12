@@ -118,6 +118,12 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Egg Roller assets sometimes load from site root (cached HTML or absolute paths).
+  if (url === '/style.css' || url.startsWith('/js/')) {
+    billionProxy.web(req, res);
+    return;
+  }
+
   if (url.startsWith('/api/')) {
     billionProxy.web(req, res);
     return;

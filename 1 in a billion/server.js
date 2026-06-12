@@ -52,7 +52,20 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Egg Roller Idle server running at http://${HOST}:${PORT}`);
+  const localUrl = `http://localhost:${PORT}`;
+  console.log(`Egg Roller Idle server running at ${localUrl}`);
+  if (HOST === "0.0.0.0" || HOST === "::") {
+    console.log(`  (LAN: http://<your-ip>:${PORT})`);
+  }
+});
+
+server.on("error", (err) => {
+  if (err && err.code === "EADDRINUSE") {
+    console.error(`Port ${PORT} is already in use. Stop the other server (or old node process) and try again.`);
+    console.error(`  PowerShell: Get-NetTCPConnection -LocalPort ${PORT} | Select OwningProcess`);
+    process.exit(1);
+  }
+  throw err;
 });
 
 async function handleApi(req, res, urlObj) {
@@ -431,11 +444,15 @@ async function serveStatic(req, res, pathname) {
     return;
   }
 
-  const cleanPath = pathname === "/" ? "/index.html" : pathname;
-  const safePath = path.normalize(cleanPath).replace(/^(\.\.[/\\])+/, "");
-  const filePath = path.join(ROOT_DIR, safePath);
+  const cleanPath = pathname === "/" ? "index.html" : pathname.replace(/^[/\\]+/, "");
+  const safePath = path.normalize(cleanPath).replace(/^(\.\.[/\\])+/, "").replace(/^[/\\]+/, "");
+  const filePath = path.resolve(ROOT_DIR, safePath);
+  const rootResolved = path.resolve(ROOT_DIR);
+  const withinRoot =
+    filePath === rootResolved ||
+    filePath.startsWith(rootResolved + path.sep);
 
-  if (!filePath.startsWith(ROOT_DIR)) {
+  if (!withinRoot) {
     sendText(res, 403, "Forbidden");
     return;
   }

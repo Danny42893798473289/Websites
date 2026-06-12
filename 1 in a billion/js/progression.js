@@ -1,6 +1,9 @@
 import {
   ALL_EGG_BY_ID,
   ASCENSION_CONFIG,
+  DICE_AP_COST,
+  MAX_DICE_PURCHASES,
+  getNextDiceUpgrade,
   COMPANION_VARIANTS,
   EGG_TYPES,
   EGG_VARIANTS,
@@ -173,7 +176,7 @@ export function doAscend() {
   }
   const gain = Math.max(ASCENSION_CONFIG.baseGain, Math.floor(runtime.state.prestigeLevel / ASCENSION_CONFIG.minPrestige));
   const confirmed = window.confirm(
-    `Ascend for ${gain} Ascension Point(s)? This resets coins, gems, eggs, coin shop, gem shop, companions, and set progress. Ascension upgrades (including bonus RPS) are permanent. Continue?`
+    `Ascend for ${gain} Ascension Point(s)? This resets coins, gems, eggs, coin shop, gem shop, companions, and set progress. Ascension upgrades, dice upgrades, and bonus RPS are permanent. Continue?`
   );
   if (!confirmed) return;
 
@@ -199,6 +202,24 @@ export function doAscend() {
   runtime.rollBuffer = 0;
   syncRarityTotals(runtime.state);
   setFeed(`Ascension complete! You gained ${gain} points.`, "ascension");
+}
+
+export function buyDiceUpgrade() {
+  if (!runtime.state) return;
+  const purchases = Number(runtime.state.dicePurchases || 0);
+  if (purchases >= MAX_DICE_PURCHASES) {
+    setFeed("You already own the best dice (2/2 upgrades).");
+    return;
+  }
+  if (runtime.state.ascensionPoints < DICE_AP_COST) {
+    setFeed(`Need ${DICE_AP_COST} Ascension Points to buy a new die.`);
+    return;
+  }
+  const next = getNextDiceUpgrade(runtime.state);
+  if (!next) return;
+  runtime.state.ascensionPoints -= DICE_AP_COST;
+  runtime.state.dicePurchases = purchases + 1;
+  setFeed(`Unlocked ${next.name} (${next.label})! Rolls now use 1–${next.sides}.`, "ascension");
 }
 
 export function buyAscensionUpgrade(upgradeId) {

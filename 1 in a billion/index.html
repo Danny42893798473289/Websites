@@ -5,7 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#5b7cfa" />
   <title>Egg Roller Idle</title>
-  <link rel="stylesheet" href="style.css" />
+  <script>
+    (function () {
+      var path = location.pathname || "/";
+      var base = "./";
+      if (/^\/billion(?:\/|$)/.test(path)) {
+        base = "/billion/";
+      } else if (location.protocol !== "file:") {
+        base = "/";
+      }
+      var tag = document.createElement("base");
+      tag.href = base;
+      document.head.appendChild(tag);
+    })();
+  </script>
+  <style id="critical-css">
+    :root {
+      --bg: #f6f8ff;
+      --card: #ffffff;
+      --text: #1f2440;
+      --muted: #64748b;
+      --primary: #5b7cfa;
+      --border: #e2e8f0;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .hidden { display: none !important; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .muted { color: var(--muted); }
+  </style>
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
 <body>
   <div id="app">
@@ -24,6 +63,7 @@
       </form>
       <p id="login-error" class="error hidden"></p>
       <p class="hint">Create an account with Register, then log in.</p>
+      <p class="hint">Start the game with <code>node server.js</code>, then open <strong>http://localhost:8787</strong> in your browser (do not open this HTML file directly).</p>
     </section>
 
     <main id="game-root" class="hidden">
@@ -57,6 +97,7 @@
             <button id="roll-btn" class="big-roll">Roll</button>
             <div class="dice-display">
               <div>Last Roll: <span id="last-roll">-</span></div>
+              <div class="muted">Dice: <span id="dice-type">d6 (1–6)</span></div>
               <div>Last Egg: <span id="last-egg">None</span></div>
               <div class="muted">Manual Streak: <span id="streak-count">0</span></div>
               <div class="muted">Streak Bonus: <span id="streak-bonus">0%</span></div>

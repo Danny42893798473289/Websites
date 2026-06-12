@@ -2,6 +2,18 @@
 setlocal
 
 REM Starts gateway first, waits until ready, then boots backends.
+set "NODE_EXE=C:\Program Files\nodejs\node.exe"
+set "NPM_CMD=C:\Program Files\nodejs\npm.cmd"
+if not exist "%NODE_EXE%" (
+  where node >nul 2>&1
+  if errorlevel 1 (
+    echo Node.js not found. Install from https://nodejs.org/ or fix NODE_EXE in start-chooser.bat
+    exit /b 1
+  )
+  for /f "delims=" %%I in ('where node') do set "NODE_EXE=%%I"
+  for /f "delims=" %%I in ('where npm') do set "NPM_CMD=%%I"
+)
+
 set "ROOT=%~dp0.."
 set "ALL_DIR=%~dp0"
 set "WW_DIR=%ROOT%\werewolf kill"
@@ -34,14 +46,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
 
 if not exist "%ALL_DIR%node_modules\http-proxy" (
   echo Installing gateway dependency...
-  powershell -NoProfile -ExecutionPolicy Bypass -Command "cd '%ALL_DIR%'; npm install"
+  powershell -NoProfile -ExecutionPolicy Bypass -Command "cd '%ALL_DIR%'; & '%NPM_CMD%' install"
 )
 
 echo Allowing phone access through Windows Firewall (port 5500)...
 powershell -NoProfile -ExecutionPolicy Bypass -File "%ALL_DIR%ensure-firewall.ps1"
 
 echo Starting unified gateway on port 5500...
-start "All Gateway (5500)" powershell -NoExit -ExecutionPolicy Bypass -Command "cd '%ALL_DIR%'; node --no-deprecation gateway.js"
+start "All Gateway (5500)" powershell -NoExit -ExecutionPolicy Bypass -Command "cd '%ALL_DIR%'; & '%NODE_EXE%' --no-deprecation gateway.js"
 
 echo Waiting for gateway to be ready...
 powershell -NoProfile -ExecutionPolicy Bypass -File "%ALL_DIR%wait-for-gateway.ps1"
@@ -51,13 +63,13 @@ if errorlevel 1 (
 )
 
 echo Starting Werewolf on port 5501...
-start "Werewolf Kill (5501)" powershell -NoExit -ExecutionPolicy Bypass -Command "$env:PORT='5501'; cd '%WW_DIR%'; npm start"
+start "Werewolf Kill (5501)" powershell -NoExit -ExecutionPolicy Bypass -Command "$env:PORT='5501'; cd '%WW_DIR%'; & '%NPM_CMD%' start"
 
 echo Starting Little Remote server on port 5502...
-start "Little Remote (5502)" powershell -NoExit -ExecutionPolicy Bypass -Command "$env:PORT='5502'; cd '%LR_DIR%'; npm run start -w server"
+start "Little Remote (5502)" powershell -NoExit -ExecutionPolicy Bypass -Command "$env:PORT='5502'; cd '%LR_DIR%'; & '%NPM_CMD%' run start -w server"
 
 echo Starting 1 in a Billion on port 5503...
-start "1 in a Billion (5503)" powershell -NoExit -ExecutionPolicy Bypass -Command "$env:PORT='5503'; cd '%BILLION_DIR%'; npm start"
+start "1 in a Billion (5503)" powershell -NoExit -ExecutionPolicy Bypass -Command "$env:PORT='5503'; cd '%BILLION_DIR%'; & '%NPM_CMD%' start"
 
 echo Waiting for 1 in a Billion backend (this also warms the account database for fast login)...
 powershell -NoProfile -ExecutionPolicy Bypass -File "%ALL_DIR%wait-for-gateway.ps1" -Url "http://127.0.0.1:5500/api/health" -TimeoutSec 30
@@ -67,7 +79,7 @@ if errorlevel 1 (
 
 REM Host agent is heavy (Electron). Start it after the chooser is open.
 echo Starting Little Remote host-agent (optional, in background)...
-start "Little Remote Host Agent" powershell -NoExit -ExecutionPolicy Bypass -Command "Start-Sleep -Seconds 8; $env:SIGNALING_URL='ws://localhost:5502'; cd '%LR_DIR%'; npm run dev -w host-agent"
+start "Little Remote Host Agent" powershell -NoExit -ExecutionPolicy Bypass -Command "Start-Sleep -Seconds 8; $env:SIGNALING_URL='ws://localhost:5502'; cd '%LR_DIR%'; & '%NPM_CMD%' run dev -w host-agent"
 
 start "" "http://localhost:5500/"
 

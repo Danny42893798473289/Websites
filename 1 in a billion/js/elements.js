@@ -17,6 +17,7 @@ export function cacheElements() {
   el.rollingCard = document.getElementById("rolling-card");
   el.rollBtn = document.getElementById("roll-btn");
   el.lastRoll = document.getElementById("last-roll");
+  el.diceType = document.getElementById("dice-type");
   el.lastEgg = document.getElementById("last-egg");
   el.streakCount = document.getElementById("streak-count");
   el.streakBonus = document.getElementById("streak-bonus");
