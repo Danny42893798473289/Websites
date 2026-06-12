@@ -44,7 +44,7 @@
     }
     .muted { color: var(--muted); }
   </style>
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
   <div id="app">
@@ -75,7 +75,8 @@
         <div class="currency-stack">
           <div class="currency"><span data-i18n="ui.coins">Coins:</span> <span id="coins">0</span></div>
           <div class="currency"><span data-i18n="ui.gems">Gems:</span> <span id="gems">0</span></div>
-          <div class="currency"><span data-i18n="ui.rps">RPS:</span> <span id="rps">0.00</span></div>
+          <div class="currency"><span data-i18n="ui.rps1">RPS 1:</span> <span id="rps">0.00</span></div>
+          <div class="currency rps2-row hidden" id="rps2-row"><span data-i18n="ui.rps2">RPS 2:</span> <span id="rps-2">0.00</span></div>
           <button id="logout-btn" class="small danger" data-i18n="ui.logout">Logout</button>
         </div>
       </header>
@@ -94,10 +95,41 @@
         <article id="rolling-card" class="card tab-panel" data-panel="roll">
           <h3 data-i18n="roll.area">Rolling Area</h3>
           <div class="rolling-main">
-            <button id="roll-btn" class="big-roll" data-i18n="roll.btn">Roll</button>
+            <div class="dice-panel">
+              <div class="dice-buttons">
+                <button id="roll-btn" class="big-roll dice-btn-primary" type="button" aria-label="Roll Die 1">
+                  <span class="dice-btn-tag" data-i18n="roll.dice1Tag">Die 1</span>
+                  <span class="dice-btn-label" id="roll-btn-1-label">d6</span>
+                  <span class="dice-btn-sub" data-i18n="roll.manualBtn">Roll</span>
+                </button>
+                <button id="roll-btn-2" class="big-roll dice-btn-second hidden" type="button" aria-label="Roll Die 2">
+                  <span class="dice-btn-tag" data-i18n="roll.dice2Tag">Die 2</span>
+                  <span class="dice-btn-label" id="roll-btn-2-label">d8</span>
+                  <span class="dice-btn-sub" data-i18n="roll.manualBtn">Roll</span>
+                </button>
+              </div>
+              <div class="dice-buttons dice-buttons-lucky">
+                <button id="lucky-roll-btn" class="big-roll dice-btn-primary dice-btn-gem" type="button" aria-label="Lucky Roll Die 1">
+                  <span class="dice-btn-tag" data-i18n="roll.dice1Tag">Die 1</span>
+                  <span class="dice-btn-label" id="lucky-roll-label">d6</span>
+                  <span class="dice-btn-sub" data-i18n="roll.luckySub">Lucky</span>
+                  <span class="dice-btn-meta" id="lucky-roll-timer">50 gems</span>
+                </button>
+                <button id="super-lucky-roll-btn" class="big-roll dice-btn-second dice-btn-gem hidden" type="button" aria-label="Super Lucky Roll Die 2">
+                  <span class="dice-btn-tag" data-i18n="roll.dice2Tag">Die 2</span>
+                  <span class="dice-btn-label" id="super-lucky-roll-label">d8</span>
+                  <span class="dice-btn-sub" data-i18n="roll.superLuckySub">Super Lucky</span>
+                  <span class="dice-btn-meta" id="super-lucky-timer">50 gems</span>
+                </button>
+              </div>
+            </div>
             <div class="dice-display">
               <div><span data-i18n="roll.lastRoll">Last Roll:</span> <span id="last-roll">-</span></div>
-              <div class="muted"><span data-i18n="roll.dice">Dice:</span> <span id="dice-type">d6 (1–6)</span></div>
+              <div class="muted"><span data-i18n="roll.dice1">Die 1:</span> <span id="dice-type">d6 (1–6)</span></div>
+              <div class="muted hidden" id="second-dice-row">
+                <div><span data-i18n="roll.dice2">Die 2:</span> <span id="second-dice-type">d8 (1–8)</span></div>
+                <div><span data-i18n="roll.lastRoll2">Last Roll 2:</span> <span id="last-roll-2">-</span></div>
+              </div>
               <div><span data-i18n="roll.lastEgg">Last Egg:</span> <span id="last-egg">None</span></div>
               <div class="muted"><span data-i18n="roll.streak">Manual Streak:</span> <span id="streak-count">0</span></div>
               <div class="muted"><span data-i18n="roll.streakBonus">Streak Bonus:</span> <span id="streak-bonus">0%</span></div>
@@ -110,13 +142,10 @@
             </div>
             <div class="progress-bar"><div id="prestige-progress" class="progress-fill"></div></div>
           </div>
+          <div id="prestige-milestones" class="prestige-milestones"></div>
           <div class="action-row">
             <button id="sell-rare-btn" data-i18n="roll.sellRare">Sell Rare+ Eggs for Gems</button>
             <button id="prestige-btn" class="warn" data-i18n="roll.prestige">Rebirth (Prestige)</button>
-          </div>
-          <div class="action-row secondary-actions">
-            <button id="lucky-roll-btn" data-i18n="roll.lucky">Lucky Roll (25 Gems)</button>
-            <div id="lucky-roll-timer" class="muted action-note" data-i18n="roll.ready">Ready</div>
           </div>
           <p id="feed" class="feed muted" data-i18n="roll.feedStart">Start rolling to discover eggs.</p>
         </article>
@@ -128,6 +157,15 @@
 
         <article class="card tab-panel" data-panel="collection">
           <h3 data-i18n="collection.eggs">Egg Collection</h3>
+          <div class="filter-toolbar">
+            <input type="search" id="collection-search" data-i18n-placeholder="filter.searchPh" placeholder="Search eggs..." />
+            <select id="collection-rarity-filter"></select>
+            <select id="collection-owned-filter">
+              <option value="all" data-i18n="filter.all">All</option>
+              <option value="owned" data-i18n="filter.owned">Owned</option>
+              <option value="locked" data-i18n="filter.locked">Locked</option>
+            </select>
+          </div>
           <div id="egg-log" class="egg-log"></div>
         </article>
 
@@ -147,18 +185,36 @@
             </div>
             <div class="progress-bar"><div id="codex-progress" class="progress-fill"></div></div>
           </div>
+          <div class="filter-toolbar">
+            <input type="search" id="codex-search" data-i18n-placeholder="filter.searchPh" placeholder="Search eggs..." />
+            <select id="codex-rarity-filter"></select>
+            <select id="codex-owned-filter">
+              <option value="all" data-i18n="filter.all">All</option>
+              <option value="owned" data-i18n="filter.unlocked">Unlocked</option>
+              <option value="locked" data-i18n="filter.locked">Locked</option>
+            </select>
+            <label class="filter-check"><input type="checkbox" id="codex-shiny-only" /> <span data-i18n="filter.shinyOnly">Shiny only</span></label>
+          </div>
           <div id="egg-codex" class="egg-codex"></div>
         </article>
 
         <article class="card tab-panel" data-panel="shops">
           <h3 data-i18n="shops.coin">Coin Shop</h3>
+          <input type="search" id="shop-search" class="filter-search" data-i18n-placeholder="filter.shopPh" placeholder="Search upgrades..." />
           <div id="shop-list" class="shop-list"></div>
         </article>
 
         <article class="card gem-shop-card tab-panel" data-panel="shops">
           <h3 data-i18n="shops.gem">Gem Shop</h3>
           <p class="muted" data-i18n="shops.gemHint">Permanent upgrades purchased with gems.</p>
+          <input type="search" id="gem-shop-search" class="filter-search" data-i18n-placeholder="filter.shopPh" placeholder="Search upgrades..." />
           <div id="gem-shop-list" class="shop-list"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="shops">
+          <h3 data-i18n="shops.dice">Dice Shop</h3>
+          <p class="muted" data-i18n="shops.diceHint">Unlock and upgrade Die 2 with gems. Gem auto upgrades increase RPS 2.</p>
+          <div id="dice-shop-list" class="shop-list"></div>
         </article>
 
         <article class="card tab-panel" data-panel="progression">
@@ -180,14 +236,32 @@
         </article>
 
         <article class="card tab-panel" data-panel="progression">
+          <h3 data-i18n="prog.challenges">Weekly Challenges</h3>
+          <p class="muted" data-i18n="prog.challengesHint">Complete tasks each week for gem and coin rewards.</p>
+          <div id="weekly-challenges" class="weekly-challenges"></div>
+        </article>
+
+        <article class="card tab-panel" data-panel="progression">
           <h3 data-i18n="prog.ascension">Ascension</h3>
           <p class="muted" data-i18n="prog.ascensionHint">Reset prestige for Ascension Points and stronger permanent boosts.</p>
+          <div id="ascension-requirements" class="ascension-requirements"></div>
           <div class="stats-grid">
             <div><span data-i18n="prog.ascLevel">Ascension Level</span> <span id="asc-level">0</span></div>
             <div><span data-i18n="prog.ascPoints">Ascension Points</span> <span id="asc-points">0</span></div>
           </div>
           <div id="asc-upgrades" class="shop-list"></div>
           <button id="ascend-btn" class="warn" data-i18n="prog.ascend">Ascend</button>
+        </article>
+
+        <article class="card tab-panel" data-panel="social">
+          <h3 data-i18n="season.title">Season Event</h3>
+          <p id="season-banner" class="muted" data-i18n="season.none">No active season.</p>
+        </article>
+
+        <article class="card tab-panel" data-panel="social">
+          <h3 data-i18n="guild.title">Guild</h3>
+          <p class="muted" data-i18n="guild.hint">Team up for treasury perks and weekly guild rankings.</p>
+          <div id="guild-panel" class="guild-panel"></div>
         </article>
 
         <article class="card tab-panel" data-panel="social">
@@ -203,6 +277,7 @@
               <option value="rarest" data-i18n="social.lb.rarest">Rarest Find</option>
               <option value="shinies" data-i18n="social.lb.shinies">Shiny Hunters</option>
               <option value="codex" data-i18n="social.lb.codex">Codex Completion</option>
+              <option value="seasonRolls" data-i18n="season.lbRolls">Season Rolls</option>
             </select>
             <button id="refresh-leaderboard-btn" data-i18n="social.refresh">Refresh</button>
             <div id="leaderboard-rank" class="muted action-note" data-i18n="social.rankDash">Rank: -</div>
@@ -301,6 +376,16 @@
           <div class="settings-row">
             <span id="offline-info" class="muted" data-i18n="settings.offline">Offline progress applies automatically when you log in.</span>
           </div>
+          <details class="glossary-card">
+            <summary data-i18n="glossary.title">Glossary</summary>
+            <div class="glossary-body">
+              <p data-i18n="glossary.prestige"><strong>Prestige:</strong> Rebirth after 5000 rolls; resets coins and eggs but keeps gem upgrades.</p>
+              <p data-i18n="glossary.ascension"><strong>Ascension:</strong> Hard reset at Prestige 5+ for permanent Ascension Points.</p>
+              <p data-i18n="glossary.dryStreak"><strong>Dry streak:</strong> Rolls since your last egg or rare+ find.</p>
+              <p data-i18n="glossary.fusion"><strong>Fusion:</strong> Craft special eggs from duplicates in Fusion Lab.</p>
+              <p data-i18n="glossary.duels"><strong>Duels:</strong> Challenge players; best rarity roll wins gems and a luck buff.</p>
+            </div>
+          </details>
         </article>
       </section>
     </main>

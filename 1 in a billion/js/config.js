@@ -301,8 +301,14 @@ export function pickRandomEggForRarity(rarityName) {
 export const PRESTIGE_TARGET_ROLLS = 5000;
 export const DAILY_REWARD_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 export const SAVE_INTERVAL_MS = 5000;
-export const LUCKY_ROLL_COST_GEMS = 25;
-export const LUCKY_ROLL_COOLDOWN_MS = 30 * 1000;
+export const LUCKY_ROLL_COST_GEMS = 50;
+export const LUCKY_ROLL_COOLDOWN_MS = 15 * 1000;
+export const SECOND_DIE_GEM_COST = 250;
+export const SUPER_LUCKY_ROLL_COST_GEMS = LUCKY_ROLL_COST_GEMS;
+export const SUPER_LUCKY_ROLL_COOLDOWN_MS = LUCKY_ROLL_COOLDOWN_MS;
+export const SUPER_LUCKY_LUCK_MULT = 4;
+export const SECOND_DIE_BASE_RPS = 1;
+export const SECOND_DIE_TIER_UPGRADE_COSTS = [175, 350];
 export const STREAK_TIMEOUT_MS = 6000;
 export const STREAK_BONUS_STEP = 0.02;
 export const STREAK_BONUS_MAX = 1.0;
@@ -441,6 +447,47 @@ export function getNextDiceUpgrade(saveState) {
   return DICE_TIERS[purchases + 1];
 }
 
+export const MAX_SECOND_DIE_PURCHASES = 2;
+
+export const SECOND_DIE_TIERS = [
+  { sides: 8, label: "d8", name: "Crystal Die", luckMult: 1.5 },
+  { sides: 10, label: "d10", name: "Astral Die", luckMult: 1.65 },
+  { sides: 12, label: "d12", name: "Cosmic Die", luckMult: 1.8 }
+];
+
+export const SECOND_DIE_RPS_ITEMS = [
+  { id: "die2Auto1", name: "Die 2 Auto I", baseCost: 40, growth: 1.55, effect: 0.5 },
+  { id: "die2Auto2", name: "Die 2 Auto II", baseCost: 75, growth: 1.58, effect: 1 },
+  { id: "die2Auto3", name: "Die 2 Auto III", baseCost: 120, growth: 1.6, effect: 2 },
+  { id: "die2Auto4", name: "Die 2 Auto IV", baseCost: 200, growth: 1.62, effect: 4 },
+  { id: "die2Auto5", name: "Die 2 Auto V", baseCost: 350, growth: 1.65, effect: 8 }
+];
+
+export const SECOND_DIE_RPS_BY_ID = Object.fromEntries(SECOND_DIE_RPS_ITEMS.map((item) => [item.id, item]));
+
+export function hasSecondDie(saveState) {
+  return !!saveState?.secondDieOwned;
+}
+
+export function getSecondDiePurchases(saveState) {
+  return Math.min(MAX_SECOND_DIE_PURCHASES, Math.max(0, Number(saveState?.secondDiePurchases ?? 0)));
+}
+
+export function getSecondDieInfo(saveState) {
+  const idx = saveState && hasSecondDie(saveState) ? getSecondDiePurchases(saveState) : 0;
+  return SECOND_DIE_TIERS[idx] || SECOND_DIE_TIERS[0];
+}
+
+export function getNextSecondDieUpgrade(saveState) {
+  const purchases = getSecondDiePurchases(saveState);
+  if (purchases >= MAX_SECOND_DIE_PURCHASES) return null;
+  return SECOND_DIE_TIERS[purchases + 1];
+}
+
+export function getPrimaryDieInfo(saveState) {
+  return DICE_TIERS[getDicePurchases(saveState)] || DICE_TIERS[0];
+}
+
 export const ASCENSION_CONFIG = {
     minPrestige: 5,
     baseGain: 1,
@@ -450,6 +497,22 @@ export const ASCENSION_CONFIG = {
       { id: "ascRps", name: "Ascended Momentum", baseCost: 2, growth: 1.7, effect: 0.9 }
     ]
   };
+
+export const PRESTIGE_MILESTONES = [
+  { id: "prestige_5", level: 5, rewardGems: 25, luckBonus: 0.02, label: "+25 gems & +2% permanent luck" },
+  { id: "prestige_10", level: 10, rewardGems: 50, titleId: "diceGrinder", label: "+50 gems & Dice Grinder title" },
+  { id: "prestige_25", level: 25, rewardGems: 150, luckBonus: 0.03, label: "+150 gems & +3% permanent luck" }
+];
+
+export const SEASON_EGG_IDS = ["void_abyss", "void_null", "celestial_nebula"];
+
+export const WEEKLY_CHALLENGE_TEMPLATES = [
+  { id: "rolls_500", target: 500, rewardGems: 15, rewardCoins: 5000 },
+  { id: "fusion_3", target: 3, rewardGems: 20, rewardCoins: 0 },
+  { id: "hatch_1", target: 1, rewardGems: 25, rewardCoins: 0 },
+  { id: "discover_1", target: 1, rewardGems: 30, rewardCoins: 0 },
+  { id: "streak_10", target: 10, rewardGems: 15, rewardCoins: 2500 }
+];
 
 export const SHOP_BY_ID = Object.fromEntries(SHOP_ITEMS.map((item) => [item.id, item]));
 export const GEM_SHOP_BY_ID = Object.fromEntries(GEM_SHOP_ITEMS.map((item) => [item.id, item]));

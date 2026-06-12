@@ -20,3 +20,13 @@ export function formatDuration(ms) {
   const pad = (n) => String(n).padStart(2, "0");
   return `${pad(h)}:${pad(m)}:${pad(s)}`;
 }
+
+export function matchesQuery(text, query) {
+  const q = String(query || "").trim().toLowerCase();
+  if (!q) return true;
+  return String(text || "").toLowerCase().includes(q);
+}
+
+export function getWeekId(now = Date.now()) {
+  return Math.floor(now / (7 * 24 * 60 * 60 * 1000));
+}

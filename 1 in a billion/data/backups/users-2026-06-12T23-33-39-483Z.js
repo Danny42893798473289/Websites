@@ -10,87 +10,87 @@ const users = {
   },
   "Danny": {
     "password": "Danny@201424",
-    "coins": 193396987,
-    "gems": 33754,
-    "rolls": 23948636,
+    "coins": 427605741,
+    "gems": 35794,
+    "rolls": 30215686,
     "createdAt": 1780123726260,
     "save": {
       "version": 1,
       "username": "Danny",
-      "coins": 193396987,
-      "gems": 33754,
+      "coins": 427605741,
+      "gems": 35794,
       "eggs": {
-        "Common": 11316241,
-        "Uncommon": 11324188,
-        "Rare": 1136119,
-        "Epic": 113338,
-        "Legendary": 11239,
-        "Fabled": 2374,
-        "Mythic": 1083,
-        "Divine": 108,
-        "Celestial": 10,
+        "Common": 11322766,
+        "Uncommon": 17219487,
+        "Rare": 1464971,
+        "Epic": 145570,
+        "Legendary": 14362,
+        "Fabled": 2997,
+        "Mythic": 1437,
+        "Divine": 146,
+        "Celestial": 13,
         "Void": 3,
-        "Astral": 0,
+        "Astral": 1,
         "Ethereal": 0,
         "Omnipotent": 0,
         "Infinity": 0,
         "Absolute": 0
       },
       "eggCollection": {
-        "common_barn": 1886717,
-        "common_pebble": 1887593,
-        "common_clover": 1886302,
-        "common_dusk": 1885850,
-        "common_hay": 1883849,
-        "common_mist": 1885930,
-        "uncommon_moss": 1887119,
-        "uncommon_fern": 1887109,
-        "uncommon_bamboo": 1887339,
-        "uncommon_creek": 1887725,
-        "uncommon_thistle": 1888341,
-        "uncommon_vine": 1886555,
-        "rare_sapphire": 189382,
-        "rare_cobalt": 189588,
-        "rare_azure": 189107,
-        "rare_indigo": 188950,
-        "rare_lapis": 189633,
-        "rare_teal": 189459,
-        "epic_arcane": 19020,
-        "epic_rune": 18618,
-        "epic_hex": 18806,
-        "epic_spell": 19019,
-        "epic_crystal": 18981,
-        "epic_mystic": 18894,
-        "legendary_golden": 1802,
-        "legendary_solar": 1935,
-        "legendary_midas": 1904,
-        "legendary_aurora": 1817,
-        "legendary_crown": 1859,
-        "legendary_dawn": 1922,
-        "fabled_suncrest": 443,
-        "fabled_halcyon": 406,
-        "fabled_radiant": 382,
-        "fabled_gilded": 394,
-        "fabled_solstice": 364,
-        "fabled_zenith": 385,
-        "mythic_crimson": 187,
-        "mythic_ember": 173,
-        "mythic_inferno": 198,
-        "mythic_bloodstone": 172,
-        "mythic_magma": 179,
-        "mythic_scorch": 174,
-        "divine_seraph": 17,
-        "divine_halo": 16,
-        "divine_grace": 18,
-        "divine_sanctum": 19,
-        "divine_choir": 16,
-        "divine_relic": 22,
+        "common_barn": 1887841,
+        "common_pebble": 1888686,
+        "common_clover": 1887341,
+        "common_dusk": 1886957,
+        "common_hay": 1884918,
+        "common_mist": 1887023,
+        "uncommon_moss": 2870768,
+        "uncommon_fern": 2869824,
+        "uncommon_bamboo": 2869283,
+        "uncommon_creek": 2871455,
+        "uncommon_thistle": 2870729,
+        "uncommon_vine": 2867428,
+        "rare_sapphire": 243872,
+        "rare_cobalt": 244382,
+        "rare_azure": 244241,
+        "rare_indigo": 243646,
+        "rare_lapis": 244246,
+        "rare_teal": 244584,
+        "epic_arcane": 24309,
+        "epic_rune": 24109,
+        "epic_hex": 24218,
+        "epic_spell": 24404,
+        "epic_crystal": 24353,
+        "epic_mystic": 24177,
+        "legendary_golden": 2345,
+        "legendary_solar": 2501,
+        "legendary_midas": 2412,
+        "legendary_aurora": 2344,
+        "legendary_crown": 2320,
+        "legendary_dawn": 2440,
+        "fabled_suncrest": 553,
+        "fabled_halcyon": 513,
+        "fabled_radiant": 492,
+        "fabled_gilded": 480,
+        "fabled_solstice": 475,
+        "fabled_zenith": 484,
+        "mythic_crimson": 248,
+        "mythic_ember": 239,
+        "mythic_inferno": 252,
+        "mythic_bloodstone": 229,
+        "mythic_magma": 244,
+        "mythic_scorch": 225,
+        "divine_seraph": 25,
+        "divine_halo": 21,
+        "divine_grace": 28,
+        "divine_sanctum": 21,
+        "divine_choir": 23,
+        "divine_relic": 28,
         "celestial_nebula": 4,
-        "celestial_comet": 0,
+        "celestial_comet": 2,
         "celestial_orbit": 1,
         "celestial_pulsar": 3,
         "celestial_lunar": 1,
-        "celestial_stellar": 1,
+        "celestial_stellar": 2,
         "void_abyss": 0,
         "void_null": 1,
         "void_oblivion": 1,
@@ -100,7 +100,7 @@ const users = {
         "astral_cosmos": 0,
         "astral_quasar": 0,
         "astral_galaxy": 0,
-        "astral_supernova": 0,
+        "astral_supernova": 1,
         "astral_neutron": 0,
         "astral_parallax": 0,
         "ethereal_phantom": 0,
@@ -147,54 +147,54 @@ const users = {
         "fusion_phantom": 0
       },
       "shinyCollection": {
-        "common_barn": 85585,
-        "common_pebble": 85401,
-        "common_clover": 85103,
-        "common_dusk": 85601,
-        "common_hay": 84949,
-        "common_mist": 85529,
-        "uncommon_moss": 85184,
-        "uncommon_fern": 85002,
-        "uncommon_bamboo": 85591,
-        "uncommon_creek": 85225,
-        "uncommon_thistle": 85447,
-        "uncommon_vine": 84963,
-        "rare_sapphire": 8857,
-        "rare_cobalt": 8779,
-        "rare_azure": 8795,
-        "rare_indigo": 8815,
-        "rare_lapis": 8863,
-        "rare_teal": 8819,
-        "epic_arcane": 916,
-        "epic_rune": 884,
-        "epic_hex": 894,
-        "epic_spell": 852,
-        "epic_crystal": 809,
-        "epic_mystic": 920,
-        "legendary_golden": 92,
-        "legendary_solar": 98,
-        "legendary_midas": 86,
-        "legendary_aurora": 88,
-        "legendary_crown": 90,
-        "legendary_dawn": 86,
-        "fabled_suncrest": 19,
-        "fabled_halcyon": 17,
-        "fabled_radiant": 14,
-        "fabled_gilded": 26,
-        "fabled_solstice": 17,
-        "fabled_zenith": 19,
+        "common_barn": 85632,
+        "common_pebble": 85455,
+        "common_clover": 85154,
+        "common_dusk": 85657,
+        "common_hay": 84997,
+        "common_mist": 85570,
+        "uncommon_moss": 129667,
+        "uncommon_fern": 129803,
+        "uncommon_bamboo": 130593,
+        "uncommon_creek": 129990,
+        "uncommon_thistle": 129877,
+        "uncommon_vine": 129745,
+        "rare_sapphire": 11345,
+        "rare_cobalt": 11246,
+        "rare_azure": 11333,
+        "rare_indigo": 11313,
+        "rare_lapis": 11384,
+        "rare_teal": 11344,
+        "epic_arcane": 1180,
+        "epic_rune": 1132,
+        "epic_hex": 1114,
+        "epic_spell": 1134,
+        "epic_crystal": 1069,
+        "epic_mystic": 1198,
+        "legendary_golden": 123,
+        "legendary_solar": 121,
+        "legendary_midas": 103,
+        "legendary_aurora": 112,
+        "legendary_crown": 109,
+        "legendary_dawn": 113,
+        "fabled_suncrest": 23,
+        "fabled_halcyon": 21,
+        "fabled_radiant": 23,
+        "fabled_gilded": 28,
+        "fabled_solstice": 24,
+        "fabled_zenith": 21,
         "mythic_crimson": 8,
-        "mythic_ember": 13,
-        "mythic_inferno": 11,
-        "mythic_bloodstone": 7,
-        "mythic_magma": 7,
+        "mythic_ember": 18,
+        "mythic_inferno": 15,
+        "mythic_bloodstone": 10,
+        "mythic_magma": 10,
         "mythic_scorch": 10,
         "divine_seraph": 0,
         "divine_halo": 1,
-        "divine_grace": 1,
+        "divine_grace": 2,
         "divine_sanctum": 1,
-        "divine_choir": 0,
-        "divine_relic": 0,
+        "divine_choir": 1,
+        "divine_relic": 1,
         "celestial_nebula": 0,
         "celestial_comet": 0,
         "celestial_orbit": 0,
@@ -238,7 +238,7 @@ const users = {
         "absolute_nadir": 0,
         "absolute_singularity": 0
       },
-      "lastEggId": "common_clover",
+      "lastEggId": "rare_lapis",
       "discoveredEggs": {
         "uncommon_vine": true,
         "uncommon_bamboo": true,
@@ -295,7 +295,9 @@ const users = {
         "void_eclipse": true,
         "celestial_stellar": true,
         "celestial_lunar": true,
-        "void_oblivion": true
+        "void_oblivion": true,
+        "celestial_comet": true,
+        "astral_supernova": true
       },
       "discoveredShinyEggs": {
         "common_hay": true,
@@ -342,9 +344,24 @@ const users = {
         "fabled_radiant": true,
         "mythic_bloodstone": true,
         "divine_grace": true,
-        "divine_halo": true
+        "divine_halo": true,
+        "divine_choir": true,
+        "divine_relic": true
       },
-      "showcase": [],
+      "showcase": [
+        {
+          "eggId": "divine_sanctum",
+          "shiny": true
+        },
+        {
+          "eggId": "void_eclipse",
+          "shiny": false
+        },
+        {
+          "eggId": "void_oblivion",
+          "shiny": false
+        }
+      ],
       "titles": [
         "newRoller",
         "shinyCollector",
@@ -371,111 +388,111 @@ const users = {
         "gemValue": 0,
         "gemPrestige": 0
       },
-      "totalRolls": 23948636,
-      "rollsSincePrestige": 23948636,
-      "totalCoinsEarned": 20648920349,
-      "totalGemsEarned": 113679,
-      "rarestEgg": "Void",
+      "totalRolls": 30215686,
+      "rollsSincePrestige": 30215686,
+      "totalCoinsEarned": 20883129103,
+      "totalGemsEarned": 115719,
+      "rarestEgg": "Astral",
       "eventLog": [
         {
           "type": "shiny",
+          "message": "Shiny found: Bamboo Egg [Uncommon]!",
+          "at": 1781272402186
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Creek Egg [Uncommon]!",
+          "at": 1781272402087
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Thistle Egg [Uncommon]!",
+          "at": 1781272401992
+        },
+        {
+          "type": "shiny",
           "message": "Shiny found: Moss Egg [Uncommon]!",
-          "at": 1781253597312
+          "at": 1781272401886
         },
         {
           "type": "shiny",
-          "message": "Shiny found: Thistle Egg [Uncommon]!",
-          "at": 1781253597209
+          "message": "Shiny found: Moss Egg [Uncommon]!",
+          "at": 1781272401787
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Moss Egg [Uncommon]!",
+          "at": 1781272401686
         },
         {
           "type": "shiny",
           "message": "Shiny found: Vine Egg [Uncommon]!",
-          "at": 1781253597108
+          "at": 1781272401586
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Moss Egg [Uncommon]!",
+          "at": 1781272401487
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Vine Egg [Uncommon]!",
+          "at": 1781272401386
         },
         {
           "type": "shiny",
           "message": "Shiny found: Bamboo Egg [Uncommon]!",
-          "at": 1781253597007
+          "at": 1781272401286
         },
         {
           "type": "shiny",
           "message": "Shiny found: Vine Egg [Uncommon]!",
-          "at": 1781253596913
+          "at": 1781272401186
         },
         {
           "type": "shiny",
-          "message": "Shiny found: Mist Egg [Common]!",
-          "at": 1781253596807
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Hay Egg [Common]!",
-          "at": 1781253596714
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Vine Egg [Uncommon]!",
-          "at": 1781253596607
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Mist Egg [Common]!",
-          "at": 1781253596509
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Dusk Egg [Common]!",
-          "at": 1781253596409
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Barn Egg [Common]!",
-          "at": 1781253596308
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Mist Egg [Common]!",
-          "at": 1781253596208
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Pebble Egg [Common]!",
-          "at": 1781253596106
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Hay Egg [Common]!",
-          "at": 1781253596008
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Bamboo Egg [Uncommon]!",
-          "at": 1781253595908
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Hay Egg [Common]!",
-          "at": 1781253595808
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Dusk Egg [Common]!",
-          "at": 1781253595713
+          "message": "Shiny found: Fern Egg [Uncommon]!",
+          "at": 1781272401086
         },
         {
           "type": "shiny",
           "message": "Shiny found: Thistle Egg [Uncommon]!",
-          "at": 1781253595608
+          "at": 1781272400986
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Fern Egg [Uncommon]!",
+          "at": 1781272400886
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Creek Egg [Uncommon]!",
+          "at": 1781272400786
         },
         {
           "type": "shiny",
           "message": "Shiny found: Vine Egg [Uncommon]!",
-          "at": 1781253595515
+          "at": 1781272400687
         },
         {
           "type": "shiny",
-          "message": "Shiny found: Mist Egg [Common]!",
-          "at": 1781253595408
+          "message": "Shiny found: Moss Egg [Uncommon]!",
+          "at": 1781272400586
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Vine Egg [Uncommon]!",
+          "at": 1781272400487
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Bamboo Egg [Uncommon]!",
+          "at": 1781272400388
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Fern Egg [Uncommon]!",
+          "at": 1781272400286
         }
       ],
       "completedSets": {
@@ -486,7 +503,8 @@ const users = {
         "Legendary": true,
         "Fabled": true,
         "Mythic": true,
-        "Divine": true
+        "Divine": true,
+        "Celestial": true
       },
       "activeSetBonuses": {
         "setUncommon": true,
@@ -496,7 +514,8 @@ const users = {
         "setLegendary": true,
         "setFabled": true,
         "setMythic": true,
-        "setDivine": true
+        "setDivine": true,
+        "setCelestial": true
       },
       "hatchedCompanions": {},
       "activeCompanionId": null,
@@ -510,18 +529,18 @@ const users = {
       },
       "dicePurchases": 0,
       "currentEventId": "eventLuck",
-      "currentEventGeneratedAt": 1781253562513,
+      "currentEventGeneratedAt": 1781271885944,
       "currentEventData": {
         "id": "eventLuck",
         "label": "Double Luck Weekend",
         "luck": 0.5
       },
-      "currentEventFetchedAt": 1781253562513,
+      "currentEventFetchedAt": 1781271885944,
       "manualStreak": 0,
       "lastManualRollAt": 1781177224279,
       "luckyRollAvailableAt": 1781177254279,
-      "lastSessionAt": 1781253597313,
-      "playtimeMs": 32853361.399999976,
+      "lastSessionAt": 1781272402232,
+      "playtimeMs": 37055547.900000036,
       "prestigeLevel": 0,
       "prestigePoints": 0,
       "achievementsUnlocked": {
@@ -537,12 +556,13 @@ const users = {
         "roll_10k": 1781176827486,
         "gems_500": 1781177226898,
         "shiny_divine": 1781224402173,
-        "void_egg": 1781224900973
+        "void_egg": 1781224900973,
+        "astral_egg": 1781272092690
       },
       "settings": {
         "darkMode": true,
         "soundEnabled": true,
-        "language": "en",
+        "language": "zh",
         "activeTheme": "neon",
         "unlockedThemes": [
           "classic",
@@ -551,42 +571,83 @@ const users = {
           "ocean",
           "neon",
           "sakura"
-        ]
+        ],
+        "filters": {
+          "collectionSearch": "",
+          "codexSearch": "",
+          "collectionRarity": "all",
+          "collectionOwned": "all",
+          "codexRarity": "all",
+          "codexOwned": "all",
+          "codexShinyOnly": false,
+          "shopSearch": "",
+          "gemShopSearch": ""
+        }
       },
       "daily": {
         "lastClaimAt": 1781252857386
       },
       "stats": {
         "rollsSinceLastEgg": 0,
-        "rollsSinceLastRarePlus": 31,
-        "jackpotsHit": 23980
+        "rollsSinceLastRarePlus": 0,
+        "jackpotsHit": 30204
       },
       "duelBuffExpiresAt": 0,
-      "lastSavedAt": 1781253597313
+      "lastSavedAt": 1781272402232,
+      "prestigeMilestonesClaimed": [],
+      "prestigeMilestoneLuck": 0,
+      "weeklyChallenges": {
+        "weekId": 2945,
+        "tasks": {
+          "rolls_500": {
+            "progress": 500,
+            "claimed": true
+          },
+          "fusion_3": {
+            "progress": 0,
+            "claimed": false
+          },
+          "hatch_1": {
+            "progress": 0,
+            "claimed": false
+          },
+          "discover_1": {
+            "progress": 1,
+            "claimed": false
+          },
+          "streak_10": {
+            "progress": 0,
+            "claimed": false
+          }
+        }
+      },
+      "guildId": null,
+      "guildRole": null,
+      "seasonRolls": 6253100
     }
   },
   "Enter_username": {
     "password": "Enter password",
-    "coins": 8214291,
-    "gems": 27689,
-    "rolls": 2009281,
+    "coins": 5217083230,
+    "gems": 3362,
+    "rolls": 50123150,
     "createdAt": 1781176022969,
     "save": {
       "version": 1,
       "username": "Enter_username",
-      "coins": 8214291,
-      "gems": 27689,
+      "coins": 5217083230,
+      "gems": 3362,
       "eggs": {
-        "Common": 27544,
-        "Uncommon": 93065,
-        "Rare": 5643,
-        "Epic": 537,
-        "Legendary": 52,
-        "Fabled": 9,
-        "Mythic": 7,
-        "Divine": 1,
-        "Celestial": 0,
-        "Void": 0,
+        "Common": 22694768,
+        "Uncommon": 22670768,
+        "Rare": 2053115,
+        "Epic": 204321,
+        "Legendary": 20408,
+        "Fabled": 4102,
+        "Mythic": 2030,
+        "Divine": 198,
+        "Celestial": 17,
+        "Void": 2,
         "Astral": 0,
         "Ethereal": 0,
         "Omnipotent": 0,
@@ -594,64 +655,64 @@ const users = {
         "Absolute": 0
       },
       "eggCollection": {
-        "common_barn": 4483,
-        "common_pebble": 4587,
-        "common_clover": 4502,
-        "common_dusk": 4593,
-        "common_hay": 4702,
-        "common_mist": 4677,
-        "uncommon_moss": 15449,
-        "uncommon_fern": 15413,
-        "uncommon_bamboo": 15541,
-        "uncommon_creek": 15648,
-        "uncommon_thistle": 15428,
-        "uncommon_vine": 15586,
-        "rare_sapphire": 955,
-        "rare_cobalt": 944,
-        "rare_azure": 943,
-        "rare_indigo": 922,
-        "rare_lapis": 971,
-        "rare_teal": 908,
-        "epic_arcane": 86,
-        "epic_rune": 94,
-        "epic_hex": 92,
-        "epic_spell": 89,
-        "epic_crystal": 79,
-        "epic_mystic": 97,
-        "legendary_golden": 7,
-        "legendary_solar": 9,
-        "legendary_midas": 5,
-        "legendary_aurora": 11,
-        "legendary_crown": 8,
-        "legendary_dawn": 12,
-        "fabled_suncrest": 2,
-        "fabled_halcyon": 1,
-        "fabled_radiant": 3,
-        "fabled_gilded": 2,
-        "fabled_solstice": 0,
-        "fabled_zenith": 1,
-        "mythic_crimson": 5,
-        "mythic_ember": 1,
-        "mythic_inferno": 1,
-        "mythic_bloodstone": 0,
-        "mythic_magma": 0,
-        "mythic_scorch": 0,
-        "divine_seraph": 0,
-        "divine_halo": 0,
-        "divine_grace": 0,
-        "divine_sanctum": 0,
-        "divine_choir": 0,
-        "divine_relic": 1,
-        "celestial_nebula": 0,
-        "celestial_comet": 0,
+        "common_barn": 3779467,
+        "common_pebble": 3784004,
+        "common_clover": 3781340,
+        "common_dusk": 3783679,
+        "common_hay": 3785620,
+        "common_mist": 3780658,
+        "uncommon_moss": 3779545,
+        "uncommon_fern": 3777731,
+        "uncommon_bamboo": 3778521,
+        "uncommon_creek": 3777716,
+        "uncommon_thistle": 3776534,
+        "uncommon_vine": 3780721,
+        "rare_sapphire": 341404,
+        "rare_cobalt": 341698,
+        "rare_azure": 342485,
+        "rare_indigo": 341744,
+        "rare_lapis": 343767,
+        "rare_teal": 342017,
+        "epic_arcane": 34280,
+        "epic_rune": 34117,
+        "epic_hex": 34335,
+        "epic_spell": 33798,
+        "epic_crystal": 34114,
+        "epic_mystic": 33677,
+        "legendary_golden": 3405,
+        "legendary_solar": 3436,
+        "legendary_midas": 3445,
+        "legendary_aurora": 3395,
+        "legendary_crown": 3347,
+        "legendary_dawn": 3380,
+        "fabled_suncrest": 677,
+        "fabled_halcyon": 690,
+        "fabled_radiant": 664,
+        "fabled_gilded": 689,
+        "fabled_solstice": 701,
+        "fabled_zenith": 681,
+        "mythic_crimson": 344,
+        "mythic_ember": 368,
+        "mythic_inferno": 324,
+        "mythic_bloodstone": 317,
+        "mythic_magma": 352,
+        "mythic_scorch": 325,
+        "divine_seraph": 28,
+        "divine_halo": 43,
+        "divine_grace": 36,
+        "divine_sanctum": 29,
+        "divine_choir": 39,
+        "divine_relic": 23,
+        "celestial_nebula": 2,
+        "celestial_comet": 5,
         "celestial_orbit": 0,
-        "celestial_pulsar": 0,
-        "celestial_lunar": 0,
-        "celestial_stellar": 0,
-        "void_abyss": 0,
+        "celestial_pulsar": 1,
+        "celestial_lunar": 4,
+        "celestial_stellar": 5,
+        "void_abyss": 1,
         "void_null": 0,
         "void_oblivion": 0,
-        "void_eclipse": 0,
+        "void_eclipse": 1,
         "void_hollow": 0,
         "void_rift": 0,
         "astral_cosmos": 0,
@@ -704,54 +765,54 @@ const users = {
         "fusion_phantom": 0
       },
       "shinyCollection": {
-        "common_barn": 719,
-        "common_pebble": 676,
-        "common_clover": 666,
-        "common_dusk": 709,
-        "common_hay": 749,
-        "common_mist": 683,
-        "uncommon_moss": 14566,
-        "uncommon_fern": 14897,
-        "uncommon_bamboo": 15021,
-        "uncommon_creek": 14611,
-        "uncommon_thistle": 14691,
-        "uncommon_vine": 14909,
-        "rare_sapphire": 905,
-        "rare_cobalt": 963,
-        "rare_azure": 930,
-        "rare_indigo": 977,
-        "rare_lapis": 953,
-        "rare_teal": 955,
-        "epic_arcane": 81,
-        "epic_rune": 92,
-        "epic_hex": 95,
-        "epic_spell": 74,
-        "epic_crystal": 99,
-        "epic_mystic": 100,
-        "legendary_golden": 11,
-        "legendary_solar": 6,
-        "legendary_midas": 5,
-        "legendary_aurora": 5,
-        "legendary_crown": 3,
-        "legendary_dawn": 8,
-        "fabled_suncrest": 1,
-        "fabled_halcyon": 1,
-        "fabled_radiant": 2,
-        "fabled_gilded": 0,
-        "fabled_solstice": 1,
-        "fabled_zenith": 0,
-        "mythic_crimson": 1,
-        "mythic_ember": 0,
-        "mythic_inferno": 1,
-        "mythic_bloodstone": 1,
-        "mythic_magma": 0,
-        "mythic_scorch": 0,
-        "divine_seraph": 0,
-        "divine_halo": 0,
-        "divine_grace": 0,
+        "common_barn": 158578,
+        "common_pebble": 159602,
+        "common_clover": 159749,
+        "common_dusk": 159892,
+        "common_hay": 159400,
+        "common_mist": 159723,
+        "uncommon_moss": 173789,
+        "uncommon_fern": 173348,
+        "uncommon_bamboo": 173620,
+        "uncommon_creek": 173853,
+        "uncommon_thistle": 173351,
+        "uncommon_vine": 173418,
+        "rare_sapphire": 15663,
+        "rare_cobalt": 15326,
+        "rare_azure": 15394,
+        "rare_indigo": 15418,
+        "rare_lapis": 15487,
+        "rare_teal": 15535,
+        "epic_arcane": 1437,
+        "epic_rune": 1506,
+        "epic_hex": 1508,
+        "epic_spell": 1436,
+        "epic_crystal": 1564,
+        "epic_mystic": 1580,
+        "legendary_golden": 148,
+        "legendary_solar": 135,
+        "legendary_midas": 123,
+        "legendary_aurora": 148,
+        "legendary_crown": 146,
+        "legendary_dawn": 147,
+        "fabled_suncrest": 28,
+        "fabled_halcyon": 30,
+        "fabled_radiant": 21,
+        "fabled_gilded": 25,
+        "fabled_solstice": 20,
+        "fabled_zenith": 18,
+        "mythic_crimson": 14,
+        "mythic_ember": 17,
+        "mythic_inferno": 15,
+        "mythic_bloodstone": 16,
+        "mythic_magma": 12,
+        "mythic_scorch": 17,
+        "divine_seraph": 1,
+        "divine_halo": 2,
+        "divine_grace": 2,
         "divine_sanctum": 0,
         "divine_choir": 0,
-        "divine_relic": 0,
+        "divine_relic": 1,
         "celestial_nebula": 0,
         "celestial_comet": 0,
         "celestial_orbit": 0,
@@ -795,7 +856,7 @@ const users = {
         "absolute_nadir": 0,
         "absolute_singularity": 0
       },
-      "lastEggId": "uncommon_fern",
+      "lastEggId": "uncommon_creek",
       "discoveredEggs": {
         "common_barn": true,
         "common_dusk": true,
@@ -842,7 +903,17 @@ const users = {
         "divine_seraph": true,
         "divine_grace": true,
         "divine_relic": true,
-        "celestial_nebula": true
+        "celestial_nebula": true,
+        "fusion_prism": true,
+        "divine_halo": true,
+        "divine_choir": true,
+        "celestial_lunar": true,
+        "divine_sanctum": true,
+        "celestial_pulsar": true,
+        "celestial_stellar": true,
+        "celestial_comet": true,
+        "void_abyss": true,
+        "void_eclipse": true
       },
       "discoveredShinyEggs": {
         "common_clover": true,
@@ -884,9 +955,19 @@ const users = {
         "mythic_scorch": true,
         "mythic_inferno": true,
         "fabled_suncrest": true,
-        "mythic_crimson": true
+        "mythic_crimson": true,
+        "fabled_zenith": true,
+        "fabled_gilded": true,
+        "mythic_magma": true,
+        "divine_halo": true,
+        "divine_relic": true,
+        "divine_seraph": true
       },
       "showcase": [
+        {
+          "eggId": "celestial_nebula",
+          "shiny": false
+        },
         {
           "eggId": "divine_seraph",
           "shiny": false
@@ -894,142 +975,139 @@ const users = {
         {
           "eggId": "divine_grace",
           "shiny": false
-        },
-        {
-          "eggId": "divine_relic",
-          "shiny": false
         }
       ],
       "titles": [
         "newRoller",
         "shinyCollector",
         "diceGrinder",
-        "codexHunter"
+        "codexHunter",
+        "voidWalker"
       ],
-      "activeTitle": "shinyCollector",
+      "activeTitle": "voidWalker",
       "upgrades": {
-        "auto1": 33,
-        "auto2": 17,
-        "auto3": 11,
-        "auto4": 10,
-        "auto5": 6,
-        "luck": 23,
-        "coinMult": 20,
+        "auto1": 30,
+        "auto2": 22,
+        "auto3": 14,
+        "auto4": 9,
+        "auto5": 4,
+        "luck": 21,
+        "coinMult": 21,
         "fastRoll": 22,
-        "eggValue": 13
+        "eggValue": 17
       },
       "gemUpgrades": {
-        "gemLuck": 23,
-        "gemCoins": 23,
-        "gemAuto": 17,
-        "gemValue": 20,
-        "gemPrestige": 13
+        "gemLuck": 12,
+        "gemCoins": 15,
+        "gemAuto": 13,
+        "gemValue": 4,
+        "gemPrestige": 0
       },
-      "totalRolls": 2009281,
-      "rollsSincePrestige": 127617,
-      "totalCoinsEarned": 292642421,
-      "totalGemsEarned": 3652472,
-      "rarestEgg": "Celestial",
+      "totalRolls": 50123150,
+      "rollsSincePrestige": 47656490,
+      "totalCoinsEarned": 5551826583,
+      "totalGemsEarned": 3814037,
+      "rarestEgg": "Void",
       "eventLog": [
         {
           "type": "shiny",
-          "message": "Shiny found: Bamboo Egg [Uncommon]!",
-          "at": 1781188789440
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Fern Egg [Uncommon]!",
-          "at": 1781188789340
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Bamboo Egg [Uncommon]!",
-          "at": 1781188789240
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Bamboo Egg [Uncommon]!",
-          "at": 1781188789140
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Thistle Egg [Uncommon]!",
-          "at": 1781188789039
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Creek Egg [Uncommon]!",
-          "at": 1781188788950
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Thistle Egg [Uncommon]!",
-          "at": 1781188788850
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Creek Egg [Uncommon]!",
-          "at": 1781188788745
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Fern Egg [Uncommon]!",
-          "at": 1781188788648
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Moss Egg [Uncommon]!",
-          "at": 1781188788548
+          "message": "Shiny found: Pebble Egg [Common]!",
+          "at": 1781307213773
         },
         {
           "type": "shiny",
           "message": "Shiny found: Vine Egg [Uncommon]!",
-          "at": 1781188788445
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Vine Egg [Uncommon]!",
-          "at": 1781188788346
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Thistle Egg [Uncommon]!",
-          "at": 1781188788242
-        },
-        {
-          "type": "shiny",
-          "message": "Shiny found: Teal Egg [Rare]!",
-          "at": 1781188788147
+          "at": 1781307213674
         },
         {
           "type": "shiny",
           "message": "Shiny found: Fern Egg [Uncommon]!",
-          "at": 1781188788047
+          "at": 1781307213573
         },
         {
           "type": "shiny",
-          "message": "Shiny found: Thistle Egg [Uncommon]!",
-          "at": 1781188787945
+          "message": "Shiny found: Dusk Egg [Common]!",
+          "at": 1781307213471
         },
         {
           "type": "shiny",
-          "message": "Shiny found: Moss Egg [Uncommon]!",
-          "at": 1781188787841
+          "message": "Shiny found: Hay Egg [Common]!",
+          "at": 1781307213373
         },
         {
           "type": "shiny",
-          "message": "Shiny found: Fern Egg [Uncommon]!",
-          "at": 1781188787747
+          "message": "Shiny found: Indigo Egg [Rare]!",
+          "at": 1781307213273
         },
         {
           "type": "shiny",
           "message": "Shiny found: Creek Egg [Uncommon]!",
-          "at": 1781188787651
+          "at": 1781307213173
         },
         {
           "type": "shiny",
           "message": "Shiny found: Fern Egg [Uncommon]!",
-          "at": 1781188787546
+          "at": 1781307213074
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Bamboo Egg [Uncommon]!",
+          "at": 1781307212973
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Moss Egg [Uncommon]!",
+          "at": 1781307212873
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Bamboo Egg [Uncommon]!",
+          "at": 1781307212774
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Fern Egg [Uncommon]!",
+          "at": 1781307212674
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Azure Egg [Rare]!",
+          "at": 1781307212575
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Bamboo Egg [Uncommon]!",
+          "at": 1781307212475
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Pebble Egg [Common]!",
+          "at": 1781307212374
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Bamboo Egg [Uncommon]!",
+          "at": 1781307212273
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Mist Egg [Common]!",
+          "at": 1781307212173
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Clover Egg [Common]!",
+          "at": 1781307212074
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Pebble Egg [Common]!",
+          "at": 1781307211973
+        },
+        {
+          "type": "shiny",
+          "message": "Shiny found: Cobalt Egg [Rare]!",
+          "at": 1781307211874
         }
       ],
       "completedSets": {
@@ -1038,47 +1116,56 @@ const users = {
         "Rare": true,
         "Epic": true,
         "Legendary": true,
-        "Fabled": false,
-        "Mythic": false
+        "Fabled": true,
+        "Mythic": true,
+        "Divine": true
       },
       "activeSetBonuses": {
         "setCommon": true,
         "setUncommon": true,
         "setRare": true,
         "setEpic": true,
-        "setLegendary": true
+        "setLegendary": true,
+        "setFabled": true,
+        "setMythic": true,
+        "setDivine": true
       },
-      "hatchedCompanions": {
-        "rare_sapphire": 1,
-        "epic_arcane": 1,
-        "legendary_golden": 1,
-        "mythic_crimson": 1
-      },
-      "activeCompanionId": "rare_sapphire",
-      "fusionCraftCount": 0,
-      "ascensionLevel": 0,
+      "hatchedCompanions": {},
+      "activeCompanionId": null,
+      "fusionCraftCount": 1,
+      "ascensionLevel": 6,
       "ascensionPoints": 0,
       "ascensionUpgrades": {
         "ascLuck": 0,
         "ascCoins": 0,
-        "ascRps": 0
+        "ascRps": 1
       },
-      "dicePurchases": 0,
-      "currentEventId": "eventLuckyRoll",
-      "currentEventGeneratedAt": 1781188775689,
+      "dicePurchases": 2,
+      "secondDieOwned": true,
+      "secondDiePurchases": 0,
+      "secondDieUpgrades": {
+        "die2Auto1": 0,
+        "die2Auto2": 0,
+        "die2Auto3": 0,
+        "die2Auto4": 0,
+        "die2Auto5": 0
+      },
+      "superLuckyRollAvailableAt": 1781307213010,
+      "currentEventId": "eventLuck",
+      "currentEventGeneratedAt": 1781307104087,
       "currentEventData": {
-        "id": "eventLuckyRoll",
-        "label": "Lucky Roll Carnival",
-        "lucky": 0.4
+        "id": "eventLuck",
+        "label": "Double Luck Weekend",
+        "luck": 0.5
       },
-      "currentEventFetchedAt": 1781188775689,
+      "currentEventFetchedAt": 1781307104087,
       "manualStreak": 0,
-      "lastManualRollAt": 1781186040987,
-      "luckyRollAvailableAt": 1781183893529,
-      "lastSessionAt": 1781188789442,
-      "playtimeMs": 1769650.4999999814,
-      "prestigeLevel": 1,
-      "prestigePoints": 1,
+      "lastManualRollAt": 1781307198010,
+      "luckyRollAvailableAt": 1781307212226,
+      "lastSessionAt": 1781307213774,
+      "playtimeMs": 38188986.39999972,
+      "prestigeLevel": 0,
+      "prestigePoints": 0,
       "achievementsUnlocked": {
         "rare_egg": 1781176093014,
         "first_shiny": 1781176114628,
@@ -1091,29 +1178,82 @@ const users = {
         "roll_10k": 1781176581927,
         "coins_1m": 1781176663128,
         "gems_500": 1781176689940,
-        "shiny_divine": 1781176903743
+        "shiny_divine": 1781176903743,
+        "void_egg": 1781299355251
       },
       "settings": {
         "darkMode": false,
         "soundEnabled": true,
+        "language": "en",
         "activeTheme": "celestial",
         "unlockedThemes": [
           "classic",
           "meadow",
           "sunset",
           "celestial"
-        ]
+        ],
+        "filters": {
+          "collectionSearch": "",
+          "codexSearch": "",
+          "collectionRarity": "all",
+          "collectionOwned": "all",
+          "codexRarity": "all",
+          "codexOwned": "owned",
+          "codexShinyOnly": true,
+          "shopSearch": "",
+          "gemShopSearch": ""
+        }
       },
       "daily": {
-        "lastClaimAt": 1781178646799
+        "lastClaimAt": 1781272101002
       },
       "stats": {
         "rollsSinceLastEgg": 0,
-        "rollsSinceLastRarePlus": 18,
-        "jackpotsHit": 1962
+        "rollsSinceLastRarePlus": 10,
+        "jackpotsHit": 50166
       },
       "duelBuffExpiresAt": 0,
-      "lastSavedAt": 1781188789442
+      "lastSavedAt": 1781307213774,
+      "prestigeMilestonesClaimed": [
+        "prestige_5"
+      ],
+      "prestigeMilestoneLuck": 0.02,
+      "weeklyChallenges": {
+        "weekId": 2945,
+        "tasks": {
+          "rolls_500": {
+            "progress": 500,
+            "claimed": true
+          },
+          "fusion_3": {
+            "progress": 1,
+            "claimed": false
+          },
+          "hatch_1": {
+            "progress": 1,
+            "claimed": true
+          },
+          "discover_1": {
+            "progress": 1,
+            "claimed": false
+          },
+          "streak_10": {
+            "progress": 123,
+            "claimed": true
+          }
+        }
+      },
+      "guildId": "guild_1781266836678_dspts7",
+      "guildRole": "leader",
+      "seasonRolls": 48113860
     }
+  },
+  "aliensrreal": {
+    "password": "sjfrpone",
+    "coins": 0,
+    "gems": 0,
+    "rolls": 0,
+    "createdAt": 1781262990267,
+    "save": null
   }
 };

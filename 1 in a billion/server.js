@@ -16,6 +16,8 @@ const ROOT_DIR = __dirname;
 const USERS_JS_PATH = path.join(ROOT_DIR, "users.js");
 const USERS_JSON_PATH = path.join(ROOT_DIR, "data", "users.json");
 const DUELS_JSON_PATH = path.join(ROOT_DIR, "data", "duels.json");
+const GUILDS_JSON_PATH = path.join(ROOT_DIR, "data", "guilds.json");
+const SEASONS_JSON_PATH = path.join(ROOT_DIR, "data", "seasons.json");
 const BACKUP_DIR = path.join(ROOT_DIR, "data", "backups");
 const RARITY_ORDER = [
   "Common", "Uncommon", "Rare", "Epic", "Legendary", "Fabled", "Mythic", "Divine",
@@ -184,6 +186,180 @@ async function handleApi(req, res, urlObj) {
 
   if (method === "GET" && pathname === "/api/event") {
     sendJson(res, 200, { event: getServerEvent() });
+    return;
+  }
+
+  if (method === "GET" && pathname === "/api/season") {
+    sendJson(res, 200, { season: getActiveSeason() });
+    return;
+  }
+
+  if (method === "GET" && pathname === "/api/challenges/weekly") {
+    sendJson(res, 200, { weekId: getWeekId(), tasks: getWeeklyChallengeDefs() });
+    return;
+  }
+
+  if (method === "GET" && pathname === "/api/guild/leaderboard") {
+    const guilds = readGuilds();
+    const list = Object.values(guilds).sort((a, b) => (b.weeklyScore || 0) - (a.weeklyScore || 0)).slice(0, 10);
+    sendJson(res, 200, { leaderboard: list });
+    return;
+  }
+
+  const guildMatch = pathname.match(/^\/api\/guild\/([^/]+)$/);
+  if (method === "GET" && guildMatch && guildMatch[1] !== "leaderboard") {
+    const guildId = decodeURIComponent(guildMatch[1]);
+    const guilds = readGuilds();
+    const guild = guilds[guildId];
+    if (!guild) {
+      sendJson(res, 404, { error: "Guild not found." });
+      return;
+    }
+    sendJson(res, 200, { guild });
+    return;
+  }
+
+  if (method === "POST" && pathname === "/api/guild/create") {
+    const body = await readJsonBody(req);
+    const username = String(body.username || "").trim();
+    const name = String(body.name || "").trim().slice(0, 24);
+    const tag = String(body.tag || "").trim().toUpperCase().slice(0, 4);
+    const usersDb = readUsersFromJs();
+    if (!usersDb[username]) {
+      sendJson(res, 404, { error: "User not found." });
+      return;
+    }
+    if (!name || tag.length < 2) {
+      sendJson(res, 400, { error: "Guild name and 2–4 letter tag required." });
+      return;
+    }
+    const save = usersDb[username].save || {};
+    if (save.guildId) {
+      sendJson(res, 400, { error: "Leave your current guild first." });
+      return;
+    }
+    const guilds = readGuilds();
+    if (Object.values(guilds).some((g) => g.name.toLowerCase() === name.toLowerCase() || g.tag === tag)) {
+      sendJson(res, 409, { error: "Guild name or tag already taken." });
+      return;
+    }
+    const id = `guild_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    guilds[id] = {
+      id, name, tag, leader: username,
+      members: [username], createdAt: Date.now(),
+      treasury: { coins: 0, gems: 0 }, weeklyScore: 0
+    };
+    writeGuilds(guilds);
+    syncUserGuild(usersDb, username, id, "leader");
+    writeUsersToJs(usersDb);
+    sendJson(res, 200, { success: true, guild: guilds[id] });
+    return;
+  }
+
+  if (method === "POST" && pathname === "/api/guild/join") {
+    const body = await readJsonBody(req);
+    const username = String(body.username || "").trim();
+    const guildName = String(body.guildName || "").trim();
+    const usersDb = readUsersFromJs();
+    if (!usersDb[username]) {
+      sendJson(res, 404, { error: "User not found." });
+      return;
+    }
+    const save = usersDb[username].save || {};
+    if (save.guildId) {
+      sendJson(res, 400, { error: "Leave your current guild first." });
+      return;
+    }
+    const guilds = readGuilds();
+    const guild = Object.values(guilds).find((g) => g.name.toLowerCase() === guildName.toLowerCase());
+    if (!guild) {
+      sendJson(res, 404, { error: "Guild not found." });
+      return;
+    }
+    if (guild.members.length >= 50) {
+      sendJson(res, 400, { error: "Guild is full (50 members)." });
+      return;
+    }
+    guild.members.push(username);
+    writeGuilds(guilds);
+    syncUserGuild(usersDb, username, guild.id, "member");
+    writeUsersToJs(usersDb);
+    sendJson(res, 200, { success: true, guild });
+    return;
+  }
+
+  if (method === "POST" && pathname === "/api/guild/leave") {
+    const body = await readJsonBody(req);
+    const username = String(body.username || "").trim();
+    const usersDb = readUsersFromJs();
+    const save = usersDb[username]?.save || {};
+    const guildId = save.guildId;
+    if (!guildId) {
+      sendJson(res, 400, { error: "Not in a guild." });
+      return;
+    }
+    const guilds = readGuilds();
+    const guild = guilds[guildId];
+    if (guild) {
+      guild.members = guild.members.filter((m) => m !== username);
+      if (guild.members.length === 0) delete guilds[guildId];
+      else if (guild.leader === username) guild.leader = guild.members[0];
+      writeGuilds(guilds);
+    }
+    syncUserGuild(usersDb, username, null, null);
+    writeUsersToJs(usersDb);
+    sendJson(res, 200, { success: true });
+    return;
+  }
+
+  if (method === "POST" && pathname === "/api/guild/contribute") {
+    const body = await readJsonBody(req);
+    const username = String(body.username || "").trim();
+    const coins = Math.min(10_000_000, Math.max(0, Math.floor(Number(body.coins || 0))));
+    const usersDb = readUsersFromJs();
+    const user = usersDb[username];
+    if (!user?.save?.guildId) {
+      sendJson(res, 400, { error: "Not in a guild." });
+      return;
+    }
+    if (coins <= 0 || Number(user.save.coins || 0) < coins) {
+      sendJson(res, 400, { error: "Insufficient coins." });
+      return;
+    }
+    user.save.coins = Number(user.save.coins || 0) - coins;
+    syncUserSummaryFromSave(user);
+    const guilds = readGuilds();
+    const guild = guilds[user.save.guildId];
+    if (!guild) {
+      sendJson(res, 404, { error: "Guild not found." });
+      return;
+    }
+    guild.treasury.coins = Number(guild.treasury.coins || 0) + coins;
+    writeGuilds(guilds);
+    usersDb[username] = user;
+    writeUsersToJs(usersDb);
+    sendJson(res, 200, { success: true, guild });
+    return;
+  }
+
+  if (method === "POST" && pathname === "/api/guild/score") {
+    const body = await readJsonBody(req);
+    const username = String(body.username || "").trim();
+    const amount = Math.min(1000, Math.max(1, Math.floor(Number(body.amount || 1))));
+    const usersDb = readUsersFromJs();
+    const guildId = usersDb[username]?.save?.guildId;
+    if (!guildId) {
+      sendJson(res, 400, { error: "Not in a guild." });
+      return;
+    }
+    const guilds = readGuilds();
+    const guild = guilds[guildId];
+    if (guild) {
+      resetGuildWeeklyIfNeeded(guild);
+      guild.weeklyScore = Number(guild.weeklyScore || 0) + amount;
+      writeGuilds(guilds);
+    }
+    sendJson(res, 200, { success: true });
     return;
   }
 
@@ -711,7 +887,9 @@ function buildLeaderboardEntry(username, user) {
     rarestRank: RARITY_ORDER.indexOf(rarestEgg),
     shinies,
     codexFound,
-    codexTotal
+    codexTotal,
+    seasonRolls: Number(save.seasonRolls || 0),
+    guildTag: getUserGuildTag(save.guildId)
   };
 }
 
@@ -730,6 +908,10 @@ function sortLeaderboard(entries, mode) {
       const bPct = b.codexTotal > 0 ? b.codexFound / b.codexTotal : 0;
       return (bPct - aPct) || (b.codexFound - a.codexFound) || (b.totalRolls - a.totalRolls);
     });
+    return;
+  }
+  if (mode === "seasonRolls") {
+    entries.sort((a, b) => (b.seasonRolls - a.seasonRolls) || (b.totalRolls - a.totalRolls));
     return;
   }
   entries.sort((a, b) => b.totalRolls - a.totalRolls);
@@ -832,4 +1014,78 @@ function getServerEvent() {
   ];
   const daySeed = Math.floor(Date.now() / (24 * 60 * 60 * 1000));
   return events[daySeed % events.length];
+}
+
+function getWeekId(now = Date.now()) {
+  return Math.floor(now / (7 * 24 * 60 * 60 * 1000));
+}
+
+function getWeeklyChallengeDefs() {
+  return [
+    { id: "rolls_500", target: 500 },
+    { id: "fusion_3", target: 3 },
+    { id: "hatch_1", target: 1 },
+    { id: "discover_1", target: 1 },
+    { id: "streak_10", target: 10 }
+  ];
+}
+
+function readGuilds() {
+  try {
+    if (!fs.existsSync(GUILDS_JSON_PATH)) return {};
+    return JSON.parse(fs.readFileSync(GUILDS_JSON_PATH, "utf8")) || {};
+  } catch {
+    return {};
+  }
+}
+
+function writeGuilds(guilds) {
+  fs.mkdirSync(path.dirname(GUILDS_JSON_PATH), { recursive: true });
+  fs.writeFileSync(GUILDS_JSON_PATH, JSON.stringify(guilds, null, 2), "utf8");
+}
+
+function resetGuildWeeklyIfNeeded(guild) {
+  const weekId = getWeekId();
+  if (guild.weeklyWeekId !== weekId) {
+    guild.weeklyWeekId = weekId;
+    guild.weeklyScore = 0;
+  }
+}
+
+function syncUserGuild(usersDb, username, guildId, role) {
+  const user = usersDb[username];
+  if (!user) return;
+  if (!user.save) user.save = {};
+  user.save.guildId = guildId;
+  user.save.guildRole = role;
+}
+
+function getUserGuildTag(guildId) {
+  if (!guildId) return "";
+  const guild = readGuilds()[guildId];
+  return guild ? guild.tag : "";
+}
+
+function getActiveSeason() {
+  const twoWeeks = 14 * 24 * 60 * 60 * 1000;
+  const period = Math.floor(Date.now() / twoWeeks);
+  const startAt = period * twoWeeks;
+  const endAt = startAt + twoWeeks;
+  const names = ["Void Festival", "Celestial Convergence", "Gem Carnival"];
+  let config = null;
+  try {
+    if (fs.existsSync(SEASONS_JSON_PATH)) {
+      const parsed = JSON.parse(fs.readFileSync(SEASONS_JSON_PATH, "utf8"));
+      config = parsed.seasons?.[period % (parsed.seasons?.length || 1)] || parsed.seasons?.[0];
+    }
+  } catch { /* ignore */ }
+  return {
+    id: config?.id || `season_${period}`,
+    name: config?.name || names[period % names.length],
+    startAt,
+    endAt,
+    bonusEggIds: config?.bonusEggIds || ["void_abyss", "void_null", "celestial_nebula"],
+    luckBoost: Number(config?.luckBoost || 0.08),
+    themeId: config?.themeId || "void"
+  };
 }

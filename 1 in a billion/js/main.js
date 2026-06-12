@@ -12,35 +12,45 @@ import {
   claimDailyReward,
   doPrestige,
   sellRareEggs,
+  buySecondDie,
+  buySecondDieTier,
+  buySecondDieRpsUpgrade,
   buyTheme
 } from "./economy.js";
 import { doAscend } from "./progression.js";
-import { doLuckyRoll, performRoll } from "./rolling.js";
+import { doLuckyRoll, doSuperLuckyRoll, performRoll, performSecondRoll } from "./rolling.js";
 import { challengeDuel, giveAdminCoins, lookupProfile, refreshDuels, refreshLeaderboard, submitDuelRoll, updateAdminVisibility } from "./social.js";
 import { save, resetLocalSave } from "./save.js";
 import { setFeed } from "./feedback.js";
 import {
   pinShowcaseEgg,
+  renderCore,
   renderGlobalEvent,
   renderEggCodex,
   renderEggCollection,
+  renderDiceShop,
   renderGemShop,
   renderShop,
   renderThemeShop,
-  updateDailyUI
+  updateDailyUI,
+  populateRarityFilters,
+  syncFiltersFromUI
 } from "./render.js";
 import { sellEgg } from "./economy.js";
 import { applyStaticUI, applyLanguage, onLanguageChange } from "./i18n.js";
+import { refreshGuild } from "./guilds.js";
 
 export function init() {
   initDeviceProfile();
   cacheElements();
   applyStaticUI();
+  populateRarityFilters();
   bindEvents();
   runtime.activeTab = "roll";
   setActiveTab("roll");
   renderShop();
   renderGemShop();
+  renderDiceShop();
   renderGlobalEvent();
   updateDailyUI();
 }
@@ -59,16 +69,35 @@ export function bindEvents() {
       setActiveTab(btn.getAttribute("data-tab"));
       if (btn.getAttribute("data-tab") === "social") {
         updateAdminVisibility();
+        refreshGuild();
       }
     });
   });
   if (runtime.el.loginForm) runtime.el.loginForm.addEventListener("submit", onLoginSubmit);
   bindClick(runtime.el.registerBtn, onRegisterSubmit);
   bindClick(runtime.el.logoutBtn, onLogout);
-  bindClick(runtime.el.rollBtn, () => performRoll(1, true));
+  bindClick(runtime.el.rollBtn, () => {
+    performRoll(1, true);
+    renderCore();
+    save();
+  });
+  bindClick(runtime.el.rollBtn2, () => {
+    performSecondRoll(1, true);
+    renderCore();
+    save();
+  });
+  bindClick(runtime.el.superLuckyRollBtn, () => {
+    doSuperLuckyRoll();
+    renderCore();
+    save();
+  });
+  bindClick(runtime.el.luckyRollBtn, () => {
+    doLuckyRoll();
+    renderCore();
+    save();
+  });
   bindClick(runtime.el.sellRareBtn, sellRareEggs);
   bindClick(runtime.el.prestigeBtn, doPrestige);
-  bindClick(runtime.el.luckyRollBtn, doLuckyRoll);
   bindChange(runtime.el.languageSelect, () => {
     onLanguageChange();
     applyLanguage();
@@ -95,6 +124,8 @@ export function bindEvents() {
   bindClick(runtime.el.duelRefreshBtn, refreshDuels);
   bindClick(runtime.el.duelRollBtn, submitDuelRoll);
   bindClick(runtime.el.adminGiveCoinsBtn, giveAdminCoins);
+
+  bindFilterEvents();
 
   if (runtime.el.eggLog) {
     runtime.el.eggLog.addEventListener("click", (event) => {
@@ -139,8 +170,67 @@ export function bindEvents() {
     });
   }
 
+  if (runtime.el.diceShopList) {
+    runtime.el.diceShopList.addEventListener("click", (event) => {
+      const buyDie = event.target.closest("button[data-buy-second-die]");
+      if (buyDie && !buyDie.disabled) {
+        buySecondDie();
+        renderDiceShop();
+        renderCore();
+        save();
+        return;
+      }
+      const buyTier = event.target.closest("button[data-buy-second-die-tier]");
+      if (buyTier && !buyTier.disabled) {
+        buySecondDieTier();
+        renderDiceShop();
+        renderCore();
+        save();
+        return;
+      }
+      const buyRps = event.target.closest("button[data-buy-second-die-rps]");
+      if (buyRps && !buyRps.disabled) {
+        buySecondDieRpsUpgrade(buyRps.getAttribute("data-buy-second-die-rps"));
+        renderDiceShop();
+        renderCore();
+        save();
+      }
+    });
+  }
+
   window.addEventListener("beforeunload", () => {
     save();
+  });
+}
+
+function bindFilterEvents() {
+  const onFilterChange = () => {
+    syncFiltersFromUI();
+    save();
+    if (runtime.activeTab === "collection") {
+      renderEggCollection();
+      renderEggCodex();
+    }
+    if (runtime.activeTab === "shops") {
+      renderShop();
+      renderGemShop();
+      renderDiceShop();
+    }
+  };
+  [
+    runtime.el.collectionSearch,
+    runtime.el.collectionRarityFilter,
+    runtime.el.collectionOwnedFilter,
+    runtime.el.codexSearch,
+    runtime.el.codexRarityFilter,
+    runtime.el.codexOwnedFilter,
+    runtime.el.codexShinyOnly,
+    runtime.el.shopSearch,
+    runtime.el.gemShopSearch
+  ].forEach((el) => {
+    if (!el) return;
+    el.addEventListener("input", onFilterChange);
+    el.addEventListener("change", onFilterChange);
   });
 }
 

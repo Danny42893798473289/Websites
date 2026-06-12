@@ -20,6 +20,7 @@ import { runtime } from "./runtime.js";
 import { markEggDiscovered } from "./state.js";
 import { escapeHtml } from "./utils.js";
 import { setFeed } from "./feedback.js";
+import { bumpChallenge } from "./challenges.js";
 
 export function checkSetCompletions() {
   if (!runtime.state) return;
@@ -78,6 +79,7 @@ export function hatchCompanion(companionId) {
   syncRarityTotals(runtime.state);
   const msg = `Hatched companion: ${companion.name}`;
   setFeed(msg, "companion");
+  bumpChallenge("hatch_1");
 }
 
 export function activateCompanion(companionId) {
@@ -166,6 +168,7 @@ export function craftFusion(recipeId) {
   const resultEgg = FUSION_EGG_BY_ID[recipe.resultId];
   const msg = `Fusion success: ${recipe.name} created ${resultEgg.name}.`;
   setFeed(msg, "fusion");
+  bumpChallenge("fusion_3");
 }
 
 export function doAscend() {
@@ -200,6 +203,7 @@ export function doAscend() {
   runtime.state.completedSets = {};
   runtime.state.activeSetBonuses = {};
   runtime.rollBuffer = 0;
+  runtime.rollBuffer2 = 0;
   syncRarityTotals(runtime.state);
   setFeed(`Ascension complete! You gained ${gain} points.`, "ascension");
 }

@@ -1,0 +1,13 @@
+{
+  "seasons": [
+    {
+      "id": "season_void",
+      "name": "Void Festival",
+      "startAt": 0,
+      "endAt": 0,
+      "bonusEggIds": ["void_abyss", "void_null", "celestial_nebula"],
+      "luckBoost": 0.08,
+      "themeId": "void"
+    }
+  ]
+}

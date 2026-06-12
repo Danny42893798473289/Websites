@@ -8,6 +8,8 @@ export const runtime = {
   autoSaveTimer: null,
   lastLoopTime: 0,
   rollBuffer: 0,
+  rollBuffer2: 0,
+  pendingOfflineRolls2: 0,
   audioCtx: null,
   backendAvailable: false,
   previousCoins: 0,
@@ -20,5 +22,7 @@ export const runtime = {
   offlineProgressRunning: false,
   loginBootPhase: false,
   pendingOfflineRolls: 0,
-  showShinyCodex: false
+  showShinyCodex: false,
+  currentSeason: null,
+  guildTreasury: 0
 };

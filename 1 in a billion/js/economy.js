@@ -7,7 +7,16 @@ import {
   FUSION_EGG_TYPES,
   GEM_SHOP_BY_ID,
   GEM_SHOP_ITEMS,
+  PRESTIGE_MILESTONES,
   PRESTIGE_TARGET_ROLLS,
+  SECOND_DIE_GEM_COST,
+  SECOND_DIE_RPS_BY_ID,
+  SECOND_DIE_TIER_UPGRADE_COSTS,
+  MAX_SECOND_DIE_PURCHASES,
+  getSecondDieInfo,
+  getSecondDiePurchases,
+  getNextSecondDieUpgrade,
+  hasSecondDie,
   RARITIES,
   SHOP_BY_ID,
   SHOP_ITEMS,
@@ -138,9 +147,30 @@ export function doPrestige() {
   syncRarityTotals(runtime.state);
   runtime.state.lastEggId = null;
   runtime.rollBuffer = 0;
+  runtime.rollBuffer2 = 0;
 
   setFeed(`Rebirth complete! Prestige Level is now ${runtime.state.prestigeLevel}.`);
+  claimPrestigeMilestones();
   playTone(350, 0.25);
+}
+
+export function claimPrestigeMilestones() {
+  if (!runtime.state) return;
+  if (!Array.isArray(runtime.state.prestigeMilestonesClaimed)) {
+    runtime.state.prestigeMilestonesClaimed = [];
+  }
+  PRESTIGE_MILESTONES.forEach((m) => {
+    if (runtime.state.prestigeLevel < m.level) return;
+    if (runtime.state.prestigeMilestonesClaimed.includes(m.id)) return;
+    runtime.state.prestigeMilestonesClaimed.push(m.id);
+    runtime.state.gems += m.rewardGems || 0;
+    runtime.state.totalGemsEarned += m.rewardGems || 0;
+    if (m.luckBonus) runtime.state.prestigeMilestoneLuck = Number(runtime.state.prestigeMilestoneLuck || 0) + m.luckBonus;
+    if (m.titleId && !(runtime.state.titles || []).includes(m.titleId)) {
+      runtime.state.titles.push(m.titleId);
+    }
+    setFeed(`Prestige milestone: ${m.label}`, "prestige");
+  });
 }
 
 export function checkAchievements() {
@@ -242,6 +272,71 @@ export function getGemShopEffectText(item) {
   if (item.id === "gemAuto") return `+${item.effect} permanent rolls/sec`;
   if (item.id === "gemValue") return `+${Math.round(item.effect * 100)}% egg sell value`;
   return `+${Math.round(item.effect * 100)}% prestige coin bonus`;
+}
+
+export function buySecondDie() {
+  if (!runtime.state) return;
+  if (runtime.state.secondDieOwned) {
+    setFeed("You already own the second die.");
+    return;
+  }
+  if (runtime.state.gems < SECOND_DIE_GEM_COST) {
+    setFeed(`Need ${formatNumber(SECOND_DIE_GEM_COST)} gems to unlock the second die.`);
+    return;
+  }
+  const die = getSecondDieInfo(runtime.state);
+  runtime.state.gems -= SECOND_DIE_GEM_COST;
+  runtime.state.secondDieOwned = true;
+  runtime.state.secondDiePurchases = 0;
+  setFeed(`Unlocked ${die.name} (${die.label})! Die 2 manual rolls and +${formatNumber(1)} RPS 2 are now active.`, "shop");
+  playTone(660, 0.15);
+}
+
+export function buySecondDieTier() {
+  if (!runtime.state?.secondDieOwned) {
+    setFeed("Unlock the second die in the Dice Shop first.");
+    return;
+  }
+  const purchases = getSecondDiePurchases(runtime.state);
+  if (purchases >= MAX_SECOND_DIE_PURCHASES) {
+    setFeed("Die 2 is already max tier.");
+    return;
+  }
+  const cost = SECOND_DIE_TIER_UPGRADE_COSTS[purchases];
+  if (runtime.state.gems < cost) {
+    setFeed(`Need ${formatNumber(cost)} gems to upgrade Die 2.`);
+    return;
+  }
+  const next = getNextSecondDieUpgrade(runtime.state);
+  if (!next) return;
+  runtime.state.gems -= cost;
+  runtime.state.secondDiePurchases = purchases + 1;
+  setFeed(`Upgraded Die 2 to ${next.name} (${next.label}, 1–${next.sides})!`, "shop");
+  playTone(720, 0.15);
+}
+
+export function buySecondDieRpsUpgrade(itemId) {
+  if (!runtime.state?.secondDieOwned) {
+    setFeed("Unlock the second die in the Dice Shop first.");
+    return;
+  }
+  const item = SECOND_DIE_RPS_BY_ID[itemId];
+  if (!item) return;
+  if (!runtime.state.secondDieUpgrades) runtime.state.secondDieUpgrades = {};
+  const level = Number(runtime.state.secondDieUpgrades[itemId] || 0);
+  const cost = getUpgradeCost(item, level);
+  if (runtime.state.gems < cost) {
+    setFeed(`Need ${formatNumber(cost)} gems for ${item.name}.`);
+    return;
+  }
+  runtime.state.gems -= cost;
+  runtime.state.secondDieUpgrades[itemId] = level + 1;
+  setFeed(`Purchased ${item.name} Lv ${level + 1} (+${item.effect} RPS 2).`, "shop");
+  playTone(580, 0.12);
+}
+
+export function getSecondDieRpsEffectText(item) {
+  return `+${item.effect} Die 2 rolls/sec per level`;
 }
 
 export function buyTheme(themeId) {

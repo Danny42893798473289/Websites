@@ -1,6 +1,8 @@
 import {
   ASCENSION_CONFIG,
   MAX_DICE_PURCHASES,
+  MAX_SECOND_DIE_PURCHASES,
+  SECOND_DIE_RPS_ITEMS,
   EGG_TYPES,
   EGG_VARIANTS,
   FUSION_EGG_TYPES,
@@ -67,6 +69,10 @@ export function createDefaultState(username, userRecord) {
     ascensionPoints: 0,
     ascensionUpgrades: {},
     dicePurchases: 0,
+    secondDieOwned: false,
+    secondDiePurchases: 0,
+    secondDieUpgrades: {},
+    superLuckyRollAvailableAt: 0,
     currentEventId: null,
     currentEventGeneratedAt: 0,
     currentEventData: null,
@@ -95,7 +101,13 @@ export function createDefaultState(username, userRecord) {
       jackpotsHit: 0
     },
     duelBuffExpiresAt: 0,
-    lastSavedAt: 0
+    lastSavedAt: 0,
+    prestigeMilestonesClaimed: [],
+    prestigeMilestoneLuck: 0,
+    weeklyChallenges: { weekId: 0, tasks: {} },
+    guildId: null,
+    guildRole: null,
+    seasonRolls: 0
   };
 }
 
@@ -179,6 +191,13 @@ export function sanitizeState(s) {
   s.manualStreak = Number(s.manualStreak || 0);
   s.lastManualRollAt = Number(s.lastManualRollAt || 0);
   s.luckyRollAvailableAt = Number(s.luckyRollAvailableAt || 0);
+  s.secondDieOwned = !!s.secondDieOwned;
+  s.secondDiePurchases = Math.min(MAX_SECOND_DIE_PURCHASES, Math.max(0, Number(s.secondDiePurchases ?? 0)));
+  if (!s.secondDieUpgrades || typeof s.secondDieUpgrades !== "object") s.secondDieUpgrades = {};
+  SECOND_DIE_RPS_ITEMS.forEach((item) => {
+    s.secondDieUpgrades[item.id] = Number(s.secondDieUpgrades[item.id] || 0);
+  });
+  s.superLuckyRollAvailableAt = Number(s.superLuckyRollAvailableAt || 0);
   s.lastSessionAt = Number(s.lastSessionAt || Date.now());
   s.playtimeMs = Number(s.playtimeMs || 0);
   s.prestigeLevel = Number(s.prestigeLevel || 0);
@@ -199,6 +218,21 @@ export function sanitizeState(s) {
     s.settings.activeTheme = "classic";
   }
   s.lastSavedAt = Number(s.lastSavedAt || 0);
+  if (!Array.isArray(s.prestigeMilestonesClaimed)) s.prestigeMilestonesClaimed = [];
+  s.prestigeMilestoneLuck = Number(s.prestigeMilestoneLuck || 0);
+  if (!s.weeklyChallenges || typeof s.weeklyChallenges !== "object") {
+    s.weeklyChallenges = { weekId: 0, tasks: {} };
+  }
+  if (!s.weeklyChallenges.tasks || typeof s.weeklyChallenges.tasks !== "object") {
+    s.weeklyChallenges.tasks = {};
+  }
+  s.weeklyChallenges.weekId = Number(s.weeklyChallenges.weekId || 0);
+  s.guildId = s.guildId || null;
+  s.guildRole = s.guildRole || null;
+  s.seasonRolls = Number(s.seasonRolls || 0);
+  if (!s.settings.filters || typeof s.settings.filters !== "object") {
+    s.settings.filters = { collectionSearch: "", codexSearch: "", collectionRarity: "all", collectionOwned: "all", codexRarity: "all", codexOwned: "all", codexShinyOnly: false, shopSearch: "", gemShopSearch: "" };
+  }
   if (!s.discoveredEggs || typeof s.discoveredEggs !== "object") s.discoveredEggs = {};
   EGG_TYPES.forEach((egg) => {
     if (Number(s.eggCollection[egg.id] || 0) > 0) {

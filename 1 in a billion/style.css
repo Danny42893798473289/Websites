@@ -271,16 +271,115 @@ button.danger {
 
 .rolling-main {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 16px;
 }
 
+.dice-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.dice-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.dice-btn-primary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: linear-gradient(145deg, var(--accent, #4f8cff), var(--accent-dark, #3a6fd4));
+  color: #fff;
+  border: none;
+  line-height: 1.1;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.dice-btn-second {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: linear-gradient(145deg, #9b59b6, #7d3c98);
+  color: #fff;
+  border: none;
+  line-height: 1.1;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.dice-btn-second:disabled,
+.dice-btn-primary:disabled,
+.dice-btn-gem:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.dice-btn-gem {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.22);
+}
+
+.dice-btn-gem.big-roll {
+  min-height: 112px;
+  padding: 8px 6px;
+  gap: 2px;
+}
+
+.dice-btn-meta {
+  font-size: 0.62rem;
+  opacity: 0.88;
+  line-height: 1.1;
+  max-width: 92px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.dice-btn-tag {
+  font-size: 0.62rem;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dice-btn-label {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.dice-btn-sub {
+  font-size: 0.72rem;
+  opacity: 0.92;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rps2-row {
+  color: #9b59b6;
+}
+
 .big-roll {
-  min-width: 110px;
-  min-height: 110px;
+  flex-shrink: 0;
+  min-width: 100px;
+  min-height: 100px;
   border-radius: 14px;
   font-size: 1.1rem;
+}
+
+.big-roll.hidden {
+  display: none !important;
+  pointer-events: none !important;
 }
 
 .big-roll.roll-shake {
@@ -292,7 +391,8 @@ button.danger {
 }
 
 .dice-display {
-  flex: 1;
+  flex: 1 1 180px;
+  min-width: 0;
   display: grid;
   gap: 8px;
   font-size: 1.05rem;
@@ -722,6 +822,7 @@ body.dark .gem-shop-card h3 {
 
 .hidden {
   display: none !important;
+  pointer-events: none !important;
 }
 
 .error {
@@ -971,4 +1072,135 @@ body.dark[data-theme="celestial"] { --bg: #0a0a1a; --bg-top: #1e1b4b; --primary:
 }
 .admin-only.danny-admin {
   display: block !important; /* when visible in the active social tab the tab system + this override will show it */
+}
+
+.filter-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.filter-toolbar input[type="search"],
+.filter-search {
+  flex: 1 1 160px;
+  min-width: 120px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+}
+
+.filter-toolbar select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+}
+
+.filter-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.ascension-requirements {
+  margin: 12px 0 16px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(91, 124, 250, 0.06);
+}
+
+.asc-req-block.met { border-left: 3px solid var(--success); }
+.asc-req-block.unmet { border-left: 3px solid var(--warn); }
+
+.asc-req-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.asc-list {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.prestige-milestones,
+.weekly-challenges {
+  margin-top: 12px;
+}
+
+.milestone-track,
+.challenge-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.milestone-item.done,
+.challenge-item.done {
+  opacity: 0.75;
+  border-color: var(--success);
+}
+
+.milestone-item.ready {
+  border-color: var(--primary);
+}
+
+.glossary-card {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.glossary-card summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.glossary-body p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+[data-tip] {
+  position: relative;
+  cursor: help;
+}
+
+[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  z-index: 20;
+  max-width: 240px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--text);
+  color: var(--card);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  white-space: normal;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .asc-req-columns {
+    grid-template-columns: 1fr;
+  }
 }

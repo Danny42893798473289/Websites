@@ -18,7 +18,7 @@ export async function refreshLeaderboard() {
       return `
           <div class="leader-item">
             <div class="shop-item-top">
-              <strong>#${index + 1} ${escapeHtml(entry.username)} <span class="shiny-pill">${escapeHtml(entry.title || tTitleLabel("newRoller", "New Roller"))}</span></strong>
+              <strong>#${index + 1} ${entry.guildTag ? `[${escapeHtml(entry.guildTag)}] ` : ""}${escapeHtml(entry.username)} <span class="shiny-pill">${escapeHtml(entry.title || tTitleLabel("newRoller", "New Roller"))}</span></strong>
               <span>${metric}</span>
             </div>
             <div class="muted">${t("social.lbEntry", { rarest: escapeHtml(entry.rarestEgg || t("status.none")), prestige: formatNumber(entry.prestigeLevel || 0), shinies: formatNumber(entry.shinies || 0) })}</div>
@@ -37,6 +37,7 @@ function formatLeaderboardMetric(entry, mode) {
   if (mode === "rarest") return `${escapeHtml(entry.rarestEgg || "None")} rarity`;
   if (mode === "shinies") return `${formatNumber(entry.shinies || 0)} shinies`;
   if (mode === "codex") return `${formatNumber(entry.codexFound || 0)} / ${formatNumber(entry.codexTotal || 0)} codex`;
+  if (mode === "seasonRolls") return `${formatNumber(entry.seasonRolls || 0)} season rolls`;
   return `${formatNumber(entry.totalRolls || 0)} rolls`;
 }
 

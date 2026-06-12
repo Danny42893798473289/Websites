@@ -1,0 +1,18 @@
+{
+  "guild_1781266836678_dspts7": {
+    "id": "guild_1781266836678_dspts7",
+    "name": "guild name",
+    "tag": "NB",
+    "leader": "Enter_username",
+    "members": [
+      "Enter_username"
+    ],
+    "createdAt": 1781266836678,
+    "treasury": {
+      "coins": 0,
+      "gems": 0
+    },
+    "weeklyScore": 1718002,
+    "weeklyWeekId": 2945
+  }
+}

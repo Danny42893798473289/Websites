@@ -11,6 +11,7 @@ import { checkSetCompletions } from "./progression.js";
 import { checkAchievements } from "./economy.js";
 import { applyTheme } from "./themes.js";
 import { applyStaticUI, applyLanguage, setLang } from "./i18n.js";
+import { bootGameServices } from "./boot.js";
 
 function yieldToBrowser(ms = 50) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -115,6 +116,8 @@ export function localLogin(username, password) {
 export async function loginAs(username, userRecord) {
   runtime.loginBootPhase = true;
   runtime.pendingOfflineRolls = 0;
+  runtime.pendingOfflineRolls2 = 0;
+  runtime.rollBuffer2 = 0;
   runtime.currentUser = username;
   updateAdminVisibility();
   runtime.state = mergeSaveWithDefaultsFast(username, userRecord);
@@ -142,6 +145,7 @@ export async function loginAs(username, userRecord) {
     await applyOfflineProgress({ loginBoot: true });
     renderCore();
     renderHeavyForTab(runtime.activeTab || "roll");
+    await bootGameServices();
     applyLanguage();
     startLoops();
     void refreshLeaderboard();
@@ -163,6 +167,8 @@ export function onLogout() {
   runtime.currentUser = null;
   runtime.state = null;
   runtime.pendingOfflineRolls = 0;
+  runtime.pendingOfflineRolls2 = 0;
+  runtime.rollBuffer2 = 0;
   updateAdminVisibility();
   runtime.el.gameRoot.classList.add("hidden");
   runtime.el.loginPanel.classList.remove("hidden");

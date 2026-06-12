@@ -15,12 +15,24 @@ import {
   FUSION_RECIPES,
   GEM_SHOP_ITEMS,
   LUCKY_ROLL_COST_GEMS,
+  SECOND_DIE_GEM_COST,
+  SECOND_DIE_BASE_RPS,
+  SECOND_DIE_RPS_ITEMS,
+  SECOND_DIE_TIER_UPGRADE_COSTS,
+  MAX_SECOND_DIE_PURCHASES,
+  getNextSecondDieUpgrade,
+  getSecondDiePurchases,
+  getPrimaryDieInfo,
+  getSecondDieInfo,
+  hasSecondDie,
+  PRESTIGE_MILESTONES,
   PRESTIGE_TARGET_ROLLS,
   RARITIES,
   SET_BONUS_CONFIG,
   SHOWCASE_SLOT_COUNT,
   SHOP_ITEMS,
   THEME_SHOP,
+  WEEKLY_CHALLENGE_TEMPLATES,
   getCodexFoundCount,
   getShinyCodexFoundCount,
   getTitleLabel,
@@ -28,13 +40,14 @@ import {
 } from "./config.js";
 import { runtime } from "./runtime.js";
 import { isEggDiscovered, isShinyDiscovered } from "./state.js";
-import { escapeHtml, formatDuration, formatNumber } from "./utils.js";
+import { escapeHtml, formatDuration, formatNumber, matchesQuery } from "./utils.js";
 import {
   buyGemUpgrade,
   buyTheme,
   buyUpgrade,
   getCoinShopEffectText,
   getGemShopEffectText,
+  getSecondDieRpsEffectText,
   getUpgradeCost
 } from "./economy.js";
 import { getCurrentGlobalEvent } from "./events.js";
@@ -50,8 +63,10 @@ import {
   hatchCompanion,
   renderFusionChainsVisualizer
 } from "./progression.js";
-import { getCurrentRPS, getManualStreakBonus } from "./rolling.js";
+import { getPrimaryRPS, getSecondDieRPS, getManualStreakBonus } from "./rolling.js";
 import { isThemeUnlocked } from "./themes.js";
+import { claimChallenge, ensureWeeklyChallenges } from "./challenges.js";
+import { getActiveSeason, getSeasonTimeRemaining } from "./seasons.js";
 import {
   t, tAchievement, tEventLabel, tGemShopName, tRarity, tSetBonusLabel,
   tShopName, tThemeDesc, tThemeName, tTitleLabel
@@ -65,6 +80,7 @@ export function renderCore() {
     renderStats();
     renderGlobalEvent();
     updateDailyUI();
+    renderSeasonBanner();
     renderActiveTabLive();
     if (runtime.el.darkModeToggle) {
       runtime.el.darkModeToggle.checked = !!runtime.state.settings.darkMode;
@@ -79,9 +95,13 @@ export function renderCore() {
 
 function renderActiveTabLive() {
   switch (runtime.activeTab) {
+    case "roll":
+      renderPrestigeMilestones();
+      break;
     case "shops":
       renderShop();
       renderGemShop();
+      renderDiceShop();
       break;
     case "collection":
       renderEggCollection();
@@ -106,6 +126,8 @@ function renderHeavyForTabInner(tab) {
   switch (tab) {
     case "roll":
       renderEventLog();
+      renderPrestigeMilestones();
+      renderSeasonBanner();
       break;
     case "collection":
       renderEggCollection();
@@ -115,11 +137,13 @@ function renderHeavyForTabInner(tab) {
     case "shops":
       renderShop();
       renderGemShop();
+      renderDiceShop();
       break;
     case "progression":
       renderSetBonuses();
       renderCompanions();
       renderFusionLab();
+      renderWeeklyChallenges();
       renderAscension();
       break;
     case "stats":
@@ -156,7 +180,10 @@ export function renderCurrency() {
   }
   runtime.el.coins.textContent = formatNumber(Math.floor(runtime.state.coins));
   runtime.el.gems.textContent = formatNumber(Math.floor(runtime.state.gems));
-  runtime.el.rps.textContent = getCurrentRPS().toFixed(2);
+  runtime.el.rps.textContent = getPrimaryRPS().toFixed(2);
+  const ownedSecond = hasSecondDie(runtime.state);
+  if (runtime.el.rps2Row) runtime.el.rps2Row.classList.toggle("hidden", !ownedSecond);
+  if (runtime.el.rps2) runtime.el.rps2.textContent = getSecondDieRPS().toFixed(2);
   if (coinDelta > 0) showFloatingGain(runtime.el.coins.parentElement, `+${formatNumber(coinDelta)}`, "coin");
   if (gemDelta > 0) showFloatingGain(runtime.el.gems.parentElement, `+${formatNumber(gemDelta)}`, "gem");
   runtime.previousCoins = runtime.state.coins;
@@ -168,16 +195,50 @@ export function updateActionPanels() {
   runtime.el.streakCount.textContent = formatNumber(runtime.state.manualStreak);
   runtime.el.streakBonus.textContent = `${streakBonusPercent}%`;
   if (runtime.el.diceType) {
-    const dice = getDiceInfo(runtime.state);
+    const dice = getPrimaryDieInfo(runtime.state);
     runtime.el.diceType.textContent = `${dice.label} (1–${dice.sides})`;
+  }
+  if (runtime.el.rollBtn1Label) {
+    const dice = getPrimaryDieInfo(runtime.state);
+    runtime.el.rollBtn1Label.textContent = dice.label;
+  }
+  if (runtime.el.luckyRollLabel) {
+    runtime.el.luckyRollLabel.textContent = getPrimaryDieInfo(runtime.state).label;
+  }
+
+  const ownedSecond = hasSecondDie(runtime.state);
+  if (runtime.el.secondDiceRow) runtime.el.secondDiceRow.classList.toggle("hidden", !ownedSecond);
+  if (runtime.el.rollBtn2) runtime.el.rollBtn2.classList.toggle("hidden", !ownedSecond);
+  if (runtime.el.superLuckyRollBtn) runtime.el.superLuckyRollBtn.classList.toggle("hidden", !ownedSecond);
+  if (ownedSecond) {
+    const second = getSecondDieInfo(runtime.state);
+    if (runtime.el.secondDiceType) {
+      runtime.el.secondDiceType.textContent = `${second.label} (1–${second.sides})`;
+    }
+    if (runtime.el.rollBtn2Label) runtime.el.rollBtn2Label.textContent = second.label;
+    if (runtime.el.superLuckyRollLabel) runtime.el.superLuckyRollLabel.textContent = second.label;
   }
 
   const now = Date.now();
   const ready = now >= runtime.state.luckyRollAvailableAt;
-  runtime.el.luckyRollBtn.disabled = !ready || runtime.state.gems < LUCKY_ROLL_COST_GEMS;
-  runtime.el.luckyRollTimer.textContent = ready
-    ? t("roll.ready")
-    : `${formatDuration(runtime.state.luckyRollAvailableAt - now)}`;
+  if (runtime.el.luckyRollBtn) {
+    runtime.el.luckyRollBtn.disabled = !ready || runtime.state.gems < LUCKY_ROLL_COST_GEMS;
+  }
+  if (runtime.el.luckyRollTimer) {
+    runtime.el.luckyRollTimer.textContent = ready
+      ? t("roll.gemCost", { cost: formatNumber(LUCKY_ROLL_COST_GEMS) })
+      : formatDuration(runtime.state.luckyRollAvailableAt - now);
+  }
+
+  if (ownedSecond && runtime.el.superLuckyRollBtn) {
+    const superReady = now >= runtime.state.superLuckyRollAvailableAt;
+    runtime.el.superLuckyRollBtn.disabled = !superReady || runtime.state.gems < LUCKY_ROLL_COST_GEMS;
+    if (runtime.el.superLuckyTimer) {
+      runtime.el.superLuckyTimer.textContent = superReady
+        ? t("roll.gemCost", { cost: formatNumber(LUCKY_ROLL_COST_GEMS) })
+        : formatDuration(runtime.state.superLuckyRollAvailableAt - now);
+    }
+  }
 }
 
 export function pulseValue(element) {
@@ -199,12 +260,20 @@ export function showFloatingGain(target, text, kind) {
 }
 
 export function renderEggCollection() {
-  const rows = RARITIES.map((r) => {
+  const filters = runtime.state?.settings?.filters || {};
+  const rows = RARITIES.filter((r) => {
+    if (filters.collectionRarity && filters.collectionRarity !== "all" && r.name !== filters.collectionRarity) return false;
+    return true;
+  }).map((r) => {
     const total = runtime.state ? getRarityEggCount(runtime.state, r.name) : 0;
     const variants = (EGG_VARIANTS[r.name] || [])
       .map((variant) => {
         const count = runtime.state ? runtime.state.eggCollection[variant.id] || 0 : 0;
         const shinyCount = runtime.state ? runtime.state.shinyCollection[variant.id] || 0 : 0;
+        const unlocked = runtime.state ? isEggDiscovered(runtime.state, variant.id) : false;
+        if (filters.collectionOwned === "owned" && count <= 0 && shinyCount <= 0) return "";
+        if (filters.collectionOwned === "locked" && unlocked) return "";
+        if (!matchesQuery(variant.name, filters.collectionSearch)) return "";
         if (count <= 0 && shinyCount <= 0) return "";
         const sellButton = count > 0 && r.gemValue > 0
           ? `<button class="small" data-sell-egg="${variant.id}">${t("collection.sell1")}</button>`
@@ -274,16 +343,23 @@ export function renderEggCollection() {
 }
 
 export function renderEggCodex() {
+  const filters = runtime.state?.settings?.filters || {};
   const discovered = getCodexFoundCount(runtime.state);
   const total = EGG_TYPES.length + FUSION_EGG_TYPES.length;
   const shinyDiscovered = getShinyCodexFoundCount(runtime.state);
   const shinyTotal = EGG_TYPES.length;
-  const rows = RARITIES.map((r) => {
+  const rows = RARITIES.filter((r) => {
+    if (filters.codexRarity && filters.codexRarity !== "all" && r.name !== filters.codexRarity) return false;
+    return true;
+  }).map((r) => {
     const variantRows = (EGG_VARIANTS[r.name] || [])
       .map((variant) => {
         const owned = runtime.state ? Number(runtime.state.eggCollection[variant.id] || 0) : 0;
         const shinyOwned = runtime.state ? Number(runtime.state.shinyCollection[variant.id] || 0) : 0;
         const unlocked = runtime.state ? isEggDiscovered(runtime.state, variant.id) : false;
+        if (filters.codexOwned === "owned" && !unlocked) return "";
+        if (filters.codexOwned === "locked" && unlocked) return "";
+        if (!matchesQuery(variant.name, filters.codexSearch)) return "";
         const title = unlocked ? variant.name : "???";
         const description = unlocked ? variant.description : t("status.rollDiscover");
         const status = unlocked ? (owned > 0 ? t("status.unlocked") : t("status.discoveredSold")) : t("status.locked");
@@ -304,6 +380,7 @@ export function renderEggCodex() {
       })
       .join("");
 
+    if (!variantRows) return "";
     return `
         <div class="codex-rarity-group">
           <div class="codex-rarity-header" style="color:${r.color}">${tRarity(r.name)}</div>
@@ -337,7 +414,8 @@ export function renderEggCodex() {
     `;
 
   const showShinyDetails = !runtime.isMobile || runtime.showShinyCodex;
-  const shinyRows = showShinyDetails
+  const shinyOnly = !!filters.codexShinyOnly;
+  const shinyRows = showShinyDetails && !shinyOnly
     ? RARITIES.map((r) => {
         const variantRows = (EGG_VARIANTS[r.name] || []).map((variant) => {
           const unlocked = isShinyDiscovered(runtime.state, variant.id);
@@ -443,7 +521,7 @@ export function renderSetBonuses() {
             <strong style="color:${rarity.color}">${t("set.setName", { name: tRarity(rarity.name) })}</strong>
             <span class="codex-status">${complete ? t("status.active") : `${discovered}/${variants.length}`}</span>
           </div>
-          <div class="muted">${bonus ? tSetBonusLabel(rarity.name, bonus.label) : t("status.noBonus")}</div>
+          <div class="muted" data-tip="${escapeHtml(bonus ? tSetBonusLabel(rarity.name, bonus.label) : t("status.noBonus"))}">${bonus ? tSetBonusLabel(rarity.name, bonus.label) : t("status.noBonus")}</div>
         </div>
       `;
   }).join("");
@@ -582,7 +660,29 @@ export function renderFusionLab() {
 export function renderAscension() {
   runtime.el.ascLevel.textContent = formatNumber(runtime.state.ascensionLevel);
   runtime.el.ascPoints.textContent = formatNumber(runtime.state.ascensionPoints);
-  runtime.el.ascendBtn.disabled = runtime.state.prestigeLevel < ASCENSION_CONFIG.minPrestige;
+  const minPrestige = ASCENSION_CONFIG.minPrestige;
+  const prestige = runtime.state.prestigeLevel;
+  const canAscend = prestige >= minPrestige;
+  runtime.el.ascendBtn.disabled = !canAscend;
+  if (runtime.el.ascensionRequirements) {
+    const apGain = Math.max(ASCENSION_CONFIG.baseGain, Math.floor(prestige / minPrestige));
+    runtime.el.ascensionRequirements.innerHTML = `
+      <div class="asc-req-block ${canAscend ? "met" : "unmet"}">
+        <strong>${t("asc.reqTitle")}</strong>
+        <p>${t("asc.reqPrestige", { current: formatNumber(prestige), required: formatNumber(minPrestige) })}</p>
+        <p class="muted">${canAscend ? t("asc.reqMet") : t("asc.reqUnmet", { n: minPrestige })}</p>
+        <p class="muted">${t("asc.rewardPreview", { n: canAscend ? apGain : Math.max(1, Math.floor(minPrestige / minPrestige)) })}</p>
+      </div>
+      <div class="asc-req-columns">
+        <div><strong>${t("asc.resetsTitle")}</strong><ul class="asc-list">
+          <li>${t("asc.resetCoins")}</li><li>${t("asc.resetEggs")}</li><li>${t("asc.resetShops")}</li>
+          <li>${t("asc.resetCompanions")}</li><li>${t("asc.resetPrestige")}</li>
+        </ul></div>
+        <div><strong>${t("asc.keepsTitle")}</strong><ul class="asc-list">
+          <li>${t("asc.keepAsc")}</li><li>${t("asc.keepDice")}</li><li>${t("asc.keepCodex")}</li>
+        </ul></div>
+      </div>`;
+  }
 
   const purchases = Number(runtime.state.dicePurchases || 0);
   const currentDice = getDiceInfo(runtime.state);
@@ -652,7 +752,8 @@ export function renderGlobalEvent() {
 }
 
 export function renderShop() {
-  const itemsHtml = SHOP_ITEMS.map((item) => {
+  const search = runtime.state?.settings?.filters?.shopSearch || "";
+  const itemsHtml = SHOP_ITEMS.filter((item) => matchesQuery(tShopName(item.id, item.name), search)).map((item) => {
     const level = runtime.state ? runtime.state.upgrades[item.id] || 0 : 0;
     const cost = getUpgradeCost(item, level);
     const affordable = runtime.state ? runtime.state.coins >= cost : false;
@@ -678,8 +779,74 @@ export function renderShop() {
   });
 }
 
+export function renderDiceShop() {
+  if (!runtime.el.diceShopList || !runtime.state) return;
+  const owned = hasSecondDie(runtime.state);
+  const die = getSecondDieInfo(runtime.state);
+  const affordableUnlock = runtime.state.gems >= SECOND_DIE_GEM_COST;
+
+  const unlockHtml = owned
+    ? ""
+    : `
+    <div class="shop-item gem-item">
+      <div class="shop-item-top">
+        <strong>${t("shops.secondDieName", { name: die.name })}</strong>
+        <span>${t("shops.secondDieLocked")}</span>
+      </div>
+      <div class="muted">${t("shops.secondDieDesc", { label: die.label, sides: die.sides, rps: formatNumber(SECOND_DIE_BASE_RPS) })}</div>
+      <button data-buy-second-die ${!affordableUnlock ? "disabled" : ""}>${t("status.buyGems", { cost: formatNumber(SECOND_DIE_GEM_COST) })}</button>
+    </div>`;
+
+  let tierHtml = "";
+  if (owned) {
+    const purchases = getSecondDiePurchases(runtime.state);
+    const next = getNextSecondDieUpgrade(runtime.state);
+    if (next) {
+      const cost = SECOND_DIE_TIER_UPGRADE_COSTS[purchases];
+      tierHtml = `
+        <div class="shop-item gem-item">
+          <div class="shop-item-top">
+            <strong>${t("shops.secondDieTier")}</strong>
+            <span>${purchases}/${MAX_SECOND_DIE_PURCHASES}</span>
+          </div>
+          <div class="muted">${t("shops.secondDieTierLine", { cur: die.name, curLabel: die.label, next: next.name, nextLabel: next.label })}</div>
+          <button data-buy-second-die-tier ${runtime.state.gems < cost ? "disabled" : ""}>${t("status.buyGems", { cost: formatNumber(cost) })}</button>
+        </div>`;
+    } else {
+      tierHtml = `
+        <div class="shop-item gem-item">
+          <div class="shop-item-top">
+            <strong>${t("shops.secondDieTier")}</strong>
+            <span>${MAX_SECOND_DIE_PURCHASES}/${MAX_SECOND_DIE_PURCHASES}</span>
+          </div>
+          <div class="muted">${t("shops.secondDieMaxed", { name: die.name, label: die.label, sides: die.sides })}</div>
+        </div>`;
+    }
+  }
+
+  const rpsHtml = owned
+    ? SECOND_DIE_RPS_ITEMS.map((item) => {
+        const level = Number(runtime.state.secondDieUpgrades?.[item.id] || 0);
+        const cost = getUpgradeCost(item, level);
+        const affordable = runtime.state.gems >= cost;
+        return `
+          <div class="shop-item gem-item">
+            <div class="shop-item-top">
+              <strong>${item.name}</strong>
+              <span>${t("status.lv", { n: level })}</span>
+            </div>
+            <div class="muted">${getSecondDieRpsEffectText(item)}</div>
+            <button data-buy-second-die-rps="${item.id}" ${affordable ? "" : "disabled"}>${t("status.buyGems", { cost: formatNumber(cost) })}</button>
+          </div>`;
+      }).join("")
+    : "";
+
+  runtime.el.diceShopList.innerHTML = unlockHtml + tierHtml + rpsHtml;
+}
+
 export function renderGemShop() {
-  const itemsHtml = GEM_SHOP_ITEMS.map((item) => {
+  const search = runtime.state?.settings?.filters?.gemShopSearch || "";
+  const itemsHtml = GEM_SHOP_ITEMS.filter((item) => matchesQuery(tGemShopName(item.id, item.name), search)).map((item) => {
     const level = runtime.state ? runtime.state.gemUpgrades[item.id] || 0 : 0;
     const cost = getUpgradeCost(item, level);
     const affordable = runtime.state ? runtime.state.gems >= cost : false;
@@ -712,7 +879,10 @@ export function renderStats() {
   if (runtime.el.statGems) runtime.el.statGems.textContent = formatNumber(Math.floor(runtime.state.totalGemsEarned));
   if (runtime.el.statRarest) runtime.el.statRarest.textContent = runtime.state.rarestEgg || t("status.none");
   if (runtime.el.statTime) runtime.el.statTime.textContent = formatDuration(runtime.state.playtimeMs);
-  if (runtime.el.statRps) runtime.el.statRps.textContent = getCurrentRPS().toFixed(2);
+  if (runtime.el.statRps) {
+    const total = getPrimaryRPS() + getSecondDieRPS();
+    runtime.el.statRps.textContent = total.toFixed(2);
+  }
   if (runtime.el.statPrestige) runtime.el.statPrestige.textContent = String(runtime.state.prestigeLevel);
   const stats = runtime.state.stats || {};
   if (runtime.el.statShinies) runtime.el.statShinies.textContent = formatNumber(Object.values(runtime.state.shinyCollection || {}).reduce((sum, count) => sum + Number(count || 0), 0));
@@ -797,4 +967,99 @@ export function renderThemeShop() {
         </button>
       </div>`;
   }).join("");
+}
+
+export function renderPrestigeMilestones() {
+  if (!runtime.state || !runtime.el.prestigeMilestones) return;
+  const claimed = runtime.state.prestigeMilestonesClaimed || [];
+  const next = PRESTIGE_MILESTONES.find((m) => !claimed.includes(m.id));
+  const items = PRESTIGE_MILESTONES.map((m) => {
+    const done = claimed.includes(m.id) || runtime.state.prestigeLevel >= m.level;
+    const got = claimed.includes(m.id);
+    return `<div class="milestone-item ${got ? "done" : done ? "ready" : ""}" data-tip="${escapeHtml(m.label)}">
+      <span>Prestige ${m.level}</span>
+      <span class="muted">${got ? t("milestone.claimed") : m.label}</span>
+    </div>`;
+  }).join("");
+  runtime.el.prestigeMilestones.innerHTML = `
+    <h4>${t("milestone.title")}</h4>
+    ${next ? `<p class="muted">${t("milestone.next", { n: next.level, reward: next.label })}</p>` : ""}
+    <div class="milestone-track">${items}</div>`;
+}
+
+export function renderWeeklyChallenges() {
+  if (!runtime.state || !runtime.el.weeklyChallenges) return;
+  ensureWeeklyChallenges();
+  const html = WEEKLY_CHALLENGE_TEMPLATES.map((tpl) => {
+    const task = runtime.state.weeklyChallenges.tasks[tpl.id] || { progress: 0, claimed: false };
+    const done = task.progress >= tpl.target;
+    const btn = task.claimed
+      ? `<span class="muted">${t("challenge.done")}</span>`
+      : `<button class="small" data-claim-challenge="${tpl.id}" ${done ? "" : "disabled"}>${t("challenge.claim")}</button>`;
+    return `<div class="challenge-item ${task.claimed ? "done" : ""}">
+      <div class="codex-title"><strong>${t(`challenge.${tpl.id}`)}</strong>
+        <span>${t("challenge.progress", { current: formatNumber(task.progress), target: formatNumber(tpl.target) })}</span>
+      </div>
+      <div class="muted">+${formatNumber(tpl.rewardGems)} gems${tpl.rewardCoins ? `, +${formatNumber(tpl.rewardCoins)} coins` : ""}</div>
+      ${btn}
+    </div>`;
+  }).join("");
+  runtime.el.weeklyChallenges.innerHTML = html;
+  runtime.el.weeklyChallenges.querySelectorAll("button[data-claim-challenge]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (claimChallenge(btn.getAttribute("data-claim-challenge"))) {
+        renderWeeklyChallenges();
+        renderCore();
+      }
+    });
+  });
+}
+
+export function renderSeasonBanner() {
+  if (!runtime.el.seasonBanner) return;
+  const season = getActiveSeason();
+  if (!season) {
+    runtime.el.seasonBanner.textContent = t("season.none");
+    return;
+  }
+  const remaining = getSeasonTimeRemaining();
+  runtime.el.seasonBanner.textContent = t("season.active", {
+    name: season.name,
+    time: formatDuration(remaining)
+  });
+}
+
+export function populateRarityFilters() {
+  const opts = `<option value="all">${t("filter.all")}</option>` +
+    RARITIES.map((r) => `<option value="${r.name}">${tRarity(r.name)}</option>`).join("");
+  if (runtime.el.collectionRarityFilter) runtime.el.collectionRarityFilter.innerHTML = opts;
+  if (runtime.el.codexRarityFilter) runtime.el.codexRarityFilter.innerHTML = opts;
+}
+
+export function syncFiltersFromUI() {
+  if (!runtime.state) return;
+  const f = runtime.state.settings.filters;
+  if (runtime.el.collectionSearch) f.collectionSearch = runtime.el.collectionSearch.value;
+  if (runtime.el.collectionRarityFilter) f.collectionRarity = runtime.el.collectionRarityFilter.value;
+  if (runtime.el.collectionOwnedFilter) f.collectionOwned = runtime.el.collectionOwnedFilter.value;
+  if (runtime.el.codexSearch) f.codexSearch = runtime.el.codexSearch.value;
+  if (runtime.el.codexRarityFilter) f.codexRarity = runtime.el.codexRarityFilter.value;
+  if (runtime.el.codexOwnedFilter) f.codexOwned = runtime.el.codexOwnedFilter.value;
+  if (runtime.el.codexShinyOnly) f.codexShinyOnly = runtime.el.codexShinyOnly.checked;
+  if (runtime.el.shopSearch) f.shopSearch = runtime.el.shopSearch.value;
+  if (runtime.el.gemShopSearch) f.gemShopSearch = runtime.el.gemShopSearch.value;
+}
+
+export function applyFiltersToUI() {
+  if (!runtime.state) return;
+  const f = runtime.state.settings.filters;
+  if (runtime.el.collectionSearch) runtime.el.collectionSearch.value = f.collectionSearch || "";
+  if (runtime.el.collectionRarityFilter) runtime.el.collectionRarityFilter.value = f.collectionRarity || "all";
+  if (runtime.el.collectionOwnedFilter) runtime.el.collectionOwnedFilter.value = f.collectionOwned || "all";
+  if (runtime.el.codexSearch) runtime.el.codexSearch.value = f.codexSearch || "";
+  if (runtime.el.codexRarityFilter) runtime.el.codexRarityFilter.value = f.codexRarity || "all";
+  if (runtime.el.codexOwnedFilter) runtime.el.codexOwnedFilter.value = f.codexOwned || "all";
+  if (runtime.el.codexShinyOnly) runtime.el.codexShinyOnly.checked = !!f.codexShinyOnly;
+  if (runtime.el.shopSearch) runtime.el.shopSearch.value = f.shopSearch || "";
+  if (runtime.el.gemShopSearch) runtime.el.gemShopSearch.value = f.gemShopSearch || "";
 }
