@@ -57,6 +57,10 @@ export function cacheElements() {
   el.ascensionRequirements = document.getElementById("ascension-requirements");
   el.prestigeMilestones = document.getElementById("prestige-milestones");
   el.weeklyChallenges = document.getElementById("weekly-challenges");
+  el.incubatorPanel = document.getElementById("incubator-panel");
+  el.relicsPanel = document.getElementById("relics-panel");
+  el.prestigeShopList = document.getElementById("prestige-shop-list");
+  el.prestigePointsDisplay = document.getElementById("prestige-points-display");
   el.seasonBanner = document.getElementById("season-banner");
   el.guildPanel = document.getElementById("guild-panel");
   el.collectionSearch = document.getElementById("collection-search");

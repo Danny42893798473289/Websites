@@ -505,6 +505,41 @@ export const PRESTIGE_MILESTONES = [
 ];
 
 export const SEASON_EGG_IDS = ["void_abyss", "void_null", "celestial_nebula"];
+export const SEASON_FEATURED_RARITIES = ["Void", "Celestial", "Astral"];
+
+export const INCUBATOR_BASE_SLOTS = 2;
+export const INCUBATOR_BASE_MS = 5 * 60 * 1000;
+export const INCUBATOR_RARITY_MS = [0, 1, 2, 4, 6, 10, 16, 24, 36, 50, 70, 90, 120, 150, 180];
+
+export const RELIC_BASE_SLOTS = 2;
+
+export const RELIC_DEFS = [
+  { id: "lucky_charm", name: "Lucky Charm", buffType: "luck", buffValue: 0.05, unlock: { type: "codexPct", value: 10 } },
+  { id: "coin_purse", name: "Coin Purse", buffType: "coins", buffValue: 0.08, unlock: { type: "prestige", value: 1 } },
+  { id: "hatch_stone", name: "Hatch Stone", buffType: "incubatorSpeed", buffValue: 0.2, unlock: { type: "shinies", value: 3 } },
+  { id: "season_compass", name: "Season Compass", buffType: "luck", buffValue: 0.04, unlock: { type: "seasonEgg" } },
+  { id: "guild_banner", name: "Guild Banner", buffType: "coins", buffValue: 0.05, unlock: { type: "guild" } },
+  { id: "shiny_mirror", name: "Shiny Mirror", buffType: "shiny", buffValue: 0.12, unlock: { type: "shinies", value: 10 } },
+  { id: "die2_spark", name: "Die 2 Spark", buffType: "rps2", buffValue: 0.5, unlock: { type: "secondDie" } },
+  { id: "duel_token", name: "Duel Token", buffType: "duelLuck", buffValue: 0.1, unlock: { type: "prestige", value: 3 } }
+];
+
+export const RELIC_BY_ID = Object.fromEntries(RELIC_DEFS.map((r) => [r.id, r]));
+
+export const PRESTIGE_SHOP_ITEMS = [
+  { id: "ppLuck", name: "Prestige Luck", baseCost: 1, growth: 1.55, effect: 0.03, maxLevel: 10 },
+  { id: "ppOffline", name: "Offline Boost", baseCost: 1, growth: 1.5, effect: 0.05, maxLevel: 8 },
+  { id: "ppIncubator", name: "Incubator Slot", baseCost: 2, growth: 2.2, effect: 1, maxLevel: 3 },
+  { id: "ppRelic", name: "Relic Slot", baseCost: 2, growth: 2.5, effect: 1, maxLevel: 2 },
+  { id: "ppRps2", name: "Die 2 Momentum", baseCost: 3, growth: 1.65, effect: 0.5, maxLevel: 5 }
+];
+
+export const PRESTIGE_SHOP_BY_ID = Object.fromEntries(PRESTIGE_SHOP_ITEMS.map((item) => [item.id, item]));
+
+/** Guild treasury coin bonus: +1% per 10k coins donated, max +10%. */
+export function getGuildTreasuryCoinBonus(treasuryCoins) {
+  return Math.min(0.1, Math.floor(Number(treasuryCoins || 0) / 10000) / 100);
+}
 
 export const WEEKLY_CHALLENGE_TEMPLATES = [
   { id: "rolls_500", target: 500, rewardGems: 15, rewardCoins: 5000 },

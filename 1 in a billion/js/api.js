@@ -1,5 +1,19 @@
 import { API_TIMEOUT_MS } from "./config.js";
 
+/** Resolve API path for gateway (/billion/) and direct server roots. */
+export function getApiUrl(path) {
+  const p = path.startsWith("/") ? path.slice(1) : path;
+  const base = document.querySelector("base")?.href;
+  if (base) {
+    try {
+      return new URL(p, base).href;
+    } catch {
+      return `/${p}`;
+    }
+  }
+  return `/${p}`;
+}
+
 export async function apiLogin(username, password) {
   return apiRequest("/api/login", {
     method: "POST",
@@ -17,10 +31,11 @@ export async function apiRegister(username, password) {
 }
 
 export async function apiRequest(path, options, retries = 1) {
+  const url = getApiUrl(path);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
   try {
-    const response = await fetch(path, { ...options, signal: controller.signal });
+    const response = await fetch(url, { ...options, signal: controller.signal });
     const body = await response.json().catch(() => ({}));
     if (!response.ok) {
       throw new Error(body.error || `HTTP ${response.status}`);

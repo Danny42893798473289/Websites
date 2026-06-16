@@ -26,7 +26,9 @@ import {
   getSecondDieInfo,
   hasSecondDie,
   PRESTIGE_MILESTONES,
+  PRESTIGE_SHOP_ITEMS,
   PRESTIGE_TARGET_ROLLS,
+  RELIC_DEFS,
   RARITIES,
   SET_BONUS_CONFIG,
   SHOWCASE_SLOT_COUNT,
@@ -47,10 +49,25 @@ import {
   buyUpgrade,
   getCoinShopEffectText,
   getGemShopEffectText,
+  getPrestigeShopEffectText,
   getSecondDieRpsEffectText,
-  getUpgradeCost
+  getUpgradeCost,
+  buyPrestigeUpgrade
 } from "./economy.js";
 import { getCurrentGlobalEvent } from "./events.js";
+import {
+  claimIncubatorSlot,
+  getIncubatorMaxSlots,
+  getIncubatorProgress,
+  sanitizeIncubator,
+  startIncubating
+} from "./incubator.js";
+import {
+  equipRelic,
+  formatRelicUnlockText,
+  getRelicMaxSlots,
+  isRelicUnlocked
+} from "./relics.js";
 import {
   activateCompanion,
   buyAscensionUpgrade,
@@ -144,7 +161,20 @@ function renderHeavyForTabInner(tab) {
       renderCompanions();
       renderFusionLab();
       renderWeeklyChallenges();
+      renderIncubator();
+      renderRelics();
+      renderPrestigeShop();
       renderAscension();
+      break;
+    case "social":
+      renderGlobalEvent();
+      import("./social.js").then(({ refreshLeaderboard, refreshDuels }) => {
+        void refreshLeaderboard();
+        void refreshDuels();
+      });
+      import("./guilds.js").then(({ refreshGuild }) => {
+        void refreshGuild();
+      });
       break;
     case "stats":
       renderAchievements();
@@ -735,6 +765,126 @@ export function renderAscension() {
   }
   runtime.el.ascUpgrades.querySelectorAll("button[data-asc-buy]").forEach((btn) => {
     btn.addEventListener("click", () => buyAscensionUpgrade(btn.getAttribute("data-asc-buy")));
+  });
+}
+
+export function renderIncubator() {
+  if (!runtime.state || !runtime.el.incubatorPanel) return;
+  sanitizeIncubator();
+  const maxSlots = getIncubatorMaxSlots();
+  const ownedEggs = EGG_TYPES.filter((egg) => Number(runtime.state.eggCollection[egg.id] || 0) > 0);
+  const slotHtml = runtime.state.incubator.map((slot, index) => {
+    const egg = ALL_EGG_BY_ID[slot.eggId];
+    if (!egg) return "";
+    const progress = getIncubatorProgress(slot);
+    const ready = progress >= 1;
+    const remaining = Math.max(0, Number(slot.durationMs || 0) - (Date.now() - Number(slot.startedAt || 0)));
+    return `
+      <div class="shop-item">
+        <div class="shop-item-top">
+          <strong>${escapeHtml(egg.name)}</strong>
+          <span>${ready ? t("incubator.ready") : formatDuration(remaining)}</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(progress * 100)}%"></div></div>
+        <button type="button" data-claim-incubator="${index}" ${ready ? "" : "disabled"}>${t("incubator.claim")}</button>
+      </div>`;
+  }).join("");
+  const emptySlots = Math.max(0, maxSlots - runtime.state.incubator.length);
+  const emptyHtml = emptySlots > 0
+    ? `<div class="muted">${t("incubator.slotsFree", { n: emptySlots })}</div>`
+    : "";
+  const eggOptions = ownedEggs.map((egg) =>
+    `<option value="${egg.id}">${escapeHtml(egg.name)} (${formatNumber(runtime.state.eggCollection[egg.id])})</option>`
+  ).join("");
+  runtime.el.incubatorPanel.innerHTML = `
+    <div class="muted">${t("incubator.slots", { used: runtime.state.incubator.length, max: maxSlots })}</div>
+    ${slotHtml || `<div class="muted">${t("incubator.empty")}</div>`}
+    ${emptyHtml}
+    <div class="settings-row">
+      <select id="incubator-egg-select" ${ownedEggs.length && emptySlots ? "" : "disabled"}>
+        <option value="">${t("incubator.selectEgg")}</option>
+        ${eggOptions}
+      </select>
+      <button type="button" id="incubator-start-btn" ${ownedEggs.length && emptySlots ? "" : "disabled"}>${t("incubator.start")}</button>
+    </div>`;
+  runtime.el.incubatorPanel.querySelectorAll("button[data-claim-incubator]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      claimIncubatorSlot(Number(btn.getAttribute("data-claim-incubator")));
+      renderIncubator();
+      renderCore();
+    });
+  });
+  document.getElementById("incubator-start-btn")?.addEventListener("click", () => {
+    const eggId = document.getElementById("incubator-egg-select")?.value;
+    if (!eggId) return;
+    if (startIncubating(eggId)) {
+      renderIncubator();
+      renderCore();
+    }
+  });
+}
+
+export function renderRelics() {
+  if (!runtime.state || !runtime.el.relicsPanel) return;
+  const maxSlots = getRelicMaxSlots();
+  const equipped = runtime.state.relicsEquipped || [];
+  const html = RELIC_DEFS.map((relic) => {
+    const unlocked = isRelicUnlocked(relic.id);
+    const isEquipped = equipped.includes(relic.id);
+    const buffPct = Math.round(Number(relic.buffValue || 0) * 100);
+    return `
+      <div class="shop-item ${unlocked ? "" : "locked"}">
+        <div class="shop-item-top">
+          <strong>${escapeHtml(relic.name)}</strong>
+          <span>${unlocked ? (isEquipped ? t("relics.equipped") : t("relics.unlocked")) : t("relics.locked")}</span>
+        </div>
+        <div class="muted">${t("relics.buff", { type: relic.buffType, n: buffPct })}</div>
+        <div class="muted">${unlocked ? "" : t("relics.req", { req: formatRelicUnlockText(relic) })}</div>
+        ${unlocked ? `<button type="button" data-equip-relic="${relic.id}">${isEquipped ? t("relics.unequip") : t("relics.equip")}</button>` : ""}
+      </div>`;
+  }).join("");
+  runtime.el.relicsPanel.innerHTML = `
+    <div class="muted">${t("relics.slots", { used: equipped.length, max: maxSlots })}</div>
+    ${html}`;
+  runtime.el.relicsPanel.querySelectorAll("button[data-equip-relic]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      equipRelic(btn.getAttribute("data-equip-relic"));
+      renderRelics();
+      renderCore();
+    });
+  });
+}
+
+export function renderPrestigeShop() {
+  if (!runtime.state || !runtime.el.prestigeShopList) return;
+  const pp = Number(runtime.state.prestigePoints || 0);
+  if (runtime.el.prestigePointsDisplay) {
+    runtime.el.prestigePointsDisplay.textContent = formatNumber(pp);
+  }
+  const html = PRESTIGE_SHOP_ITEMS.map((item) => {
+    const level = Number(runtime.state.prestigeUpgrades[item.id] || 0);
+    const maxed = item.maxLevel && level >= item.maxLevel;
+    const cost = maxed ? 0 : getUpgradeCost(item, level);
+    const canBuy = !maxed && pp >= cost;
+    return `
+      <div class="shop-item">
+        <div class="shop-item-top">
+          <strong>${escapeHtml(item.name)}</strong>
+          <span>${t("status.lv", { n: level })}${item.maxLevel ? ` / ${item.maxLevel}` : ""}</span>
+        </div>
+        <div class="muted">${getPrestigeShopEffectText(item)}</div>
+        <button type="button" data-pp-buy="${item.id}" ${canBuy ? "" : "disabled"}>${maxed ? t("status.maxed") : t("status.buyPp", { cost: formatNumber(cost) })}</button>
+      </div>`;
+  }).join("");
+  runtime.el.prestigeShopList.innerHTML = html;
+  runtime.el.prestigeShopList.querySelectorAll("button[data-pp-buy]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buyPrestigeUpgrade(btn.getAttribute("data-pp-buy"));
+      renderPrestigeShop();
+      renderIncubator();
+      renderRelics();
+      renderCore();
+    });
   });
 }
 

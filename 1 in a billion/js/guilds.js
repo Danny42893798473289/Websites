@@ -1,4 +1,5 @@
 import { apiRequest } from "./api.js";
+import { getGuildTreasuryCoinBonus } from "./config.js";
 import { runtime } from "./runtime.js";
 import { escapeHtml, formatNumber } from "./utils.js";
 import { setFeed } from "./feedback.js";
@@ -15,7 +16,10 @@ export async function refreshGuild() {
       renderGuildPanel(null);
     }
   } catch {
-    runtime.el.guildPanel.innerHTML = `<div class="muted">${t("guild.unavailable")}</div>`;
+    runtime.el.guildPanel.innerHTML = `
+      <div class="muted">${t("guild.unavailable")}</div>
+      <button type="button" id="guild-retry-btn" class="small">${t("guild.retry")}</button>`;
+    document.getElementById("guild-retry-btn")?.addEventListener("click", refreshGuild);
   }
 }
 
@@ -117,14 +121,16 @@ function renderGuildPanel(guild) {
     return;
   }
   const members = (guild.members || []).map((m) => escapeHtml(m)).join(", ");
+  const treasury = guild.treasury?.coins || 0;
+  const perkPct = Math.floor(getGuildTreasuryCoinBonus(treasury) * 100);
   runtime.el.guildPanel.innerHTML = `
     <div class="codex-title">
       <strong>[${escapeHtml(guild.tag)}] ${escapeHtml(guild.name)}</strong>
       <span class="codex-status">${formatNumber(guild.members?.length || 0)} ${t("guild.members")}</span>
     </div>
     <div class="muted">${t("guild.leader")}: ${escapeHtml(guild.leader || "?")}</div>
-    <div class="muted">${t("guild.treasury")}: ${formatNumber(guild.treasury?.coins || 0)} ${t("ui.coins").replace(":", "")}</div>
-    <div class="muted">${t("guild.perk")}: +${Math.min(10, Math.floor((guild.treasury?.coins || 0) / 10000))}% ${t("guild.coinGain")}</div>
+    <div class="muted">${t("guild.treasury")}: ${formatNumber(treasury)} ${t("ui.coins").replace(":", "")}</div>
+    <div class="muted">${t("guild.perk")}: +${perkPct}% ${t("guild.coinGain")}</div>
     <div class="muted">${t("guild.weeklyScore")}: ${formatNumber(guild.weeklyScore || 0)}</div>
     <div class="muted">${members}</div>
     <div class="settings-row">
@@ -161,13 +167,15 @@ async function refreshGuildLeaderboard() {
       `<div class="leader-item"><strong>#${i + 1} [${escapeHtml(g.tag)}] ${escapeHtml(g.name)}</strong> <span>${formatNumber(g.weeklyScore || 0)}</span></div>`
     ).join("") || `<div class="muted">${t("guild.lbEmpty")}</div>`;
   } catch {
-    el.innerHTML = `<div class="muted">${t("guild.lbEmpty")}</div>`;
+    el.innerHTML = `
+      <div class="muted">${t("guild.lbEmpty")}</div>
+      <button type="button" id="guild-lb-retry-btn" class="small">${t("guild.retry")}</button>`;
+    document.getElementById("guild-lb-retry-btn")?.addEventListener("click", refreshGuildLeaderboard);
   }
 }
 
 export function getGuildCoinBonus() {
-  /* Applied client-side from cached guild treasury if needed; server validates on contribute */
-  return 0;
+  return getGuildTreasuryCoinBonus(runtime.guildTreasury);
 }
 
 export async function bumpGuildScore(amount = 1) {

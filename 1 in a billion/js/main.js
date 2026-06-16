@@ -70,6 +70,8 @@ export function bindEvents() {
       if (btn.getAttribute("data-tab") === "social") {
         updateAdminVisibility();
         refreshGuild();
+        refreshLeaderboard();
+        refreshDuels();
       }
     });
   });

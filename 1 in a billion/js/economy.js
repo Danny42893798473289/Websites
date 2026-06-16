@@ -8,6 +8,8 @@ import {
   GEM_SHOP_BY_ID,
   GEM_SHOP_ITEMS,
   PRESTIGE_MILESTONES,
+  PRESTIGE_SHOP_BY_ID,
+  PRESTIGE_SHOP_ITEMS,
   PRESTIGE_TARGET_ROLLS,
   SECOND_DIE_GEM_COST,
   SECOND_DIE_RPS_BY_ID,
@@ -272,6 +274,35 @@ export function getGemShopEffectText(item) {
   if (item.id === "gemAuto") return `+${item.effect} permanent rolls/sec`;
   if (item.id === "gemValue") return `+${Math.round(item.effect * 100)}% egg sell value`;
   return `+${Math.round(item.effect * 100)}% prestige coin bonus`;
+}
+
+export function getPrestigeShopEffectText(item) {
+  if (item.id === "ppLuck") return `+${Math.round(item.effect * 100)}% permanent luck per level`;
+  if (item.id === "ppOffline") return `+${Math.round(item.effect * 100)}% offline efficiency per level`;
+  if (item.id === "ppIncubator") return `+${item.effect} incubator slot per level`;
+  if (item.id === "ppRelic") return `+${item.effect} relic slot per level`;
+  if (item.id === "ppRps2") return `+${item.effect} Die 2 RPS per level`;
+  return `+${item.effect}`;
+}
+
+export function buyPrestigeUpgrade(itemId) {
+  if (!runtime.state) return;
+  const item = PRESTIGE_SHOP_BY_ID[itemId];
+  if (!item) return;
+  const level = Number(runtime.state.prestigeUpgrades[item.id] || 0);
+  if (item.maxLevel && level >= item.maxLevel) {
+    setFeed(`${item.name} is maxed.`);
+    return;
+  }
+  const cost = getUpgradeCost(item, level);
+  if (runtime.state.prestigePoints < cost) {
+    setFeed("Not enough prestige points.");
+    return;
+  }
+  runtime.state.prestigePoints -= cost;
+  runtime.state.prestigeUpgrades[item.id] = level + 1;
+  setFeed(`Purchased ${item.name} Lv ${runtime.state.prestigeUpgrades[item.id]}.`);
+  playTone(580, 0.1);
 }
 
 export function buySecondDie() {

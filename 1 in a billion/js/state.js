@@ -7,6 +7,7 @@ import {
   EGG_VARIANTS,
   FUSION_EGG_TYPES,
   GEM_SHOP_ITEMS,
+  PRESTIGE_SHOP_ITEMS,
   PRESTIGE_TARGET_ROLLS,
   RARITIES,
   SHOP_ITEMS,
@@ -36,6 +37,11 @@ export function createDefaultState(username, userRecord) {
   const gemUpgrades = {};
   GEM_SHOP_ITEMS.forEach((item) => {
     gemUpgrades[item.id] = 0;
+  });
+
+  const prestigeUpgrades = {};
+  PRESTIGE_SHOP_ITEMS.forEach((item) => {
+    prestigeUpgrades[item.id] = 0;
   });
 
   return {
@@ -84,6 +90,10 @@ export function createDefaultState(username, userRecord) {
     playtimeMs: 0,
     prestigeLevel: 0,
     prestigePoints: 0,
+    prestigeUpgrades,
+    incubator: [],
+    relicsUnlocked: [],
+    relicsEquipped: [],
     achievementsUnlocked: {},
     settings: {
       darkMode: false,
@@ -202,6 +212,13 @@ export function sanitizeState(s) {
   s.playtimeMs = Number(s.playtimeMs || 0);
   s.prestigeLevel = Number(s.prestigeLevel || 0);
   s.prestigePoints = Number(s.prestigePoints || 0);
+  if (!s.prestigeUpgrades || typeof s.prestigeUpgrades !== "object") s.prestigeUpgrades = {};
+  PRESTIGE_SHOP_ITEMS.forEach((item) => {
+    s.prestigeUpgrades[item.id] = Number(s.prestigeUpgrades[item.id] || 0);
+  });
+  if (!Array.isArray(s.incubator)) s.incubator = [];
+  if (!Array.isArray(s.relicsUnlocked)) s.relicsUnlocked = [];
+  if (!Array.isArray(s.relicsEquipped)) s.relicsEquipped = [];
   s.daily.lastClaimAt = Number(s.daily.lastClaimAt || 0);
   s.stats.rollsSinceLastEgg = Number(s.stats.rollsSinceLastEgg || 0);
   s.stats.rollsSinceLastRarePlus = Number(s.stats.rollsSinceLastRarePlus || 0);

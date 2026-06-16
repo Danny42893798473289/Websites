@@ -1,9 +1,57 @@
 [
   {
+    "id": "1781322058533_im3su7",
+    "challenger": "Enter_username",
+    "opponent": "Danny",
+    "status": "complete",
+    "createdAt": 1781322058533,
+    "rolls": {
+      "challenger": {
+        "id": "uncommon_moss",
+        "name": "Moss Egg",
+        "rarity": "Uncommon",
+        "oneIn": 10,
+        "submittedAt": 1781322100993
+      },
+      "opponent": {
+        "id": "uncommon_bamboo",
+        "name": "Bamboo Egg",
+        "rarity": "Uncommon",
+        "oneIn": 10,
+        "submittedAt": 1781322267879
+      }
+    },
+    "winner": "Tie"
+  },
+  {
+    "id": "1781321802879_dza8et",
+    "challenger": "Enter_username",
+    "opponent": "Danny",
+    "status": "complete",
+    "createdAt": 1781321802879,
+    "rolls": {
+      "challenger": {
+        "id": "uncommon_fern",
+        "name": "Fern Egg",
+        "rarity": "Uncommon",
+        "oneIn": 10,
+        "submittedAt": 1781321946573
+      },
+      "opponent": {
+        "id": "uncommon_fern",
+        "name": "Fern Egg",
+        "rarity": "Uncommon",
+        "oneIn": 10,
+        "submittedAt": 1781322030762
+      }
+    },
+    "winner": "Tie"
+  },
+  {
     "id": "1781268862399_xzpmfe",
     "challenger": "Danny",
     "opponent": "Enter_username",
-    "status": "active",
+    "status": "complete",
     "createdAt": 1781268862399,
     "rolls": {
       "challenger": {
@@ -12,9 +60,16 @@
         "rarity": "Uncommon",
         "oneIn": 10,
         "submittedAt": 1781268886885
+      },
+      "opponent": {
+        "id": "uncommon_vine",
+        "name": "Vine Egg",
+        "rarity": "Uncommon",
+        "oneIn": 10,
+        "submittedAt": 1781321794337
       }
     },
-    "winner": null
+    "winner": "Tie"
   },
   {
     "id": "1781178813960_jsd6y9",

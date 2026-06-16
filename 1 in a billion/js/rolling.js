@@ -22,6 +22,7 @@ import {
   SUPER_LUCKY_LUCK_MULT,
   SECOND_DIE_BASE_RPS,
   SECOND_DIE_RPS_ITEMS,
+  PRESTIGE_SHOP_BY_ID,
   getDiceSides,
   getPrimaryDieInfo,
   getSecondDieInfo,
@@ -38,8 +39,9 @@ import { escapeHtml, formatDuration, formatNumber } from "./utils.js";
 import { checkAchievements } from "./economy.js";
 import { getGlobalEventBonus } from "./events.js";
 import { bumpChallenge, ensureWeeklyChallenges } from "./challenges.js";
-import { bumpGuildScore } from "./guilds.js";
+import { bumpGuildScore, getGuildCoinBonus } from "./guilds.js";
 import { getSeasonLuckBoost } from "./seasons.js";
+import { checkRelicUnlocks, getRelicBonus } from "./relics.js";
 import {
   checkSetCompletions,
   getCompanionBonusValue,
@@ -70,8 +72,9 @@ export async function applyOfflineProgress({ loginBoot = false } = {}) {
     return;
   }
 
+  const ppOffline = Number(runtime.state.prestigeUpgrades?.ppOffline || 0) * (PRESTIGE_SHOP_BY_ID.ppOffline?.effect || 0);
   const offlineEfficiency =
-    OFFLINE_ROLL_EFFICIENCY * (1 + getSetBonusValue("offline") + getCompanionBonusValue("offline"));
+    OFFLINE_ROLL_EFFICIENCY * (1 + getSetBonusValue("offline") + getCompanionBonusValue("offline") + ppOffline);
   const calculatedRolls = Math.min(
     OFFLINE_MAX_ROLLS,
     Math.floor((deltaMs / 1000) * offlineRps * offlineEfficiency)
@@ -287,6 +290,7 @@ export function performRoll(count, isManual) {
   }
 
   checkAchievements();
+  checkRelicUnlocks();
 }
 
 export function performSecondRoll(count, isManual) {
@@ -412,6 +416,7 @@ export function performSecondRoll(count, isManual) {
   }
 
   checkAchievements();
+  checkRelicUnlocks();
 }
 
 export function maybeGetEgg(minRarityIndex = null, luckMult = 1) {
@@ -442,7 +447,10 @@ export function getLuckFactor() {
   const gemLuckItem = GEM_SHOP_BY_ID.gemLuck;
   const ascDef = ASCENSION_CONFIG.upgrades.find((u) => u.id === "ascLuck");
   const ascLuck = Number(runtime.state.ascensionUpgrades.ascLuck || 0) * (ascDef?.effect || 0);
-  const duelLuck = Date.now() < Number(runtime.state.duelBuffExpiresAt || 0) ? 0.15 : 0;
+  const ppLuck = Number(runtime.state.prestigeUpgrades?.ppLuck || 0) * (PRESTIGE_SHOP_BY_ID.ppLuck?.effect || 0);
+  const duelLuck = Date.now() < Number(runtime.state.duelBuffExpiresAt || 0)
+    ? 0.15 + getRelicBonus("duelLuck")
+    : 0;
   return (
     1 +
     Number(runtime.state.upgrades.luck || 0) * luckItem.effect +
@@ -453,12 +461,18 @@ export function getLuckFactor() {
     ascLuck +
     duelLuck +
     Number(runtime.state.prestigeMilestoneLuck || 0) +
-    getSeasonLuckBoost()
+    getSeasonLuckBoost() +
+    getRelicBonus("luck") +
+    ppLuck
   );
 }
 
 export function maybeMakeShiny() {
-  const shinyOneIn = Math.max(1, Math.floor(SHINY_BASE_ONE_IN / Math.sqrt(Math.max(1, getLuckFactor()))));
+  const shinyBoost = 1 + getRelicBonus("shiny");
+  const shinyOneIn = Math.max(
+    1,
+    Math.floor(SHINY_BASE_ONE_IN / (Math.sqrt(Math.max(1, getLuckFactor())) * shinyBoost))
+  );
   return randomOneIn(shinyOneIn);
 }
 
@@ -619,7 +633,8 @@ export function getSecondDieRPS() {
     (sum, item) => sum + Number(upgrades[item.id] || 0) * item.effect,
     0
   );
-  return SECOND_DIE_BASE_RPS + upgradeRps;
+  const ppRps2 = Number(runtime.state.prestigeUpgrades?.ppRps2 || 0) * (PRESTIGE_SHOP_BY_ID.ppRps2?.effect || 0);
+  return SECOND_DIE_BASE_RPS + upgradeRps + getRelicBonus("rps2") + ppRps2;
 }
 
 export function getTotalRPS() {
@@ -641,8 +656,9 @@ export function getCoinMultiplier() {
   const eventCoin = 1 + getGlobalEventBonus("coin");
   const ascDef = ASCENSION_CONFIG.upgrades.find((u) => u.id === "ascCoins");
   const ascCoin = 1 + Number(runtime.state.ascensionUpgrades.ascCoins || 0) * (ascDef?.effect || 0);
-  const guildBonus = 1 + Math.min(0.1, Number(runtime.guildTreasury || 0) / 1_000_000);
-  const mult = coinMultBonus * gemCoinBonus * prestigeBonus * setCoin * companionCoin * eventCoin * ascCoin * guildBonus;
+  const relicCoin = 1 + getRelicBonus("coins");
+  const guildBonus = 1 + getGuildCoinBonus();
+  const mult = coinMultBonus * gemCoinBonus * prestigeBonus * setCoin * companionCoin * eventCoin * ascCoin * relicCoin * guildBonus;
   return Number.isFinite(mult) ? mult : 1;
 }
 

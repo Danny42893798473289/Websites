@@ -28,8 +28,11 @@ export async function refreshLeaderboard() {
     runtime.el.leaderboardList.innerHTML = rows || `<div class='muted'>${t("social.lbEmpty")}</div>`;
     runtime.el.leaderboardRank.textContent = data.viewerRank ? t("social.rank", { rank: `#${data.viewerRank}` }) : t("social.rankDash");
   } catch (err) {
-    runtime.el.leaderboardList.innerHTML = `<div class='muted'>${t("social.lbUnavailable")}</div>`;
+    runtime.el.leaderboardList.innerHTML = `
+      <div class='muted'>${t("social.lbUnavailable")}</div>
+      <button type="button" id="lb-retry-btn" class="small">${t("social.lbRetry")}</button>`;
     runtime.el.leaderboardRank.textContent = t("social.rankDash");
+    document.getElementById("lb-retry-btn")?.addEventListener("click", refreshLeaderboard);
   }
 }
 
@@ -97,7 +100,10 @@ export async function refreshDuels() {
     const data = await apiRequest(`/api/duel/active?viewer=${encodeURIComponent(runtime.currentUser)}`, { method: "GET" });
     renderDuels(data.duels || []);
   } catch (err) {
-    runtime.el.duelPanel.innerHTML = `<div class='muted'>${t("social.duelsUnavailable")}</div>`;
+    runtime.el.duelPanel.innerHTML = `
+      <div class='muted'>${t("social.duelsUnavailable")}</div>
+      <button type="button" id="duels-retry-btn" class="small">${t("social.duelsRetry")}</button>`;
+    document.getElementById("duels-retry-btn")?.addEventListener("click", refreshDuels);
   }
 }
 

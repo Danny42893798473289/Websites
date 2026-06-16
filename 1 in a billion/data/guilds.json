@@ -5,14 +5,15 @@
     "tag": "NB",
     "leader": "Enter_username",
     "members": [
-      "Enter_username"
+      "Enter_username",
+      "Danny"
     ],
     "createdAt": 1781266836678,
     "treasury": {
-      "coins": 0,
+      "coins": 41770002,
       "gems": 0
     },
-    "weeklyScore": 1718002,
+    "weeklyScore": 2257489,
     "weeklyWeekId": 2945
   }
 }
