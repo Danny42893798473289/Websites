@@ -10,8 +10,9 @@ import { runtime } from "./runtime.js";
 import { save } from "./save.js";
 import { performRoll, performSecondRoll, getPrimaryRPS, getSecondDieRPS, processPendingOfflineRolls } from "./rolling.js";
 import { hasSecondDie } from "./config.js";
-import { renderCore, renderHeavyForTab } from "./render.js";
+import { renderCore, renderHeavyForTab, renderFusionLab } from "./render.js";
 import { fetchGlobalEventFromServer, refreshGlobalEvent } from "./events.js";
+import { tryAutoFusion, hasAutoFusionUnlock, getAutoFusionIntervalMs } from "./progression.js";
 
 export function startLoops() {
   stopLoops();
@@ -103,5 +104,24 @@ export function gameTick() {
       console.error("Die 2 auto-roll tick failed:", err);
       runtime.rollBuffer2 = 0;
     }
+  }
+
+  if (hasAutoFusionUnlock(runtime.state) && runtime.state.settings.autoFusionEnabled) {
+    const fusionInterval = getAutoFusionIntervalMs(runtime.state);
+    runtime.fusionBuffer = Number(runtime.fusionBuffer || 0) + dtSeconds * 1000;
+    if (runtime.fusionBuffer >= fusionInterval) {
+      runtime.fusionBuffer -= fusionInterval;
+      try {
+        const crafted = tryAutoFusion();
+        if (crafted && runtime.activeTab === "progression") {
+          renderFusionLab();
+        }
+      } catch (err) {
+        console.error("Auto-fusion tick failed:", err);
+        runtime.fusionBuffer = 0;
+      }
+    }
+  } else {
+    runtime.fusionBuffer = 0;
   }
 }

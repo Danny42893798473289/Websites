@@ -5,7 +5,7 @@ import { escapeHtml, formatNumber } from "./utils.js";
 import { maybeGetEgg } from "./rolling.js";
 import { setFeed } from "./feedback.js";
 import { save } from "./save.js";
-import { renderCore } from "./render.js";
+import { renderCore, renderAscension, renderPrestigeShop } from "./render.js";
 import { t, tTitleLabel } from "./i18n.js";
 
 export async function refreshLeaderboard() {
@@ -161,63 +161,80 @@ export function updateAdminVisibility() {
   });
 }
 
-export async function giveAdminCoins() {
+export async function giveAdminResources() {
   if (runtime.currentUser !== "Danny") {
     setFeed("Admin tools are only available when logged in as Danny.", "error");
     return;
   }
   const target = (runtime.el.adminTargetUsername?.value || "").trim();
-  const amtStr = runtime.el.adminCoinAmount?.value || "";
-  const amount = Number(amtStr);
+  const coins = Number(runtime.el.adminCoinsDelta?.value || 0);
+  const gems = Number(runtime.el.adminGemsDelta?.value || 0);
+  const prestigePoints = Number(runtime.el.adminPrestigePointsDelta?.value || 0);
+  const ascensionPoints = Number(runtime.el.adminAscensionPointsDelta?.value || 0);
+
   if (!target) {
     if (runtime.el.adminGrantResult) runtime.el.adminGrantResult.textContent = "Enter a target username.";
     return;
   }
-  if (!Number.isFinite(amount)) {
-    if (runtime.el.adminGrantResult) runtime.el.adminGrantResult.textContent = "Enter a valid coin amount.";
+  if (![coins, gems, prestigePoints, ascensionPoints].some((n) => Number.isFinite(n) && n !== 0)) {
+    if (runtime.el.adminGrantResult) runtime.el.adminGrantResult.textContent = "Enter at least one non-zero amount.";
     return;
   }
 
-  const originalText = runtime.el.adminGiveCoinsBtn ? runtime.el.adminGiveCoinsBtn.textContent : "";
-  if (runtime.el.adminGiveCoinsBtn) runtime.el.adminGiveCoinsBtn.disabled = true;
+  const originalText = runtime.el.adminGrantBtn ? runtime.el.adminGrantBtn.textContent : "";
+  if (runtime.el.adminGrantBtn) runtime.el.adminGrantBtn.disabled = true;
   if (runtime.el.adminGrantResult) runtime.el.adminGrantResult.textContent = "Processing...";
 
   try {
-    const res = await apiRequest("/api/admin/give-coins", {
+    const res = await apiRequest("/api/admin/grant-resources", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         adminUsername: runtime.currentUser,
         targetUsername: target,
-        amount
+        coins,
+        gems,
+        prestigePoints,
+        ascensionPoints
       })
     });
 
-    const msg = res.message || `Gave ${amount} coins to ${target}.`;
+    const msg = res.message || `Applied grants to ${target}.`;
     setFeed(msg);
     if (runtime.el.adminGrantResult) {
       runtime.el.adminGrantResult.textContent = msg + (res.created ? " (new account auto-created)" : "");
     }
 
-    // If we granted to the currently logged-in player, immediately reflect it in the UI
-    if (target === runtime.currentUser && runtime.state) {
-      runtime.state.coins = Number(res.target?.coins ?? (Number(runtime.state.coins || 0) + amount));
-      // keep top-level counters sane
-      runtime.state.totalCoinsEarned = Math.max(
-        Number(runtime.state.totalCoinsEarned || 0),
-        Number(runtime.state.coins || 0)
-      );
+    if (target === runtime.currentUser && runtime.state && res.target) {
+      runtime.state.coins = Number(res.target.coins ?? runtime.state.coins);
+      runtime.state.gems = Number(res.target.gems ?? runtime.state.gems);
+      runtime.state.prestigePoints = Number(res.target.prestigePoints ?? runtime.state.prestigePoints);
+      runtime.state.ascensionPoints = Number(res.target.ascensionPoints ?? runtime.state.ascensionPoints);
+      if (res.applied?.coins?.delta > 0) {
+        runtime.state.totalCoinsEarned = Math.max(
+          Number(runtime.state.totalCoinsEarned || 0),
+          Number(runtime.state.coins || 0)
+        );
+      }
+      if (res.applied?.gems?.delta > 0) {
+        runtime.state.totalGemsEarned = Math.max(
+          Number(runtime.state.totalGemsEarned || 0),
+          Number(runtime.state.gems || 0)
+        );
+      }
       renderCore();
+      renderAscension();
+      renderPrestigeShop();
       save();
     }
   } catch (err) {
-    const m = err.message || "Failed to grant coins (server error or not admin).";
+    const m = err.message || "Failed to grant resources (server error or not admin).";
     setFeed(m, "error");
     if (runtime.el.adminGrantResult) runtime.el.adminGrantResult.textContent = m;
   } finally {
-    if (runtime.el.adminGiveCoinsBtn) {
-      runtime.el.adminGiveCoinsBtn.disabled = false;
-      runtime.el.adminGiveCoinsBtn.textContent = originalText || "Give Coins";
+    if (runtime.el.adminGrantBtn) {
+      runtime.el.adminGrantBtn.disabled = false;
+      runtime.el.adminGrantBtn.textContent = originalText || "Apply Grants";
     }
   }
 }

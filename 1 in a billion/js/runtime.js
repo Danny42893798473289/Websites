@@ -24,5 +24,7 @@ export const runtime = {
   pendingOfflineRolls: 0,
   showShinyCodex: false,
   currentSeason: null,
-  guildTreasury: 0
+  guildTreasury: 0,
+  fusionBuffer: 0,
+  autoFusionBatch: 0
 };

@@ -87,8 +87,11 @@ export function cacheElements() {
   el.duelPanel = document.getElementById("duel-panel");
 
   el.adminTargetUsername = document.getElementById("admin-target-username");
-  el.adminCoinAmount = document.getElementById("admin-coin-amount");
-  el.adminGiveCoinsBtn = document.getElementById("admin-give-coins-btn");
+  el.adminCoinsDelta = document.getElementById("admin-coins-delta");
+  el.adminGemsDelta = document.getElementById("admin-gems-delta");
+  el.adminPrestigePointsDelta = document.getElementById("admin-prestige-points-delta");
+  el.adminAscensionPointsDelta = document.getElementById("admin-ascension-points-delta");
+  el.adminGrantBtn = document.getElementById("admin-grant-btn");
   el.adminGrantResult = document.getElementById("admin-grant-result");
 
   el.coins = document.getElementById("coins");

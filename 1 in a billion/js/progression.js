@@ -1,6 +1,10 @@
 import {
   ALL_EGG_BY_ID,
   ASCENSION_CONFIG,
+  AUTO_FUSION_BASE_INTERVAL_MS,
+  AUTO_FUSION_MIN_INTERVAL_MS,
+  AUTO_FUSION_SPEED_BONUS,
+  AUTO_FUSION_TIER_ORDER,
   DICE_AP_COST,
   MAX_DICE_PURCHASES,
   getNextDiceUpgrade,
@@ -18,9 +22,10 @@ import {
 } from "./config.js";
 import { runtime } from "./runtime.js";
 import { markEggDiscovered } from "./state.js";
-import { escapeHtml } from "./utils.js";
+import { escapeHtml, formatDuration } from "./utils.js";
 import { setFeed } from "./feedback.js";
 import { bumpChallenge } from "./challenges.js";
+import { t } from "./i18n.js";
 
 export function checkSetCompletions() {
   if (!runtime.state) return;
@@ -147,15 +152,36 @@ export function describeFusionIngredientChain(eggId, depth, visited) {
 }
 
 export function canCraftFusionRecipe(recipe) {
+  if (!runtime.state) return false;
   return recipe.ingredients.every((ingredient) => {
     return Number(runtime.state.eggCollection[ingredient.eggId] || 0) >= ingredient.count;
   });
 }
 
-export function craftFusion(recipeId) {
-  const recipe = FUSION_RECIPES.find((item) => item.id === recipeId);
-  if (!recipe) return;
-  if (!canCraftFusionRecipe(recipe)) return;
+export function hasAutoFusionUnlock(state) {
+  return Number(state?.ascensionUpgrades?.ascFusion || 0) >= 1;
+}
+
+export function getAutoFusionIntervalMs(state) {
+  const speedLevel = Number(state?.ascensionUpgrades?.ascFusionSpeed || 0);
+  const fusionsPerSec = 1000 / AUTO_FUSION_BASE_INTERVAL_MS + speedLevel * AUTO_FUSION_SPEED_BONUS;
+  return Math.max(AUTO_FUSION_MIN_INTERVAL_MS, Math.floor(1000 / fusionsPerSec));
+}
+
+export function findNextCraftableRecipe() {
+  if (!runtime.state) return null;
+  for (const tier of AUTO_FUSION_TIER_ORDER) {
+    for (const recipe of FUSION_RECIPES) {
+      if (getFusionRecipeTier(recipe) !== tier) continue;
+      if (canCraftFusionRecipe(recipe)) return recipe;
+    }
+  }
+  return null;
+}
+
+export function applyFusion(recipe, { silent = false } = {}) {
+  if (!runtime.state || !recipe) return false;
+  if (!canCraftFusionRecipe(recipe)) return false;
 
   recipe.ingredients.forEach((ingredient) => {
     runtime.state.eggCollection[ingredient.eggId] -= ingredient.count;
@@ -163,12 +189,56 @@ export function craftFusion(recipeId) {
   runtime.state.eggCollection[recipe.resultId] = Number(runtime.state.eggCollection[recipe.resultId] || 0) + 1;
   markEggDiscovered(runtime.state, recipe.resultId);
   runtime.state.fusionCraftCount = Number(runtime.state.fusionCraftCount || 0) + 1;
-
   syncRarityTotals(runtime.state);
-  const resultEgg = FUSION_EGG_BY_ID[recipe.resultId];
-  const msg = `Fusion success: ${recipe.name} created ${resultEgg.name}.`;
-  setFeed(msg, "fusion");
   bumpChallenge("fusion_3");
+
+  const resultEgg = FUSION_EGG_BY_ID[recipe.resultId];
+  if (!silent) {
+    setFeed(`Fusion success: ${recipe.name} created ${resultEgg?.name || recipe.resultId}.`, "fusion");
+  } else {
+    runtime.autoFusionBatch = Number(runtime.autoFusionBatch || 0) + 1;
+    if (runtime.autoFusionBatch >= 5) {
+      setFeed(t("fusion.autoBatch", { n: runtime.autoFusionBatch }), "fusion");
+      runtime.autoFusionBatch = 0;
+    }
+  }
+  return true;
+}
+
+export function tryAutoFusion() {
+  if (!runtime.state || !hasAutoFusionUnlock(runtime.state) || !runtime.state.settings.autoFusionEnabled) {
+    return false;
+  }
+  const recipe = findNextCraftableRecipe();
+  if (!recipe) return false;
+  return applyFusion(recipe, { silent: true });
+}
+
+export function getAutoFusionStatusText() {
+  if (!runtime.state) return "";
+  if (!hasAutoFusionUnlock(runtime.state)) return t("fusion.autoLocked");
+  if (!runtime.state.settings.autoFusionEnabled) return t("fusion.autoOff");
+  if (!findNextCraftableRecipe()) return t("fusion.autoWaiting");
+  const interval = getAutoFusionIntervalMs(runtime.state);
+  const remaining = Math.max(0, interval - Number(runtime.fusionBuffer || 0));
+  return t("fusion.autoOn", { time: formatDuration(remaining) });
+}
+
+export function getAscensionUpgradeEffectText(upgrade) {
+  if (upgrade.id === "ascFusion") return t("asc.ascFusionEffect");
+  if (upgrade.id === "ascFusionSpeed") {
+    return t("asc.ascFusionSpeedEffect", { n: Math.round(upgrade.effect * 100) });
+  }
+  if (upgrade.id === "ascLuck") return t("asc.ascLuckEffect", { n: Math.round(upgrade.effect * 100) });
+  if (upgrade.id === "ascCoins") return t("asc.ascCoinsEffect", { n: Math.round(upgrade.effect * 100) });
+  if (upgrade.id === "ascRps") return t("asc.ascRpsEffect", { n: upgrade.effect });
+  return `+${upgrade.effect}`;
+}
+
+export function craftFusion(recipeId) {
+  const recipe = FUSION_RECIPES.find((item) => item.id === recipeId);
+  if (!recipe) return;
+  applyFusion(recipe, { silent: false });
 }
 
 export function doAscend() {
@@ -228,12 +298,15 @@ export function buyDiceUpgrade() {
 
 export function buyAscensionUpgrade(upgradeId) {
   const upgrade = ASCENSION_CONFIG.upgrades.find((u) => u.id === upgradeId);
-  if (!upgrade) return;
+  if (!upgrade || !runtime.state) return;
   const level = Number(runtime.state.ascensionUpgrades[upgradeId] || 0);
+  if (upgrade.maxLevel && level >= upgrade.maxLevel) {
+    setFeed(`${upgrade.name} is maxed.`);
+    return;
+  }
   const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.growth, level));
   if (runtime.state.ascensionPoints < cost) return;
   runtime.state.ascensionPoints -= cost;
   runtime.state.ascensionUpgrades[upgradeId] = level + 1;
-  const msg = `Purchased ${upgrade.name} Lv ${runtime.state.ascensionUpgrades[upgradeId]}`;
-  setFeed(msg, "ascension");
+  setFeed(`Purchased ${upgrade.name} Lv ${runtime.state.ascensionUpgrades[upgradeId]}.`, "ascension");
 }

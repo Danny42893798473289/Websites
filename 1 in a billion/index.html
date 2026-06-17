@@ -318,11 +318,30 @@
 
         <article class="card tab-panel admin-only" data-panel="social">
           <h3 data-i18n="social.admin">Admin Tools</h3>
-          <p class="muted section-hint" data-i18n="social.adminHintLong">Danny only. Grant coins to any account (including yourself). Accounts that don't exist yet will be auto-created with a temporary password.</p>
+          <p class="muted section-hint" data-i18n="social.adminHintLong">Danny only. Grant currencies to any account (including yourself). Use 0 to skip a field; negative values deduct. New accounts are auto-created with a temporary password.</p>
           <div class="settings-row">
             <input id="admin-target-username" type="text" data-i18n-placeholder="social.adminTargetPh" placeholder="Target username" />
-            <input id="admin-coin-amount" type="number" step="1" value="1000000" style="width: 140px" />
-            <button id="admin-give-coins-btn" data-i18n="social.giveCoins">Give Coins</button>
+          </div>
+          <div class="admin-currency-grid">
+            <label class="admin-currency-field">
+              <span data-i18n="ui.coins">Coins</span>
+              <input id="admin-coins-delta" type="number" step="1" value="0" />
+            </label>
+            <label class="admin-currency-field">
+              <span data-i18n="ui.gems">Gems</span>
+              <input id="admin-gems-delta" type="number" step="1" value="0" />
+            </label>
+            <label class="admin-currency-field">
+              <span data-i18n="prog.prestigePoints">Prestige Points</span>
+              <input id="admin-prestige-points-delta" type="number" step="1" value="0" />
+            </label>
+            <label class="admin-currency-field">
+              <span data-i18n="prog.ascPoints">Ascension Points</span>
+              <input id="admin-ascension-points-delta" type="number" step="1" value="0" />
+            </label>
+          </div>
+          <div class="settings-row">
+            <button id="admin-grant-btn" data-i18n="social.grantCurrencies">Apply Grants</button>
           </div>
           <div id="admin-grant-result" class="muted action-note"></div>
         </article>

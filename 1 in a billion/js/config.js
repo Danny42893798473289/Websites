@@ -27,7 +27,10 @@ export const EGG_VARIANTS = {
       { id: "common_clover", name: "Clover Egg", description: "Green speckles rumored to bring luck." },
       { id: "common_dusk", name: "Dusk Egg", description: "Soft purple shell found at twilight." },
       { id: "common_hay", name: "Hay Egg", description: "Straw-colored and faintly sweet-smelling." },
-      { id: "common_mist", name: "Mist Egg", description: "Pale white shell beaded with dew." }
+      { id: "common_mist", name: "Mist Egg", description: "Pale white shell beaded with dew." },
+      { id: "common_patch", name: "Patch Egg", description: "Stitched from scraps of older coops." },
+      { id: "common_root", name: "Root Egg", description: "Earthy brown shell with tangled roots." },
+      { id: "common_spark", name: "Spark Egg", description: "Tiny crackles jump across the shell." }
     ],
     Uncommon: [
       { id: "uncommon_moss", name: "Moss Egg", description: "Damp forest moss clings to its shell." },
@@ -35,7 +38,10 @@ export const EGG_VARIANTS = {
       { id: "uncommon_bamboo", name: "Bamboo Egg", description: "Pale green with segmented ridges." },
       { id: "uncommon_creek", name: "Creek Egg", description: "Cool to the touch, faintly rippled." },
       { id: "uncommon_thistle", name: "Thistle Egg", description: "Purple spines ring the crown." },
-      { id: "uncommon_vine", name: "Vine Egg", description: "Twining green lines crawl across the shell." }
+      { id: "uncommon_vine", name: "Vine Egg", description: "Twining green lines crawl across the shell." },
+      { id: "uncommon_bloom", name: "Bloom Egg", description: "Flower petals pressed into the shell." },
+      { id: "uncommon_pine", name: "Pine Egg", description: "Resinous scent of evergreen forest." },
+      { id: "uncommon_dew", name: "Dew Egg", description: "Fresh morning droplets cover the surface." }
     ],
     Rare: [
       { id: "rare_sapphire", name: "Sapphire Egg", description: "Deep blue gem-like shell." },
@@ -43,7 +49,10 @@ export const EGG_VARIANTS = {
       { id: "rare_azure", name: "Azure Egg", description: "Bright sky-blue and highly polished." },
       { id: "rare_indigo", name: "Indigo Egg", description: "Midnight blue with silver flecks." },
       { id: "rare_lapis", name: "Lapis Egg", description: "Gold veins streak through deep blue stone." },
-      { id: "rare_teal", name: "Teal Egg", description: "Ocean-green shimmer under light." }
+      { id: "rare_teal", name: "Teal Egg", description: "Ocean-green shimmer under light." },
+      { id: "rare_glacier", name: "Glacier Egg", description: "Cold blue shell coated in frost." },
+      { id: "rare_marine", name: "Marine Egg", description: "Salt-spray patterns swirl around it." },
+      { id: "rare_prism", name: "Prism Egg", description: "Refracts light into faint rainbows." }
     ],
     Epic: [
       { id: "epic_arcane", name: "Arcane Egg", description: "Crackling with unstable magic." },
@@ -51,7 +60,10 @@ export const EGG_VARIANTS = {
       { id: "epic_hex", name: "Hex Egg", description: "A cursed violet aura surrounds it." },
       { id: "epic_spell", name: "Spell Egg", description: "Hums with forgotten incantations." },
       { id: "epic_crystal", name: "Crystal Egg", description: "Faceted shell refracts rainbow light." },
-      { id: "epic_mystic", name: "Mystic Egg", description: "Arcane mist coils around its base." }
+      { id: "epic_mystic", name: "Mystic Egg", description: "Arcane mist coils around its base." },
+      { id: "epic_voidmark", name: "Voidmark Egg", description: "Dark sigils pulse beneath the surface." },
+      { id: "epic_storm", name: "Storm Egg", description: "Thunder rumble follows each roll." },
+      { id: "epic_ward", name: "Ward Egg", description: "Protective runes guard this shell." }
     ],
     Legendary: [
       { id: "legendary_golden", name: "Golden Egg", description: "Pure gold luster, collector favorite." },
@@ -59,7 +71,10 @@ export const EGG_VARIANTS = {
       { id: "legendary_midas", name: "Midas Egg", description: "Everything it touches turns valuable." },
       { id: "legendary_aurora", name: "Aurora Egg", description: "Shifts colors like northern lights." },
       { id: "legendary_crown", name: "Crown Egg", description: "Tiny golden spikes form a regal ring." },
-      { id: "legendary_dawn", name: "Dawn Egg", description: "Rose-gold shell that brightens at sunrise." }
+      { id: "legendary_dawn", name: "Dawn Egg", description: "Rose-gold shell that brightens at sunrise." },
+      { id: "legendary_blaze", name: "Blaze Egg", description: "Flames lick the edges without burning." },
+      { id: "legendary_titan", name: "Titan Egg", description: "Heavy shell fit for a legendary beast." },
+      { id: "legendary_oath", name: "Oath Egg", description: "Golden vow-seal embedded in the shell." }
     ],
     Fabled: [
       { id: "fabled_suncrest", name: "Suncrest Egg", description: "Crowned with a golden halo." },
@@ -67,7 +82,10 @@ export const EGG_VARIANTS = {
       { id: "fabled_radiant", name: "Radiant Egg", description: "Blazes softly in the dark." },
       { id: "fabled_gilded", name: "Gilded Egg", description: "Ornate filigree wraps the shell." },
       { id: "fabled_solstice", name: "Solstice Egg", description: "Marks the longest day in gold filigree." },
-      { id: "fabled_zenith", name: "Zenith Egg", description: "Glows brightest at high noon." }
+      { id: "fabled_zenith", name: "Zenith Egg", description: "Glows brightest at high noon." },
+      { id: "fabled_corona", name: "Corona Egg", description: "Solar flares crown the apex." },
+      { id: "fabled_auric", name: "Auric Egg", description: "Rich gold leaf wraps the shell." },
+      { id: "fabled_ember", name: "Ember Egg", description: "Warm embers glow from within." }
     ],
     Mythic: [
       { id: "mythic_crimson", name: "Crimson Egg", description: "Blood-red and fiercely hot." },
@@ -75,7 +93,10 @@ export const EGG_VARIANTS = {
       { id: "mythic_inferno", name: "Inferno Egg", description: "Flames dance across the surface." },
       { id: "mythic_bloodstone", name: "Bloodstone Egg", description: "Dark red with black veins." },
       { id: "mythic_magma", name: "Magma Egg", description: "Molten cracks pulse with orange light." },
-      { id: "mythic_scorch", name: "Scorch Egg", description: "Charred shell that never cools." }
+      { id: "mythic_scorch", name: "Scorch Egg", description: "Charred shell that never cools." },
+      { id: "mythic_cinder", name: "Cinder Egg", description: "Ash-gray with smoldering cracks." },
+      { id: "mythic_pyre", name: "Pyre Egg", description: "Built for ritual fire offerings." },
+      { id: "mythic_blaze", name: "Blaze Egg", description: "Twin flames dance on scarlet shell." }
     ],
     Divine: [
       { id: "divine_seraph", name: "Seraph Egg", description: "Feather-light and holy bright." },
@@ -83,7 +104,10 @@ export const EGG_VARIANTS = {
       { id: "divine_grace", name: "Grace Egg", description: "Blessed by impossible odds." },
       { id: "divine_sanctum", name: "Sanctum Egg", description: "Sacred relic of the rollers." },
       { id: "divine_choir", name: "Choir Egg", description: "Soft chimes echo when it rolls." },
-      { id: "divine_relic", name: "Relic Egg", description: "Ancient blessing sealed in ivory shell." }
+      { id: "divine_relic", name: "Relic Egg", description: "Ancient blessing sealed in ivory shell." },
+      { id: "divine_aegis", name: "Aegis Egg", description: "Divine shield emblem etched in gold." },
+      { id: "divine_psalm", name: "Psalm Egg", description: "Hums a soft choral note when touched." },
+      { id: "divine_beacon", name: "Beacon Egg", description: "Radiates guiding light in the dark." }
     ],
     Celestial: [
       { id: "celestial_nebula", name: "Nebula Egg", description: "Swirls with cosmic dust." },
@@ -91,7 +115,10 @@ export const EGG_VARIANTS = {
       { id: "celestial_orbit", name: "Orbit Egg", description: "Tiny moons circle the shell." },
       { id: "celestial_pulsar", name: "Pulsar Egg", description: "Pulses with rhythmic starlight." },
       { id: "celestial_lunar", name: "Lunar Egg", description: "Silver craters pock the pale surface." },
-      { id: "celestial_stellar", name: "Stellar Egg", description: "Pinprick stars scatter across indigo." }
+      { id: "celestial_stellar", name: "Stellar Egg", description: "Pinprick stars scatter across indigo." },
+      { id: "celestial_aurora", name: "Aurora Egg", description: "Rippling lights shift across the shell." },
+      { id: "celestial_meteor", name: "Meteor Egg", description: "Streak-burn marks trace its fall." },
+      { id: "celestial_cosmo", name: "Cosmo Egg", description: "Miniature starfield swirls inside." }
     ],
     Void: [
       { id: "void_abyss", name: "Abyss Egg", description: "Light vanishes near its surface." },
@@ -99,7 +126,10 @@ export const EGG_VARIANTS = {
       { id: "void_oblivion", name: "Oblivion Egg", description: "Forgotten by probability itself." },
       { id: "void_eclipse", name: "Eclipse Egg", description: "Dark as a moonless night." },
       { id: "void_hollow", name: "Hollow Egg", description: "Feels empty even when held." },
-      { id: "void_rift", name: "Rift Egg", description: "Hairline cracks leak shadowy mist." }
+      { id: "void_rift", name: "Rift Egg", description: "Hairline cracks leak shadowy mist." },
+      { id: "void_shade", name: "Shade Egg", description: "Deeper black than surrounding shadow." },
+      { id: "void_silence", name: "Silence Egg", description: "Absorbs all nearby sound." },
+      { id: "void_depth", name: "Depth Egg", description: "Seems to fall away when you look inside." }
     ],
     Astral: [
       { id: "astral_cosmos", name: "Cosmos Egg", description: "Contains a miniature galaxy." },
@@ -107,7 +137,10 @@ export const EGG_VARIANTS = {
       { id: "astral_galaxy", name: "Galaxy Egg", description: "Spiral arms spin on the shell." },
       { id: "astral_supernova", name: "Supernova Egg", description: "Born from a dying star." },
       { id: "astral_neutron", name: "Neutron Egg", description: "Dense shell that bends light around it." },
-      { id: "astral_parallax", name: "Parallax Egg", description: "Shifts position when viewed from angles." }
+      { id: "astral_parallax", name: "Parallax Egg", description: "Shifts position when viewed from angles." },
+      { id: "astral_voidwalk", name: "Voidwalk Egg", description: "Steps between stars leave trail-marks." },
+      { id: "astral_drift", name: "Drift Egg", description: "Slowly rotates even when still." },
+      { id: "astral_lens", name: "Lens Egg", description: "Focuses starlight into a bright point." }
     ],
     Ethereal: [
       { id: "ethereal_phantom", name: "Phantom Egg", description: "Semi-transparent and ghostly." },
@@ -115,7 +148,10 @@ export const EGG_VARIANTS = {
       { id: "ethereal_mirage", name: "Mirage Egg", description: "Shimmers between forms." },
       { id: "ethereal_specter", name: "Specter Egg", description: "Flickers in and out of view." },
       { id: "ethereal_veil", name: "Veil Egg", description: "Soft focus, like seen through fog." },
-      { id: "ethereal_echo", name: "Echo Egg", description: "Leaves a faint afterimage when moved." }
+      { id: "ethereal_echo", name: "Echo Egg", description: "Leaves a faint afterimage when moved." },
+      { id: "ethereal_glimmer", name: "Glimmer Egg", description: "Faint sparkle flits across the shell." },
+      { id: "ethereal_haze", name: "Haze Egg", description: "Soft blurred edges like morning fog." },
+      { id: "ethereal_shade", name: "Shade Egg", description: "Ghostly duplicate flickers beside it." }
     ],
     Omnipotent: [
       { id: "omnipotent_titan", name: "Titan Egg", description: "Heavy with creation energy." },
@@ -123,7 +159,10 @@ export const EGG_VARIANTS = {
       { id: "omnipotent_dominus", name: "Dominus Egg", description: "Commands raw divine power." },
       { id: "omnipotent_apex", name: "Apex Egg", description: "Peak of all egg evolution." },
       { id: "omnipotent_colossus", name: "Colossus Egg", description: "Impossibly dense with latent force." },
-      { id: "omnipotent_throne", name: "Throne Egg", description: "Lesser eggs seem to bow nearby." }
+      { id: "omnipotent_throne", name: "Throne Egg", description: "Lesser eggs seem to bow nearby." },
+      { id: "omnipotent_crown", name: "Crown Egg", description: "Miniature crown rests atop the shell." },
+      { id: "omnipotent_edict", name: "Edict Egg", description: "Commands written in luminous script." },
+      { id: "omnipotent_reign", name: "Reign Egg", description: "Regal aura bends lesser odds." }
     ],
     Infinity: [
       { id: "infinity_eternal", name: "Eternal Egg", description: "Never stops existing." },
@@ -131,7 +170,10 @@ export const EGG_VARIANTS = {
       { id: "infinity_limitless", name: "Limitless Egg", description: "Value beyond measurement." },
       { id: "infinity_evermore", name: "Evermore Egg", description: "Lasts through all rebirths." },
       { id: "infinity_loop", name: "Loop Egg", description: "Its pattern repeats without end." },
-      { id: "infinity_horizon", name: "Horizon Egg", description: "The shell seems to stretch forever." }
+      { id: "infinity_horizon", name: "Horizon Egg", description: "The shell seems to stretch forever." },
+      { id: "infinity_spiral", name: "Spiral Egg", description: "Endless spiral pattern draws the eye." },
+      { id: "infinity_chrono", name: "Chrono Egg", description: "Tick marks circle like a clock." },
+      { id: "infinity_continuum", name: "Continuum Egg", description: "Seamless flow between past and future." }
     ],
     Absolute: [
       { id: "absolute_zenith", name: "Zenith Egg", description: "The highest point of rarity." },
@@ -139,7 +181,10 @@ export const EGG_VARIANTS = {
       { id: "absolute_primordial", name: "Primordial Egg", description: "Predates all other eggs." },
       { id: "absolute_core", name: "Absolute Core", description: "One in ten trillion. Pure myth." },
       { id: "absolute_nadir", name: "Nadir Egg", description: "Impossibly rare, impossibly deep." },
-      { id: "absolute_singularity", name: "Singularity Egg", description: "All odds collapse into this shell." }
+      { id: "absolute_singularity", name: "Singularity Egg", description: "All odds collapse into this shell." },
+      { id: "absolute_apogee", name: "Apogee Egg", description: "Peak rarity crystallized in one shell." },
+      { id: "absolute_finality", name: "Finality Egg", description: "The last word in egg evolution." },
+      { id: "absolute_myth", name: "Myth Egg", description: "Exists more in legend than in fact." }
     ]
   };
 
@@ -243,7 +288,31 @@ export function getRarityEggCount(saveState, rarityName) {
 export function getCodexFoundCount(saveState) {
     if (!saveState) return 0;
     return [...EGG_TYPES, ...FUSION_EGG_TYPES].reduce((sum, egg) => {
-      const discovered = !!saveState.discoveredEggs?.[egg.id] || Number(saveState.eggCollection?.[egg.id] || 0) > 0;
+      const discovered =
+        !!saveState.discoveredEggs?.[egg.id] ||
+        Number(saveState.eggCollection?.[egg.id] || 0) > 0 ||
+        Number(saveState.shinyCollection?.[egg.id] || 0) > 0;
+      return sum + (discovered ? 1 : 0);
+    }, 0);
+  }
+
+export function getRollableCodexFoundCount(saveState) {
+    if (!saveState) return 0;
+    return EGG_TYPES.reduce((sum, egg) => {
+      const discovered =
+        !!saveState.discoveredEggs?.[egg.id] ||
+        Number(saveState.eggCollection?.[egg.id] || 0) > 0 ||
+        Number(saveState.shinyCollection?.[egg.id] || 0) > 0;
+      return sum + (discovered ? 1 : 0);
+    }, 0);
+  }
+
+export function getFusionCodexFoundCount(saveState) {
+    if (!saveState) return 0;
+    return FUSION_EGG_TYPES.reduce((sum, egg) => {
+      const discovered =
+        !!saveState.discoveredEggs?.[egg.id] ||
+        Number(saveState.eggCollection?.[egg.id] || 0) > 0;
       return sum + (discovered ? 1 : 0);
     }, 0);
   }
@@ -494,9 +563,16 @@ export const ASCENSION_CONFIG = {
     upgrades: [
       { id: "ascLuck", name: "Ascended Luck", baseCost: 1, growth: 1.65, effect: 0.06 },
       { id: "ascCoins", name: "Ascended Coin Flow", baseCost: 1, growth: 1.55, effect: 0.1 },
-      { id: "ascRps", name: "Ascended Momentum", baseCost: 2, growth: 1.7, effect: 0.9 }
+      { id: "ascRps", name: "Ascended Momentum", baseCost: 2, growth: 1.7, effect: 0.9 },
+      { id: "ascFusion", name: "Auto Fusion Lab", baseCost: 3, growth: 1, effect: 1, maxLevel: 1 },
+      { id: "ascFusionSpeed", name: "Fusion Throughput", baseCost: 1, growth: 1.6, effect: 0.25, maxLevel: 5 }
     ]
   };
+
+export const AUTO_FUSION_BASE_INTERVAL_MS = 3000;
+export const AUTO_FUSION_SPEED_BONUS = 0.25;
+export const AUTO_FUSION_MIN_INTERVAL_MS = 500;
+export const AUTO_FUSION_TIER_ORDER = ["base", "advanced", "super"];
 
 export const PRESTIGE_MILESTONES = [
   { id: "prestige_5", level: 5, rewardGems: 25, luckBonus: 0.02, label: "+25 gems & +2% permanent luck" },

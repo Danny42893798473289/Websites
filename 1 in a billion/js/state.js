@@ -100,7 +100,8 @@ export function createDefaultState(username, userRecord) {
       soundEnabled: true,
       language: "en",
       activeTheme: "classic",
-      unlockedThemes: ["classic"]
+      unlockedThemes: ["classic"],
+      autoFusionEnabled: false
     },
     daily: {
       lastClaimAt: 0
@@ -234,6 +235,7 @@ export function sanitizeState(s) {
   if (!s.settings.unlockedThemes.includes(s.settings.activeTheme)) {
     s.settings.activeTheme = "classic";
   }
+  s.settings.autoFusionEnabled = !!s.settings.autoFusionEnabled;
   s.lastSavedAt = Number(s.lastSavedAt || 0);
   if (!Array.isArray(s.prestigeMilestonesClaimed)) s.prestigeMilestonesClaimed = [];
   s.prestigeMilestoneLuck = Number(s.prestigeMilestoneLuck || 0);
@@ -252,7 +254,7 @@ export function sanitizeState(s) {
   }
   if (!s.discoveredEggs || typeof s.discoveredEggs !== "object") s.discoveredEggs = {};
   EGG_TYPES.forEach((egg) => {
-    if (Number(s.eggCollection[egg.id] || 0) > 0) {
+    if (Number(s.eggCollection[egg.id] || 0) > 0 || Number(s.shinyCollection[egg.id] || 0) > 0) {
       s.discoveredEggs[egg.id] = true;
     }
     if (Number(s.shinyCollection[egg.id] || 0) > 0) {
@@ -280,7 +282,11 @@ export function markEggDiscovered(state, eggId) {
 
 export function isEggDiscovered(state, eggId) {
   if (!state || !eggId) return false;
-  return !!state.discoveredEggs?.[eggId] || Number(state.eggCollection?.[eggId] || 0) > 0;
+  return (
+    !!state.discoveredEggs?.[eggId] ||
+    Number(state.eggCollection?.[eggId] || 0) > 0 ||
+    Number(state.shinyCollection?.[eggId] || 0) > 0
+  );
 }
 
 export function markShinyDiscovered(state, eggId) {

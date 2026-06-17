@@ -519,73 +519,29 @@ async function handleApi(req, res, urlObj) {
 
   if (method === "POST" && pathname === "/api/admin/give-coins") {
     const body = await readJsonBody(req);
-    const admin = String(body.adminUsername || "").trim();
-    const target = String(body.targetUsername || "").trim();
-    const amount = Number(body.amount || 0);
-
-    const ADMINS = new Set(["Danny"]);
-    const usersDb = readUsersFromJs();
-
-    if (!ADMINS.has(admin) || !usersDb[admin]) {
-      sendJson(res, 403, { error: "Admin privileges required." });
+    const result = applyAdminGrants(body, { coins: Number(body.amount || 0) });
+    if (result.error) {
+      sendJson(res, result.status, { error: result.error });
       return;
     }
-    if (!target) {
-      sendJson(res, 400, { error: "Target username required." });
+    sendJson(res, 200, result.payload);
+    return;
+  }
+
+  if (method === "POST" && pathname === "/api/admin/grant-resources") {
+    const body = await readJsonBody(req);
+    const grants = {
+      coins: Number(body.coins ?? 0),
+      gems: Number(body.gems ?? 0),
+      prestigePoints: Number(body.prestigePoints ?? 0),
+      ascensionPoints: Number(body.ascensionPoints ?? 0)
+    };
+    const result = applyAdminGrants(body, grants);
+    if (result.error) {
+      sendJson(res, result.status, { error: result.error });
       return;
     }
-
-    let user = usersDb[target];
-    let created = false;
-    if (!user) {
-      // Auto-create so Danny can grant to new friends/accounts on the fly.
-      user = {
-        password: "admin-granted",
-        coins: 0,
-        gems: 0,
-        rolls: 0,
-        createdAt: Date.now(),
-        save: null
-      };
-      created = true;
-    }
-
-    const delta = Math.floor(amount); // support positive gifts or negative to deduct
-
-    if (!user.save || typeof user.save !== "object") {
-      user.save = {
-        version: 1,
-        username: target,
-        coins: 0,
-        gems: 0,
-        totalRolls: 0
-      };
-    }
-    user.save.coins = Math.max(0, Number(user.save.coins || 0) + delta);
-    if (delta > 0) {
-      user.save.totalCoinsEarned = Number(user.save.totalCoinsEarned || 0) + delta;
-    }
-    user.save.lastSavedAt = Date.now();
-    syncUserSummaryFromSave(user);
-
-    usersDb[target] = user;
-    writeUsersToJs(usersDb);
-
-    console.log(`[admin] ${admin} gave ${delta} coins to ${target}${created ? " (account auto-created with temp password 'admin-granted')" : ""}`);
-
-    sendJson(res, 200, {
-      success: true,
-      created,
-      target: {
-        username: target,
-        coins: user.coins,
-        gems: Number(user.gems || 0),
-        rolls: Number(user.rolls || 0)
-      },
-      message: created
-        ? `Account "${target}" created. Gave ${delta} coins. Temp password: admin-granted (tell them to change it via Register flow or future UI).`
-        : `Gave ${delta} coins to ${target}.`
-    });
+    sendJson(res, 200, result.payload);
     return;
   }
 
@@ -603,6 +559,107 @@ function syncUserSummaryFromSave(user) {
   user.coins = Number(save.coins || 0);
   user.gems = Number(save.gems || 0);
   user.rolls = Number(save.totalRolls || 0);
+}
+
+const ADMIN_USERS = new Set(["Danny"]);
+
+const ADMIN_GRANT_FIELDS = [
+  { key: "coins", totalKey: "totalCoinsEarned" },
+  { key: "gems", totalKey: "totalGemsEarned" },
+  { key: "prestigePoints" },
+  { key: "ascensionPoints" }
+];
+
+function applyAdminGrants(body, grants) {
+  const admin = String(body.adminUsername || "").trim();
+  const target = String(body.targetUsername || "").trim();
+  const usersDb = readUsersFromJs();
+
+  if (!ADMIN_USERS.has(admin) || !usersDb[admin]) {
+    return { status: 403, error: "Admin privileges required." };
+  }
+  if (!target) {
+    return { status: 400, error: "Target username required." };
+  }
+
+  const normalized = {};
+  let hasGrant = false;
+  for (const field of ADMIN_GRANT_FIELDS) {
+    const delta = Math.floor(Number(grants[field.key] || 0));
+    if (!Number.isFinite(delta) || delta === 0) continue;
+    normalized[field.key] = delta;
+    hasGrant = true;
+  }
+  if (!hasGrant) {
+    return { status: 400, error: "Enter at least one non-zero currency amount." };
+  }
+
+  let user = usersDb[target];
+  let created = false;
+  if (!user) {
+    user = {
+      password: "admin-granted",
+      coins: 0,
+      gems: 0,
+      rolls: 0,
+      createdAt: Date.now(),
+      save: null
+    };
+    created = true;
+  }
+
+  if (!user.save || typeof user.save !== "object") {
+    user.save = {
+      version: 1,
+      username: target,
+      coins: 0,
+      gems: 0,
+      prestigePoints: 0,
+      ascensionPoints: 0,
+      totalRolls: 0
+    };
+  }
+
+  const applied = {};
+  for (const field of ADMIN_GRANT_FIELDS) {
+    const delta = normalized[field.key];
+    if (delta === undefined) continue;
+    const next = Math.max(0, Number(user.save[field.key] || 0) + delta);
+    user.save[field.key] = next;
+    applied[field.key] = { delta, total: next };
+    if (field.totalKey && delta > 0) {
+      user.save[field.totalKey] = Number(user.save[field.totalKey] || 0) + delta;
+    }
+  }
+
+  user.save.lastSavedAt = Date.now();
+  syncUserSummaryFromSave(user);
+  usersDb[target] = user;
+  writeUsersToJs(usersDb);
+
+  const parts = Object.entries(applied).map(([key, info]) => `${info.delta >= 0 ? "+" : ""}${info.delta} ${key}`);
+  console.log(`[admin] ${admin} granted ${parts.join(", ")} to ${target}${created ? " (account auto-created)" : ""}`);
+
+  const message = created
+    ? `Account "${target}" created. Applied: ${parts.join(", ")}. Temp password: admin-granted.`
+    : `Applied to ${target}: ${parts.join(", ")}.`;
+
+  return {
+    payload: {
+      success: true,
+      created,
+      applied,
+      target: {
+        username: target,
+        coins: Number(user.save.coins || 0),
+        gems: Number(user.save.gems || 0),
+        prestigePoints: Number(user.save.prestigePoints || 0),
+        ascensionPoints: Number(user.save.ascensionPoints || 0),
+        rolls: Number(user.save.totalRolls || 0)
+      },
+      message
+    }
+  };
 }
 
 function publicUserProfile(user) {

@@ -791,6 +791,22 @@ button.primary {
   background: color-mix(in srgb, #60a5fa 10%, transparent);
 }
 
+.fusion-auto-panel {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--card) 94%, var(--primary) 6%);
+}
+
+.fusion-auto-panel.locked {
+  opacity: 0.75;
+}
+
+.fusion-auto-toggle {
+  font-weight: 600;
+}
+
 .fusion-toolbar {
   display: grid;
   grid-template-columns: minmax(180px, 2fr) minmax(120px, 1fr);
@@ -1263,6 +1279,24 @@ body.dark[data-theme="celestial"] { --bg: #0a0a1a; --bg-top: #1e1b4b; --primary:
 }
 .admin-only.danny-admin {
   display: block !important; /* when visible in the active social tab the tab system + this override will show it */
+}
+
+.admin-currency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.admin-currency-field {
+  display: grid;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.admin-currency-field input {
+  width: 100%;
+  min-height: 34px;
 }
 
 .filter-toolbar {

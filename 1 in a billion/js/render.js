@@ -36,6 +36,8 @@ import {
   THEME_SHOP,
   WEEKLY_CHALLENGE_TEMPLATES,
   getCodexFoundCount,
+  getRollableCodexFoundCount,
+  getFusionCodexFoundCount,
   getShinyCodexFoundCount,
   getTitleLabel,
   getRarityEggCount
@@ -75,11 +77,15 @@ import {
   canCraftFusionRecipe,
   craftFusion,
   formatCompanionBonus,
+  getAscensionUpgradeEffectText,
+  getAutoFusionStatusText,
   getFusionRecipeSearchText,
   getFusionRecipeTier,
+  hasAutoFusionUnlock,
   hatchCompanion,
   renderFusionChainsVisualizer
 } from "./progression.js";
+import { save } from "./save.js";
 import { getPrimaryRPS, getSecondDieRPS, getManualStreakBonus } from "./rolling.js";
 import { isThemeUnlocked } from "./themes.js";
 import { claimChallenge, ensureWeeklyChallenges } from "./challenges.js";
@@ -125,6 +131,9 @@ function renderActiveTabLive() {
     case "collection":
       renderEggCollection();
       renderMuseumShowcase();
+      break;
+    case "progression":
+      updateAutoFusionStatus();
       break;
     default:
       break;
@@ -378,6 +387,8 @@ export function renderEggCodex() {
   const filters = runtime.state?.settings?.filters || {};
   const discovered = getCodexFoundCount(runtime.state);
   const total = EGG_TYPES.length + FUSION_EGG_TYPES.length;
+  const rollableFound = getRollableCodexFoundCount(runtime.state);
+  const fusionFound = getFusionCodexFoundCount(runtime.state);
   const shinyDiscovered = getShinyCodexFoundCount(runtime.state);
   const shinyTotal = EGG_TYPES.length;
   const rows = RARITIES.filter((r) => {
@@ -484,7 +495,7 @@ export function renderEggCodex() {
     `;
   const pct = total > 0 ? (discovered / total) * 100 : 0;
   runtime.el.codexProgress.style.width = `${pct}%`;
-  runtime.el.codexProgressText.textContent = `${formatNumber(discovered)} / ${formatNumber(total)}`;
+  runtime.el.codexProgressText.textContent = `${formatNumber(discovered)} / ${formatNumber(total)} (${t("codex.rollableProgress", { found: formatNumber(rollableFound), total: formatNumber(EGG_TYPES.length) })}, ${t("codex.fusionProgress", { found: formatNumber(fusionFound), total: formatNumber(FUSION_EGG_TYPES.length) })})`;
 }
 
 export function renderMuseumShowcase() {
@@ -644,7 +655,17 @@ export function renderFusionLab() {
   }).join("");
 
   const chainHtml = renderFusionChainsVisualizer();
+  const autoUnlocked = hasAutoFusionUnlock(runtime.state);
+  const autoEnabled = !!runtime.state.settings.autoFusionEnabled;
   runtime.el.fusionLab.innerHTML = `
+      <div class="fusion-auto-panel ${autoUnlocked ? "" : "locked"}">
+        <label class="filter-check fusion-auto-toggle">
+          <input id="auto-fusion-toggle" type="checkbox" ${autoEnabled ? "checked" : ""} ${autoUnlocked ? "" : "disabled"} />
+          <span>${t("fusion.autoToggle")}</span>
+        </label>
+        <p class="muted section-hint">${autoUnlocked ? t("fusion.autoHint") : t("fusion.autoLocked")}</p>
+        <div id="auto-fusion-status" class="muted">${escapeHtml(getAutoFusionStatusText())}</div>
+      </div>
       <div class="fusion-toolbar">
         <input id="fusion-search-input" placeholder="${t("fusion.searchPh")}" value="${escapeHtml(runtime.fusionSearchQuery)}" />
         <select id="fusion-tier-filter">
@@ -679,8 +700,21 @@ export function renderFusionLab() {
   }
 
   runtime.el.fusionLab.querySelectorAll("button[data-fuse]").forEach((btn) => {
-    btn.addEventListener("click", () => craftFusion(btn.getAttribute("data-fuse")));
+    btn.addEventListener("click", () => {
+      craftFusion(btn.getAttribute("data-fuse"));
+      renderFusionLab();
+    });
   });
+  const autoToggle = runtime.el.fusionLab.querySelector("#auto-fusion-toggle");
+  if (autoToggle) {
+    autoToggle.addEventListener("change", () => {
+      if (!runtime.state || !hasAutoFusionUnlock(runtime.state)) return;
+      runtime.state.settings.autoFusionEnabled = !!autoToggle.checked;
+      runtime.fusionBuffer = 0;
+      save();
+      renderFusionLab();
+    });
+  }
   runtime.el.fusionLab.querySelectorAll("button[data-track-fusion]").forEach((btn) => {
     btn.addEventListener("click", () => {
       runtime.fusionSelectedRecipeId = btn.getAttribute("data-track-fusion");
@@ -743,16 +777,21 @@ export function renderAscension() {
 
   const html = diceHtml + ASCENSION_CONFIG.upgrades.map((upgrade) => {
     const level = Number(runtime.state.ascensionUpgrades[upgrade.id] || 0);
-    const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.growth, level));
-    const canBuy = runtime.state.ascensionPoints >= cost;
+    const maxed = upgrade.maxLevel && level >= upgrade.maxLevel;
+    const cost = maxed ? 0 : Math.floor(upgrade.baseCost * Math.pow(upgrade.growth, level));
+    const canBuy = !maxed && runtime.state.ascensionPoints >= cost;
+    const levelLabel = upgrade.maxLevel === 1
+      ? (maxed ? t("status.maxed") : t("status.lv", { n: level }))
+      : `${t("status.lv", { n: level })}${upgrade.maxLevel ? ` / ${upgrade.maxLevel}` : ""}`;
     return `
         <div class="shop-item">
           <div class="shop-item-top">
-            <strong>${upgrade.name}</strong>
-            <span>${t("status.lv", { n: level })}</span>
+            <strong>${escapeHtml(upgrade.name)}</strong>
+            <span>${levelLabel}</span>
           </div>
-          <div class="muted">${t("asc.effectLine", { cost, effect: upgrade.effect })}</div>
-          <button data-asc-buy="${upgrade.id}" ${canBuy ? "" : "disabled"}>${t("status.buyPlain")}</button>
+          <div class="muted">${getAscensionUpgradeEffectText(upgrade)}</div>
+          <div class="muted">${maxed ? "" : t("asc.costApOnly", { cost })}</div>
+          <button data-asc-buy="${upgrade.id}" ${canBuy ? "" : "disabled"}>${maxed ? t("status.maxed") : t("status.buyPlain")}</button>
         </div>
       `;
   }).join("");
@@ -766,8 +805,19 @@ export function renderAscension() {
     });
   }
   runtime.el.ascUpgrades.querySelectorAll("button[data-asc-buy]").forEach((btn) => {
-    btn.addEventListener("click", () => buyAscensionUpgrade(btn.getAttribute("data-asc-buy")));
+    btn.addEventListener("click", () => {
+      buyAscensionUpgrade(btn.getAttribute("data-asc-buy"));
+      renderAscension();
+      renderFusionLab();
+    });
   });
+}
+
+function updateAutoFusionStatus() {
+  const el = document.getElementById("auto-fusion-status");
+  if (el && runtime.state) {
+    el.textContent = getAutoFusionStatusText();
+  }
 }
 
 export function tickIncubatorTimers() {

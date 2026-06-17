@@ -19,7 +19,7 @@ import {
 } from "./economy.js";
 import { doAscend } from "./progression.js";
 import { doLuckyRoll, doSuperLuckyRoll, performRoll, performSecondRoll } from "./rolling.js";
-import { challengeDuel, giveAdminCoins, lookupProfile, refreshDuels, refreshLeaderboard, submitDuelRoll, updateAdminVisibility } from "./social.js";
+import { challengeDuel, giveAdminResources, lookupProfile, refreshDuels, refreshLeaderboard, submitDuelRoll, updateAdminVisibility } from "./social.js";
 import { save, resetLocalSave } from "./save.js";
 import { setFeed } from "./feedback.js";
 import {
@@ -125,7 +125,7 @@ export function bindEvents() {
   bindClick(runtime.el.duelChallengeBtn, challengeDuel);
   bindClick(runtime.el.duelRefreshBtn, refreshDuels);
   bindClick(runtime.el.duelRollBtn, submitDuelRoll);
-  bindClick(runtime.el.adminGiveCoinsBtn, giveAdminCoins);
+  bindClick(runtime.el.adminGrantBtn, giveAdminResources);
 
   bindFilterEvents();
 
