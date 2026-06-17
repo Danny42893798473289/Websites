@@ -6,14 +6,15 @@
     "leader": "Enter_username",
     "members": [
       "Enter_username",
-      "Danny"
+      "Danny",
+      "Knight"
     ],
     "createdAt": 1781266836678,
     "treasury": {
-      "coins": 41770002,
+      "coins": 91800002,
       "gems": 0
     },
-    "weeklyScore": 2257489,
+    "weeklyScore": 5436486,
     "weeklyWeekId": 2945
   }
 }

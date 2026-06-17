@@ -34,7 +34,8 @@ import {
 import { runtime } from "./runtime.js";
 import { markEggDiscovered, markShinyDiscovered, isEggDiscovered } from "./state.js";
 import { playClickTone, playToneByRarity } from "./audio.js";
-import { setFeed, showRarePopup, triggerRareFx } from "./feedback.js";
+import { setFeed, showRarePopup, triggerRareFx, flashJackpot } from "./feedback.js";
+import { diceRollAnim, flashEggFound, flashRollResult, flashStreak } from "./animations.js";
 import { escapeHtml, formatDuration, formatNumber } from "./utils.js";
 import { checkAchievements } from "./economy.js";
 import { getGlobalEventBonus } from "./events.js";
@@ -178,16 +179,13 @@ export function performRoll(count, isManual) {
   let lastDie = "-";
   let eggsChanged = false;
   if (isManual) {
-    if (runtime.el.rollBtn) {
-      runtime.el.rollBtn.classList.remove("roll-shake");
-      void runtime.el.rollBtn.offsetWidth;
-      runtime.el.rollBtn.classList.add("roll-shake");
-    }
+    diceRollAnim(runtime.el.rollBtn);
     if (Date.now() - runtime.state.lastManualRollAt > STREAK_TIMEOUT_MS) {
       runtime.state.manualStreak = 0;
     }
     runtime.state.manualStreak += 1;
     runtime.state.lastManualRollAt = Date.now();
+    flashStreak();
     ensureWeeklyChallenges();
     const streakTask = runtime.state.weeklyChallenges?.tasks?.streak_10;
     if (streakTask && !streakTask.claimed) {
@@ -255,6 +253,7 @@ export function performRoll(count, isManual) {
 
   if (runtime.el.lastRoll) {
     runtime.el.lastRoll.textContent = String(lastDie);
+    if (isManual) flashRollResult(runtime.el.lastRoll);
   }
   if (rarestThisBatch) {
     if (runtime.el.lastEgg) {
@@ -262,6 +261,7 @@ export function performRoll(count, isManual) {
       runtime.el.lastEgg.innerHTML =
         `<span style="color:${rarestThisBatch.color}">${rarestThisBatch.rarity}</span> - ` +
         `${shinyLabel}${escapeHtml(rarestThisBatch.name)} (1 in ${formatNumber(rarestThisBatch.oneIn)})`;
+      flashEggFound();
     }
     if (isManual || count <= 5) {
       setFeed(
@@ -275,6 +275,7 @@ export function performRoll(count, isManual) {
     playToneByRarity(rarestThisBatch.rarity);
   } else if (jackpotsHit > 0) {
     setFeed(`Jackpot! ${formatNumber(jackpotsHit)} roll${jackpotsHit === 1 ? "" : "s"} paid ${formatNumber(JACKPOT_COIN_MULTIPLIER)}x coins.`, "jackpot");
+    flashJackpot();
   } else if (isManual) {
     if (runtime.el.lastEgg) {
       runtime.el.lastEgg.textContent = "None";
@@ -304,16 +305,13 @@ export function performSecondRoll(count, isManual) {
   let eggsChanged = false;
 
   if (isManual) {
-    if (runtime.el.rollBtn2) {
-      runtime.el.rollBtn2.classList.remove("roll-shake");
-      void runtime.el.rollBtn2.offsetWidth;
-      runtime.el.rollBtn2.classList.add("roll-shake");
-    }
+    diceRollAnim(runtime.el.rollBtn2);
     if (Date.now() - runtime.state.lastManualRollAt > STREAK_TIMEOUT_MS) {
       runtime.state.manualStreak = 0;
     }
     runtime.state.manualStreak += 1;
     runtime.state.lastManualRollAt = Date.now();
+    flashStreak();
     ensureWeeklyChallenges();
     const streakTask = runtime.state.weeklyChallenges?.tasks?.streak_10;
     if (streakTask && !streakTask.claimed) {
@@ -382,7 +380,10 @@ export function performSecondRoll(count, isManual) {
   if (runtime.state.guildId) bumpGuildScore(Math.min(count, 5));
 
   const dieLabel = `${lastDie} (${dieInfo.label})`;
-  if (runtime.el.lastRoll2) runtime.el.lastRoll2.textContent = dieLabel;
+  if (runtime.el.lastRoll2) {
+    runtime.el.lastRoll2.textContent = dieLabel;
+    if (isManual) flashRollResult(runtime.el.lastRoll2);
+  }
   if (isManual && runtime.el.lastRoll) runtime.el.lastRoll.textContent = dieLabel;
 
   if (rarestThisBatch) {
@@ -391,6 +392,7 @@ export function performSecondRoll(count, isManual) {
       runtime.el.lastEgg.innerHTML =
         `<span style="color:${rarestThisBatch.color}">${rarestThisBatch.rarity}</span> - ` +
         `${shinyLabel}${escapeHtml(rarestThisBatch.name)} (Die 2, 1 in ${formatNumber(rarestThisBatch.oneIn)})`;
+      flashEggFound();
     }
     if (isManual || count <= 5) {
       setFeed(
@@ -404,6 +406,7 @@ export function performSecondRoll(count, isManual) {
     playToneByRarity(rarestThisBatch.rarity);
   } else if (jackpotsHit > 0) {
     setFeed(`Die 2 jackpot! ${formatNumber(jackpotsHit)} roll${jackpotsHit === 1 ? "" : "s"} paid ${formatNumber(JACKPOT_COIN_MULTIPLIER)}x coins.`, "jackpot");
+    flashJackpot();
   } else if (isManual) {
     setFeed(`Die 2 rolled ${dieLabel}. No egg this time.`);
     playClickTone();
@@ -520,12 +523,14 @@ function executeGemLuckyRoll({ rollDieFn, getDieInfoFn, cooldownKey, tagLabel, s
   if (runtime.state.guildId) bumpGuildScore(1);
 
   const dieLabel = `${die} (${dieInfo.label})`;
-  if (lastRollEl && runtime.el[lastRollEl]) runtime.el[lastRollEl].textContent = dieLabel;
-  if (shakeEl && runtime.el[shakeEl]) {
-    runtime.el[shakeEl].classList.remove("roll-shake");
-    void runtime.el[shakeEl].offsetWidth;
-    runtime.el[shakeEl].classList.add("roll-shake");
+  if (lastRollEl && runtime.el[lastRollEl]) {
+    runtime.el[lastRollEl].textContent = dieLabel;
+    flashRollResult(runtime.el[lastRollEl]);
   }
+  if (shakeEl && runtime.el[shakeEl]) {
+    diceRollAnim(runtime.el[shakeEl]);
+  }
+  flashStreak();
 
   const forcedEgg = maybeGetEgg(getGemLuckyEggIndex(), SUPER_LUCKY_LUCK_MULT);
   if (forcedEgg) {
@@ -550,6 +555,7 @@ function executeGemLuckyRoll({ rollDieFn, getDieInfoFn, cooldownKey, tagLabel, s
       runtime.el.lastEgg.innerHTML =
         `<span style="color:${forcedEgg.color}">${forcedEgg.rarity}</span> - ` +
         `${forcedEgg.shiny ? "Shiny " : ""}${escapeHtml(forcedEgg.name)} (${tagLabel}, 1 in ${formatNumber(forcedEgg.oneIn)})`;
+      flashEggFound();
     }
     setFeed(`${tagLabel} found ${forcedEgg.shiny ? "Shiny " : ""}${forcedEgg.name} [${forcedEgg.rarity}] and earned ${formatNumber(coinGain)} coins!`);
     showRarePopup(forcedEgg);

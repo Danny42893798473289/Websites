@@ -1,6 +1,7 @@
 import { EVENT_LOG_LIMIT } from "./config.js";
 import { runtime } from "./runtime.js";
 import { formatNumber } from "./utils.js";
+import { flashFeed, replayClass } from "./animations.js";
 
 export function logEvent(message, type = "info") {
   if (!runtime.state) return;
@@ -17,6 +18,8 @@ export function logEvent(message, type = "info") {
 export function setFeed(message, logType = "info", shouldLog = true) {
   if (!runtime.el.feed) return;
   runtime.el.feed.textContent = message;
+  runtime.el.feed.className = `feed feed-bar muted feed-${logType}`;
+  flashFeed();
   if (shouldLog) {
     logEvent(message, logType);
   }
@@ -31,18 +34,24 @@ export function showRarePopup(egg) {
   popup.style.color =
     egg.color === "#111827" || egg.color === "#000000" || egg.color === "#ffffff" ? "#fff" : egg.color;
   popup.classList.remove("hidden");
-  popup.style.animation = "none";
+  popup.classList.remove("rare-popup-burst");
   void popup.offsetWidth;
-  popup.style.animation = "";
+  popup.classList.add("rare-popup-burst");
   setTimeout(() => {
     popup.classList.add("hidden");
-  }, 1350);
+    popup.classList.remove("rare-popup-burst");
+  }, 1500);
 }
 
 export function triggerRareFx() {
   const card = runtime.el.rollingCard;
   if (!card) return;
-  card.classList.remove("rare-flash");
-  void card.offsetWidth;
-  card.classList.add("rare-flash");
+  replayClass(card, "rare-flash");
+  replayClass(card, "rare-glow");
+}
+
+export function flashJackpot() {
+  if (runtime.el.coins?.closest) {
+    replayClass(runtime.el.coins.closest(".currency-pill"), "jackpot-flash");
+  }
 }

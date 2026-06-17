@@ -36,6 +36,7 @@ import { formatDuration, formatNumber } from "./utils.js";
 import { getCoinMultiplier, getEggValueMultiplier } from "./rolling.js";
 import { getSetBonusValue } from "./progression.js";
 import { applyTheme, isThemeUnlocked, selectTheme } from "./themes.js";
+import { flashAchievement, flashPurchase, replayClass } from "./animations.js";
 
 export { selectTheme, isThemeUnlocked };
 
@@ -151,7 +152,9 @@ export function doPrestige() {
   runtime.rollBuffer = 0;
   runtime.rollBuffer2 = 0;
 
-  setFeed(`Rebirth complete! Prestige Level is now ${runtime.state.prestigeLevel}.`);
+  setFeed(`Rebirth complete! Prestige Level is now ${runtime.state.prestigeLevel}.`, "prestige");
+  replayClass(runtime.el.prestigeBtn, "prestige-burst");
+  replayClass(runtime.el.rollingCard, "prestige-burst");
   claimPrestigeMilestones();
   playTone(350, 0.25);
 }
@@ -193,6 +196,7 @@ export function checkAchievements() {
         color: "#22c55e",
         oneIn: 1
       });
+      flashAchievement();
     }
   });
 
@@ -241,6 +245,7 @@ export function buyUpgrade(itemId) {
   runtime.state.coins -= cost;
   runtime.state.upgrades[item.id] = level + 1;
   setFeed(`Purchased ${item.name} Lv ${runtime.state.upgrades[item.id]}.`);
+  flashPurchase();
   playTone(510, 0.08);
 }
 
@@ -257,6 +262,7 @@ export function buyGemUpgrade(itemId) {
   runtime.state.gems -= cost;
   runtime.state.gemUpgrades[item.id] = level + 1;
   setFeed(`Purchased ${item.name} Lv ${runtime.state.gemUpgrades[item.id]} with gems.`);
+  flashPurchase();
   playTone(620, 0.1);
 }
 
@@ -302,6 +308,7 @@ export function buyPrestigeUpgrade(itemId) {
   runtime.state.prestigePoints -= cost;
   runtime.state.prestigeUpgrades[item.id] = level + 1;
   setFeed(`Purchased ${item.name} Lv ${runtime.state.prestigeUpgrades[item.id]}.`);
+  flashPurchase();
   playTone(580, 0.1);
 }
 

@@ -44,7 +44,7 @@
     }
     .muted { color: var(--muted); }
   </style>
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=6" />
 </head>
 <body>
   <div id="app">
@@ -73,10 +73,10 @@
           <p class="muted"><span id="welcome-prefix" data-i18n="ui.welcomePrefix">Welcome,</span> <span id="player-name">Player</span></p>
         </div>
         <div class="currency-stack">
-          <div class="currency"><span data-i18n="ui.coins">Coins:</span> <span id="coins">0</span></div>
-          <div class="currency"><span data-i18n="ui.gems">Gems:</span> <span id="gems">0</span></div>
-          <div class="currency"><span data-i18n="ui.rps1">RPS 1:</span> <span id="rps">0.00</span></div>
-          <div class="currency rps2-row hidden" id="rps2-row"><span data-i18n="ui.rps2">RPS 2:</span> <span id="rps-2">0.00</span></div>
+          <div class="currency-pill coins"><span class="currency-label" data-i18n="ui.coins">Coins:</span> <span class="currency-value" id="coins">0</span></div>
+          <div class="currency-pill gems"><span class="currency-label" data-i18n="ui.gems">Gems:</span> <span class="currency-value" id="gems">0</span></div>
+          <div class="currency-pill rps"><span class="currency-label" data-i18n="ui.rps1">RPS 1:</span> <span class="currency-value" id="rps">0.00</span></div>
+          <div class="currency-pill rps die2 hidden" id="rps2-row"><span class="currency-label" data-i18n="ui.rps2">RPS 2:</span> <span class="currency-value" id="rps-2">0.00</span></div>
           <button id="logout-btn" class="small danger" data-i18n="ui.logout">Logout</button>
         </div>
       </header>
@@ -147,7 +147,7 @@
             <button id="sell-rare-btn" data-i18n="roll.sellRare">Sell Rare+ Eggs for Gems</button>
             <button id="prestige-btn" class="warn" data-i18n="roll.prestige">Rebirth (Prestige)</button>
           </div>
-          <p id="feed" class="feed muted" data-i18n="roll.feedStart">Start rolling to discover eggs.</p>
+          <p id="feed" class="feed feed-bar muted" data-i18n="roll.feedStart">Start rolling to discover eggs.</p>
         </article>
 
         <article class="card tab-panel" data-panel="roll">
@@ -241,22 +241,25 @@
           <div id="weekly-challenges" class="weekly-challenges"></div>
         </article>
 
-        <article class="card tab-panel" data-panel="progression">
+        <article class="card tab-panel feature-card incubator-card" data-panel="progression">
           <h3 data-i18n="prog.incubator">Egg Incubator</h3>
           <p class="muted" data-i18n="prog.incubatorHint">Sacrifice eggs to hatch gems and shiny chances over time.</p>
           <div id="incubator-panel" class="incubator-panel"></div>
         </article>
 
-        <article class="card tab-panel" data-panel="progression">
+        <article class="card tab-panel feature-card relics-card" data-panel="progression">
           <h3 data-i18n="prog.relics">Relics</h3>
           <p class="muted" data-i18n="prog.relicsHint">Unlock relics through milestones and equip passive buffs.</p>
           <div id="relics-panel" class="relics-panel"></div>
         </article>
 
-        <article class="card tab-panel" data-panel="progression">
+        <article class="card tab-panel feature-card prestige-shop-card" data-panel="progression">
           <h3 data-i18n="prog.prestigeShop">Prestige Shop</h3>
           <p class="muted" data-i18n="prog.prestigeShopHint">Spend prestige points from rebirths on permanent upgrades.</p>
-          <div class="stats-grid"><div><span data-i18n="prog.prestigePoints">Prestige Points</span> <span id="prestige-points-display">0</span></div></div>
+          <div class="pp-display">
+            <span data-i18n="prog.prestigePoints">Prestige Points</span>
+            <strong id="prestige-points-display">0</strong>
+          </div>
           <div id="prestige-shop-list" class="shop-list"></div>
         </article>
 

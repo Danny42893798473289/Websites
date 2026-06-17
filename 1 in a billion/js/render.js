@@ -84,6 +84,7 @@ import { getPrimaryRPS, getSecondDieRPS, getManualStreakBonus } from "./rolling.
 import { isThemeUnlocked } from "./themes.js";
 import { claimChallenge, ensureWeeklyChallenges } from "./challenges.js";
 import { getActiveSeason, getSeasonTimeRemaining } from "./seasons.js";
+import { replayClass } from "./animations.js";
 import {
   t, tAchievement, tEventLabel, tGemShopName, tRarity, tSetBonusLabel,
   tShopName, tThemeDesc, tThemeName, tTitleLabel
@@ -99,6 +100,7 @@ export function renderCore() {
     updateDailyUI();
     renderSeasonBanner();
     renderActiveTabLive();
+    tickIncubatorTimers();
     if (runtime.el.darkModeToggle) {
       runtime.el.darkModeToggle.checked = !!runtime.state.settings.darkMode;
     }
@@ -768,6 +770,37 @@ export function renderAscension() {
   });
 }
 
+export function tickIncubatorTimers() {
+  if (!runtime.state || runtime.activeTab !== "progression" || !runtime.el.incubatorPanel) return;
+  const slots = runtime.el.incubatorPanel.querySelectorAll(".incubator-slot");
+  if (!slots.length) return;
+  sanitizeIncubator();
+  slots.forEach((el, index) => {
+    const slot = runtime.state.incubator[index];
+    if (!slot) return;
+    const progress = getIncubatorProgress(slot);
+    const ready = progress >= 1;
+    const remaining = Math.max(0, Number(slot.durationMs || 0) - (Date.now() - Number(slot.startedAt || 0)));
+    const fill = el.querySelector(".progress-fill");
+    const badge = el.querySelector(".status-badge");
+    const btn = el.querySelector("[data-claim-incubator]");
+    if (fill) {
+      fill.style.width = `${Math.round(progress * 100)}%`;
+      fill.classList.toggle("complete", ready);
+    }
+    if (badge) {
+      badge.textContent = ready ? t("incubator.ready") : formatDuration(remaining);
+      badge.classList.toggle("ready", ready);
+    }
+    el.classList.toggle("ready", ready);
+    el.classList.toggle("ready-glow", ready);
+    if (btn) {
+      btn.disabled = !ready;
+      btn.classList.toggle("ghost", !ready);
+    }
+  });
+}
+
 export function renderIncubator() {
   if (!runtime.state || !runtime.el.incubatorPanel) return;
   sanitizeIncubator();
@@ -780,13 +813,13 @@ export function renderIncubator() {
     const ready = progress >= 1;
     const remaining = Math.max(0, Number(slot.durationMs || 0) - (Date.now() - Number(slot.startedAt || 0)));
     return `
-      <div class="shop-item">
+      <div class="shop-item incubator-slot${ready ? " ready" : ""}">
         <div class="shop-item-top">
-          <strong>${escapeHtml(egg.name)}</strong>
-          <span>${ready ? t("incubator.ready") : formatDuration(remaining)}</span>
+          <strong><span class="egg-dot" style="background:${egg.color || "var(--primary)"}"></span>${escapeHtml(egg.name)}</strong>
+          <span class="status-badge${ready ? " ready" : ""}">${ready ? t("incubator.ready") : formatDuration(remaining)}</span>
         </div>
-        <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(progress * 100)}%"></div></div>
-        <button type="button" data-claim-incubator="${index}" ${ready ? "" : "disabled"}>${t("incubator.claim")}</button>
+        <div class="progress-bar incubator-progress"><div class="progress-fill${ready ? " complete" : ""}" style="width:${Math.round(progress * 100)}%"></div></div>
+        <button type="button" class="${ready ? "" : "ghost"}" data-claim-incubator="${index}" ${ready ? "" : "disabled"}>${t("incubator.claim")}</button>
       </div>`;
   }).join("");
   const emptySlots = Math.max(0, maxSlots - runtime.state.incubator.length);
@@ -797,11 +830,11 @@ export function renderIncubator() {
     `<option value="${egg.id}">${escapeHtml(egg.name)} (${formatNumber(runtime.state.eggCollection[egg.id])})</option>`
   ).join("");
   runtime.el.incubatorPanel.innerHTML = `
-    <div class="muted">${t("incubator.slots", { used: runtime.state.incubator.length, max: maxSlots })}</div>
-    ${slotHtml || `<div class="muted">${t("incubator.empty")}</div>`}
+    <div class="panel-stat">${t("incubator.slots", { used: runtime.state.incubator.length, max: maxSlots })}</div>
+    ${slotHtml || `<div class="empty-state">${t("incubator.empty")}</div>`}
     ${emptyHtml}
-    <div class="settings-row">
-      <select id="incubator-egg-select" ${ownedEggs.length && emptySlots ? "" : "disabled"}>
+    <div class="settings-row incubator-start-row">
+      <select id="incubator-egg-select" class="panel-select" ${ownedEggs.length && emptySlots ? "" : "disabled"}>
         <option value="">${t("incubator.selectEgg")}</option>
         ${eggOptions}
       </select>
@@ -809,7 +842,9 @@ export function renderIncubator() {
     </div>`;
   runtime.el.incubatorPanel.querySelectorAll("button[data-claim-incubator]").forEach((btn) => {
     btn.addEventListener("click", () => {
+      const slot = btn.closest(".incubator-slot");
       claimIncubatorSlot(Number(btn.getAttribute("data-claim-incubator")));
+      if (slot) replayClass(slot, "hatch-burst");
       renderIncubator();
       renderCore();
     });
@@ -833,22 +868,23 @@ export function renderRelics() {
     const isEquipped = equipped.includes(relic.id);
     const buffPct = Math.round(Number(relic.buffValue || 0) * 100);
     return `
-      <div class="shop-item ${unlocked ? "" : "locked"}">
+      <div class="shop-item relic-item${unlocked ? (isEquipped ? " equipped" : " unlocked") : " locked"}">
         <div class="shop-item-top">
           <strong>${escapeHtml(relic.name)}</strong>
-          <span>${unlocked ? (isEquipped ? t("relics.equipped") : t("relics.unlocked")) : t("relics.locked")}</span>
+          <span class="status-badge${isEquipped ? " equipped" : unlocked ? " unlocked" : " locked"}">${unlocked ? (isEquipped ? t("relics.equipped") : t("relics.unlocked")) : t("relics.locked")}</span>
         </div>
-        <div class="muted">${t("relics.buff", { type: relic.buffType, n: buffPct })}</div>
+        <div class="muted relic-buff">${t("relics.buff", { type: relic.buffType, n: buffPct })}</div>
         <div class="muted">${unlocked ? "" : t("relics.req", { req: formatRelicUnlockText(relic) })}</div>
-        ${unlocked ? `<button type="button" data-equip-relic="${relic.id}">${isEquipped ? t("relics.unequip") : t("relics.equip")}</button>` : ""}
+        ${unlocked ? `<button type="button" class="${isEquipped ? "ghost" : ""}" data-equip-relic="${relic.id}">${isEquipped ? t("relics.unequip") : t("relics.equip")}</button>` : ""}
       </div>`;
   }).join("");
   runtime.el.relicsPanel.innerHTML = `
-    <div class="muted">${t("relics.slots", { used: equipped.length, max: maxSlots })}</div>
-    ${html}`;
+    <div class="panel-stat">${t("relics.slots", { used: equipped.length, max: maxSlots })}</div>
+    <div class="relics-grid">${html}</div>`;
   runtime.el.relicsPanel.querySelectorAll("button[data-equip-relic]").forEach((btn) => {
     btn.addEventListener("click", () => {
       equipRelic(btn.getAttribute("data-equip-relic"));
+      replayClass(btn.closest(".relic-item"), "equip-flash");
       renderRelics();
       renderCore();
     });
@@ -867,10 +903,10 @@ export function renderPrestigeShop() {
     const cost = maxed ? 0 : getUpgradeCost(item, level);
     const canBuy = !maxed && pp >= cost;
     return `
-      <div class="shop-item">
+      <div class="shop-item prestige-item">
         <div class="shop-item-top">
           <strong>${escapeHtml(item.name)}</strong>
-          <span>${t("status.lv", { n: level })}${item.maxLevel ? ` / ${item.maxLevel}` : ""}</span>
+          <span class="level-badge">${t("status.lv", { n: level })}${item.maxLevel ? ` / ${item.maxLevel}` : ""}</span>
         </div>
         <div class="muted">${getPrestigeShopEffectText(item)}</div>
         <button type="button" data-pp-buy="${item.id}" ${canBuy ? "" : "disabled"}>${maxed ? t("status.maxed") : t("status.buyPp", { cost: formatNumber(cost) })}</button>
@@ -1043,6 +1079,8 @@ export function renderStats() {
 
   const progressPercent = Math.min(100, (runtime.state.rollsSincePrestige / PRESTIGE_TARGET_ROLLS) * 100);
   if (runtime.el.prestigeProgress) runtime.el.prestigeProgress.style.width = `${progressPercent}%`;
+  const prestigeWrap = runtime.el.prestigeProgress?.closest(".progress-wrap");
+  if (prestigeWrap) prestigeWrap.classList.toggle("prestige-near", progressPercent >= 85);
   if (runtime.el.prestigeProgressText) {
     runtime.el.prestigeProgressText.textContent = t("roll.prestigeRolls", {
       current: formatNumber(runtime.state.rollsSincePrestige),

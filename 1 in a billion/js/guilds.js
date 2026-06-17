@@ -18,7 +18,7 @@ export async function refreshGuild() {
   } catch {
     runtime.el.guildPanel.innerHTML = `
       <div class="muted">${t("guild.unavailable")}</div>
-      <button type="button" id="guild-retry-btn" class="small">${t("guild.retry")}</button>`;
+      <button type="button" id="guild-retry-btn" class="small ghost">${t("guild.retry")}</button>`;
     document.getElementById("guild-retry-btn")?.addEventListener("click", refreshGuild);
   }
 }
@@ -169,7 +169,7 @@ async function refreshGuildLeaderboard() {
   } catch {
     el.innerHTML = `
       <div class="muted">${t("guild.lbEmpty")}</div>
-      <button type="button" id="guild-lb-retry-btn" class="small">${t("guild.retry")}</button>`;
+      <button type="button" id="guild-lb-retry-btn" class="small ghost">${t("guild.retry")}</button>`;
     document.getElementById("guild-lb-retry-btn")?.addEventListener("click", refreshGuildLeaderboard);
   }
 }

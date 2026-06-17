@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Illusion Bowling</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="boot-error" class="boot-error hidden">
+      <h2>Game failed to load</h2>
+      <p id="boot-error-message"></p>
+      <p>Run <code>npm start</code> in the project folder, then open <code>http://localhost:8888</code>.</p>
+      <p>Do not open <code>index.html</code> directly from your file explorer.</p>
+    </div>
+
+    <div id="app">
+      <canvas id="game-canvas"></canvas>
+
+      <section id="main-menu" class="screen visible">
+        <h1>Illusion Bowling</h1>
+        <p>Bowling through perspective puzzles.</p>
+        <div class="menu-buttons">
+          <button data-action="play">Play</button>
+          <button data-action="daily">Daily Challenge</button>
+          <button data-action="level-select">Level Select</button>
+          <button data-action="settings">Settings</button>
+        </div>
+      </section>
+
+      <section id="level-select" class="screen">
+        <h2>Levels</h2>
+        <div id="level-grid"></div>
+        <button data-action="back-main">Back</button>
+      </section>
+
+      <section id="settings-screen" class="screen">
+        <h2>Settings</h2>
+        <label class="setting-row">
+          <span>Camera Follow</span>
+          <input id="follow-slider" type="range" min="0.03" max="0.25" step="0.01" />
+        </label>
+        <label class="setting-row">
+          <span>Shadow Quality</span>
+          <select id="shadow-quality">
+            <option value="off">Off</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+        <button data-action="save-settings">Save</button>
+        <button data-action="back-main">Back</button>
+      </section>
+
+      <section id="hud" class="hidden">
+        <div id="hud-top">
+          <span id="hud-level">Level 1</span>
+          <span id="hud-attempts">Attempts: 0</span>
+          <span id="hud-mode">Campaign</span>
+        </div>
+        <div id="hud-actions">
+          <button data-action="restart">Restart</button>
+          <button data-action="pause">Pause</button>
+          <button data-action="toggle-camera">Adjust View</button>
+        </div>
+        <div id="aim-meter-wrap">
+          <div id="aim-meter"></div>
+        </div>
+      </section>
+
+      <section id="pause-screen" class="screen">
+        <h2>Paused</h2>
+        <button data-action="resume">Resume</button>
+        <button data-action="toggle-camera">Adjust View</button>
+        <button data-action="restart">Restart</button>
+        <button data-action="back-main">Main Menu</button>
+      </section>
+
+      <section id="end-screen" class="screen">
+        <h2>Level Complete</h2>
+        <div id="star-row">☆☆☆</div>
+        <p id="end-attempts"></p>
+        <button data-action="next-level">Next Level</button>
+        <button data-action="restart">Replay</button>
+        <button data-action="show-replay">Replay Shot</button>
+        <button data-action="back-main">Main Menu</button>
+      </section>
+
+      <section id="achievement-toast" class="hidden"></section>
+      <section id="tips">Drag to aim + power. Release to launch. Press V or tap Adjust View to rotate/zoom camera.</section>
+    </div>
+
+    <script>
+      if (location.protocol === "file:") {
+        document.getElementById("boot-error").classList.remove("hidden");
+        document.getElementById("boot-error-message").textContent =
+          "This game must be served over HTTP. ES modules cannot load Three.js from file://.";
+        document.getElementById("app").classList.add("hidden");
+      }
+    </script>
+    <script type="module">
+      import("./src/game.js").catch((err) => {
+        console.error(err);
+        document.getElementById("boot-error").classList.remove("hidden");
+        document.getElementById("boot-error-message").textContent = err?.message || String(err);
+        document.getElementById("app").classList.add("hidden");
+      });
+    </script>
+  </body>
+</html>

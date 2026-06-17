@@ -30,7 +30,7 @@ export async function refreshLeaderboard() {
   } catch (err) {
     runtime.el.leaderboardList.innerHTML = `
       <div class='muted'>${t("social.lbUnavailable")}</div>
-      <button type="button" id="lb-retry-btn" class="small">${t("social.lbRetry")}</button>`;
+      <button type="button" id="lb-retry-btn" class="small ghost">${t("social.lbRetry")}</button>`;
     runtime.el.leaderboardRank.textContent = t("social.rankDash");
     document.getElementById("lb-retry-btn")?.addEventListener("click", refreshLeaderboard);
   }
@@ -102,7 +102,7 @@ export async function refreshDuels() {
   } catch (err) {
     runtime.el.duelPanel.innerHTML = `
       <div class='muted'>${t("social.duelsUnavailable")}</div>
-      <button type="button" id="duels-retry-btn" class="small">${t("social.duelsRetry")}</button>`;
+      <button type="button" id="duels-retry-btn" class="small ghost">${t("social.duelsRetry")}</button>`;
     document.getElementById("duels-retry-btn")?.addEventListener("click", refreshDuels);
   }
 }
