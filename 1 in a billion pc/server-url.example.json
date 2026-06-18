@@ -1,0 +1,4 @@
+{
+  "serverUrl": "http://YOUR-PC-LAN-IP:8787",
+  "_comment": "Set this to where YOU run node server.js. Users with the EXE connect here. Same URL works in a browser."
+}

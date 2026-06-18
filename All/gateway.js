@@ -146,7 +146,10 @@ server.on('upgrade', (req, socket, head) => {
     return;
   }
 
-  if (url.startsWith('/remote/') || url.startsWith('/assets/')) {
+  if (url.startsWith('/remote') || url.startsWith('/assets/')) {
+    if (url.startsWith('/remote')) {
+      req.url = url.replace(/^\/remote/, '') || '/';
+    }
     remoteProxy.ws(req, socket, head);
     return;
   }

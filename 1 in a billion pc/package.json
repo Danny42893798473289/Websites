@@ -1,0 +1,52 @@
+{
+  "name": "egg-roller-idle-pc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Egg Roller Idle Windows client — connects to your hosted game server",
+  "author": "Danny",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis",
+    "build:portable": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.eggroller.idle",
+    "productName": "Egg Roller Idle",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "package.json",
+      "server-url.json",
+      "icon.png",
+      "icon.ico"
+    ],
+    "extraResources": [
+      {
+        "from": "server-url.json",
+        "to": "server-url.json"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "Egg-Roller-Idle-Portable.exe"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  }
+}

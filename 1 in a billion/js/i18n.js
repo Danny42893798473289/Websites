@@ -13,7 +13,8 @@ const UI = {
     "login.submit": "Login",
     "login.register": "Register",
     "login.hint": "Create an account with Register, then log in.",
-    "login.serverHint": "Start the game with node server.js, then open http://localhost:8787 in your browser (do not open this HTML file directly).",
+    "login.serverHint": "Server running at http://localhost:8787 — you can also play in a browser while the desktop app is open.",
+    "login.desktopHint": "Desktop app connected. The server stays running in the tray; you can also play in a browser at http://localhost:8787.",
     "ui.welcomePrefix": "Welcome,",
     "ui.coins": "Coins:",
     "ui.gems": "Gems:",
@@ -345,7 +346,8 @@ const UI = {
     "login.submit": "登录",
     "login.register": "注册",
     "login.hint": "先注册账号，再登录游戏。",
-    "login.serverHint": "请用 node server.js 启动游戏，然后在浏览器打开 http://localhost:8787（不要直接双击打开 HTML 文件）。",
+    "login.serverHint": "服务器运行于 http://localhost:8787 — 桌面应用在后台时也可在浏览器中游玩。",
+    "login.desktopHint": "桌面版已连接。服务器在托盘后台运行；也可在浏览器打开 http://localhost:8787 游玩。",
     "ui.welcomePrefix": "欢迎，",
     "ui.coins": "金币：",
     "ui.gems": "宝石：",
@@ -785,8 +787,14 @@ export function applyStaticUI() {
   document.title = t("app.title");
 
   document.querySelectorAll("[data-i18n]").forEach((el) => {
+    if (el.dataset.i18n === "login.serverHint") return;
     el.textContent = t(el.dataset.i18n);
   });
+  const serverHint = document.querySelector('[data-i18n="login.serverHint"]');
+  if (serverHint) {
+    const isDesktop = /\bElectron\b/i.test(navigator.userAgent);
+    serverHint.textContent = t(isDesktop ? "login.desktopHint" : "login.serverHint");
+  }
   document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
     el.placeholder = t(el.dataset.i18nPlaceholder);
   });

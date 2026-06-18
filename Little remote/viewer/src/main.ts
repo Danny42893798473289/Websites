@@ -2,9 +2,17 @@ import { validatePin } from '@little-remote/shared';
 import { RemoteViewer } from './webrtc.js';
 import { setupMobileControls, isMobileDevice } from './mobile.js';
 
-const signalingUrl =
-  import.meta.env.VITE_SIGNALING_URL ??
-  `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}`;
+const signalingUrl = resolveSignalingUrl();
+
+function resolveSignalingUrl(): string {
+  const configured = import.meta.env.VITE_SIGNALING_URL;
+  if (configured) return configured;
+  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+  if (/^\/remote(\/|$)/.test(location.pathname)) {
+    return `${proto}://${location.host}/remote`;
+  }
+  return `${proto}://${location.host}`;
+}
 
 const pinInput = document.getElementById('pin-input') as HTMLInputElement;
 const connectBtn = document.getElementById('connect-btn') as HTMLButtonElement;

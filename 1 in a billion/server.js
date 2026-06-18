@@ -12,13 +12,16 @@ const { URL } = require("url");
 
 const HOST = process.env.HOST || "0.0.0.0";
 const PORT = Number(process.env.PORT || 8787);
-const ROOT_DIR = __dirname;
-const USERS_JS_PATH = path.join(ROOT_DIR, "users.js");
-const USERS_JSON_PATH = path.join(ROOT_DIR, "data", "users.json");
-const DUELS_JSON_PATH = path.join(ROOT_DIR, "data", "duels.json");
-const GUILDS_JSON_PATH = path.join(ROOT_DIR, "data", "guilds.json");
-const SEASONS_JSON_PATH = path.join(ROOT_DIR, "data", "seasons.json");
-const BACKUP_DIR = path.join(ROOT_DIR, "data", "backups");
+const ROOT_DIR = process.env.ROOT_DIR || __dirname;
+const DATA_DIR = process.env.DATA_DIR || ROOT_DIR;
+const USERS_JS_PATH = path.join(DATA_DIR, "users.js");
+const USERS_JSON_PATH = path.join(DATA_DIR, "data", "users.json");
+const DUELS_JSON_PATH = path.join(DATA_DIR, "data", "duels.json");
+const GUILDS_JSON_PATH = path.join(DATA_DIR, "data", "guilds.json");
+const SEASONS_JSON_PATH = fs.existsSync(path.join(DATA_DIR, "data", "seasons.json"))
+  ? path.join(DATA_DIR, "data", "seasons.json")
+  : path.join(ROOT_DIR, "data", "seasons.json");
+const BACKUP_DIR = path.join(DATA_DIR, "data", "backups");
 const RARITY_ORDER = [
   "Common", "Uncommon", "Rare", "Epic", "Legendary", "Fabled", "Mythic", "Divine",
   "Celestial", "Void", "Astral", "Ethereal", "Omnipotent", "Infinity", "Absolute", "Fusion"
