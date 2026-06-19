@@ -112,6 +112,12 @@ export function bindEvents() {
     }
     save();
   });
+  bindChange(runtime.el.popupRaritySelect, () => {
+    if (runtime.state && runtime.el.popupRaritySelect) {
+      runtime.state.settings.popupMinRarity = runtime.el.popupRaritySelect.value || "Epic";
+    }
+    save();
+  });
   bindClick(runtime.el.dailyBtn, claimDailyReward);
   bindClick(runtime.el.saveBtn, () => {
     save();

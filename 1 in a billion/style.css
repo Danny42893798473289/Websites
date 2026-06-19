@@ -1047,9 +1047,10 @@ body.dark .gem-shop-card h3 {
   border-radius: 10px;
   border: 1px solid #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  animation: popup 1.4s ease forwards;
+  z-index: 10000;
+  animation: none;
   backdrop-filter: blur(6px);
+  pointer-events: none;
 }
 
 @keyframes popup {

@@ -268,10 +268,7 @@ export function performRoll(count, isManual) {
         `You obtained ${rarestThisBatch.shiny ? "Shiny " : ""}${rarestThisBatch.name} [${rarestThisBatch.rarity}]! Odds: 1 in ${formatNumber(rarestThisBatch.oneIn)}.`
       );
     }
-    if (getRarityIndex(rarestThisBatch.rarity) >= getRarityIndex("Epic") || rarestThisBatch.shiny) {
-      showRarePopup(rarestThisBatch);
-      triggerRareFx();
-    }
+    if (showRarePopup(rarestThisBatch)) triggerRareFx();
     playToneByRarity(rarestThisBatch.rarity);
   } else if (jackpotsHit > 0) {
     setFeed(`Jackpot! ${formatNumber(jackpotsHit)} roll${jackpotsHit === 1 ? "" : "s"} paid ${formatNumber(JACKPOT_COIN_MULTIPLIER)}x coins.`, "jackpot");
@@ -284,8 +281,7 @@ export function performRoll(count, isManual) {
     playClickTone();
   }
 
-  if (shinyThisBatch && shinyThisBatch !== rarestThisBatch) {
-    showRarePopup(shinyThisBatch);
+  if (shinyThisBatch && shinyThisBatch !== rarestThisBatch && showRarePopup(shinyThisBatch)) {
     triggerRareFx();
     setFeed(`Shiny found: ${shinyThisBatch.name} [${shinyThisBatch.rarity}]!`, "shiny");
   }
@@ -399,10 +395,7 @@ export function performSecondRoll(count, isManual) {
         `Die 2 found ${rarestThisBatch.shiny ? "Shiny " : ""}${rarestThisBatch.name} [${rarestThisBatch.rarity}]! Odds: 1 in ${formatNumber(rarestThisBatch.oneIn)}.`
       );
     }
-    if (getRarityIndex(rarestThisBatch.rarity) >= getRarityIndex("Epic") || rarestThisBatch.shiny) {
-      showRarePopup(rarestThisBatch);
-      triggerRareFx();
-    }
+    if (showRarePopup(rarestThisBatch)) triggerRareFx();
     playToneByRarity(rarestThisBatch.rarity);
   } else if (jackpotsHit > 0) {
     setFeed(`Die 2 jackpot! ${formatNumber(jackpotsHit)} roll${jackpotsHit === 1 ? "" : "s"} paid ${formatNumber(JACKPOT_COIN_MULTIPLIER)}x coins.`, "jackpot");
@@ -412,8 +405,7 @@ export function performSecondRoll(count, isManual) {
     playClickTone();
   }
 
-  if (shinyThisBatch && shinyThisBatch !== rarestThisBatch) {
-    showRarePopup(shinyThisBatch);
+  if (shinyThisBatch && shinyThisBatch !== rarestThisBatch && showRarePopup(shinyThisBatch)) {
     triggerRareFx();
     setFeed(`Die 2 shiny: ${shinyThisBatch.name} [${shinyThisBatch.rarity}]!`, "shiny");
   }
@@ -558,8 +550,7 @@ function executeGemLuckyRoll({ rollDieFn, getDieInfoFn, cooldownKey, tagLabel, s
       flashEggFound();
     }
     setFeed(`${tagLabel} found ${forcedEgg.shiny ? "Shiny " : ""}${forcedEgg.name} [${forcedEgg.rarity}] and earned ${formatNumber(coinGain)} coins!`);
-    showRarePopup(forcedEgg);
-    triggerRareFx();
+    if (showRarePopup(forcedEgg)) triggerRareFx();
     playToneByRarity(forcedEgg.rarity);
     checkAchievements();
   } else {

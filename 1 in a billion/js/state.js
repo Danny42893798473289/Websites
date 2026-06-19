@@ -101,7 +101,8 @@ export function createDefaultState(username, userRecord) {
       language: "en",
       activeTheme: "classic",
       unlockedThemes: ["classic"],
-      autoFusionEnabled: false
+      autoFusionEnabled: false,
+      popupMinRarity: "Epic"
     },
     daily: {
       lastClaimAt: 0
@@ -236,6 +237,10 @@ export function sanitizeState(s) {
     s.settings.activeTheme = "classic";
   }
   s.settings.autoFusionEnabled = !!s.settings.autoFusionEnabled;
+  const validPopupRarities = new Set(["none", "off", ...RARITIES.map((r) => r.name)]);
+  if (!validPopupRarities.has(s.settings.popupMinRarity)) {
+    s.settings.popupMinRarity = "Epic";
+  }
   s.lastSavedAt = Number(s.lastSavedAt || 0);
   if (!Array.isArray(s.prestigeMilestonesClaimed)) s.prestigeMilestonesClaimed = [];
   s.prestigeMilestoneLuck = Number(s.prestigeMilestoneLuck || 0);

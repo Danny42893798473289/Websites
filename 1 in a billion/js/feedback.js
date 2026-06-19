@@ -1,7 +1,27 @@
-import { EVENT_LOG_LIMIT } from "./config.js";
+import { EVENT_LOG_LIMIT, getRarityIndex } from "./config.js";
 import { runtime } from "./runtime.js";
 import { formatNumber } from "./utils.js";
 import { flashFeed, replayClass } from "./animations.js";
+
+let popupHideTimer = null;
+let popupGen = 0;
+
+export function getPopupMinRarityIndex(state = runtime.state) {
+  const setting = state?.settings?.popupMinRarity ?? "Epic";
+  if (setting === "none" || setting === "off") return Number.POSITIVE_INFINITY;
+  const idx = getRarityIndex(setting);
+  return idx >= 0 ? idx : getRarityIndex("Epic");
+}
+
+export function shouldShowEggPopup(egg, state = runtime.state) {
+  if (!egg) return false;
+  if (egg.rarity === "Achievement") return true;
+  if (egg.shiny) return true;
+  const minIdx = getPopupMinRarityIndex(state);
+  if (!Number.isFinite(minIdx)) return false;
+  const eggIdx = getRarityIndex(egg.rarity);
+  return eggIdx >= 0 && eggIdx >= minIdx;
+}
 
 export function logEvent(message, type = "info") {
   if (!runtime.state) return;
@@ -25,22 +45,53 @@ export function setFeed(message, logType = "info", shouldLog = true) {
   }
 }
 
-export function showRarePopup(egg) {
+export function showRarePopup(egg, { force = false } = {}) {
   const popup = runtime.el.rarePopup;
-  if (!popup || !egg) return;
-  const label = `${egg.name} (${egg.rarity})`;
-  popup.textContent = `${label} obtained! (1 in ${formatNumber(egg.oneIn)})`;
-  popup.style.borderColor = egg.color;
+  if (!popup || !egg) return false;
+  if (!force && !shouldShowEggPopup(egg)) return false;
+
+  if (popupHideTimer) {
+    clearTimeout(popupHideTimer);
+    popupHideTimer = null;
+  }
+
+  const gen = ++popupGen;
+  const label = egg.rarity === "Achievement" ? egg.name : `${egg.name} (${egg.rarity})`;
+  popup.textContent =
+    egg.rarity === "Achievement"
+      ? `${label}!`
+      : `${label} obtained! (1 in ${formatNumber(egg.oneIn)})`;
+  popup.style.borderColor = egg.color || "#fff";
   popup.style.color =
     egg.color === "#111827" || egg.color === "#000000" || egg.color === "#ffffff" ? "#fff" : egg.color;
-  popup.classList.remove("hidden");
-  popup.classList.remove("rare-popup-burst");
-  void popup.offsetWidth;
-  popup.classList.add("rare-popup-burst");
-  setTimeout(() => {
+
+  popup.classList.remove("hidden", "rare-popup-burst");
+
+  const hidePopup = () => {
+    if (gen !== popupGen) return;
     popup.classList.add("hidden");
     popup.classList.remove("rare-popup-burst");
-  }, 1500);
+    popupHideTimer = null;
+  };
+
+  const onAnimationEnd = (event) => {
+    if (event.target !== popup || event.animationName !== "rarePopupBurst") return;
+    popup.removeEventListener("animationend", onAnimationEnd);
+    hidePopup();
+  };
+
+  requestAnimationFrame(() => {
+    if (gen !== popupGen) return;
+    void popup.offsetWidth;
+    popup.classList.add("rare-popup-burst");
+    popup.addEventListener("animationend", onAnimationEnd);
+    popupHideTimer = setTimeout(() => {
+      popup.removeEventListener("animationend", onAnimationEnd);
+      hidePopup();
+    }, 1700);
+  });
+
+  return true;
 }
 
 export function triggerRareFx() {

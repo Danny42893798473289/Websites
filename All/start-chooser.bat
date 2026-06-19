@@ -19,6 +19,7 @@ set "ALL_DIR=%~dp0"
 set "WW_DIR=%ROOT%\werewolf kill"
 set "LR_DIR=%ROOT%\Little remote"
 set "BILLION_DIR=%ROOT%\1 in a billion"
+set "BILLION_PC_DIR=%ROOT%\1 in a billion pc"
 
 if not exist "%WW_DIR%\package.json" (
   echo Missing werewolf project: "%WW_DIR%"
@@ -75,6 +76,17 @@ echo Waiting for 1 in a Billion backend (this also warms the account database fo
 powershell -NoProfile -ExecutionPolicy Bypass -File "%ALL_DIR%wait-for-gateway.ps1" -Url "http://127.0.0.1:5500/api/health" -TimeoutSec 30
 if errorlevel 1 (
   echo 1 in a Billion backend slow to start. The chooser will open anyway; you may need to refresh /billion/ once.
+)
+
+if exist "%BILLION_PC_DIR%\package.json" (
+  if not exist "%BILLION_PC_DIR%\node_modules\electron" (
+    echo Installing Egg Roller PC client dependencies...
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "cd '%BILLION_PC_DIR%'; & '%NPM_CMD%' install"
+  )
+  echo Starting Egg Roller Idle PC client...
+  start "Egg Roller Idle PC" powershell -ExecutionPolicy Bypass -Command "$env:EGG_SERVER_URL='http://127.0.0.1:5503'; cd '%BILLION_PC_DIR%'; & '%NPM_CMD%' start"
+) else (
+  echo Skipping Egg Roller PC client ^(missing "%BILLION_PC_DIR%"^).
 )
 
 REM Host agent is heavy (Electron). Start it after the chooser is open.

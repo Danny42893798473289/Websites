@@ -195,7 +195,7 @@ export function checkAchievements() {
         rarity: "Achievement",
         color: "#22c55e",
         oneIn: 1
-      });
+      }, { force: true });
       flashAchievement();
     }
   });

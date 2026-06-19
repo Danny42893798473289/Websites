@@ -115,6 +115,7 @@ export function cacheElements() {
   el.prestigeProgressText = document.getElementById("prestige-progress-text");
 
   el.languageSelect = document.getElementById("language-select");
+  el.popupRaritySelect = document.getElementById("popup-rarity-select");
   el.darkModeToggle = document.getElementById("dark-mode-toggle");
   el.soundToggle = document.getElementById("sound-toggle");
   el.dailyBtn = document.getElementById("daily-btn");

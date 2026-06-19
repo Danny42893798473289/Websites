@@ -113,6 +113,9 @@ export function renderCore() {
     if (runtime.el.soundToggle) {
       runtime.el.soundToggle.checked = !!runtime.state.settings.soundEnabled;
     }
+    if (runtime.el.popupRaritySelect) {
+      runtime.el.popupRaritySelect.value = runtime.state.settings.popupMinRarity || "Epic";
+    }
   } catch (err) {
     console.error("Render core error:", err);
   }
@@ -1272,6 +1275,19 @@ export function populateRarityFilters() {
     RARITIES.map((r) => `<option value="${r.name}">${tRarity(r.name)}</option>`).join("");
   if (runtime.el.collectionRarityFilter) runtime.el.collectionRarityFilter.innerHTML = opts;
   if (runtime.el.codexRarityFilter) runtime.el.codexRarityFilter.innerHTML = opts;
+  populatePopupRaritySelect();
+}
+
+export function populatePopupRaritySelect() {
+  if (!runtime.el.popupRaritySelect) return;
+  const off = `<option value="none">${t("settings.popupOff")}</option>`;
+  const rarityOpts = RARITIES.map(
+    (r) => `<option value="${r.name}">${t("settings.popupAndAbove", { rarity: tRarity(r.name) })}</option>`
+  ).join("");
+  runtime.el.popupRaritySelect.innerHTML = off + rarityOpts;
+  if (runtime.state?.settings?.popupMinRarity) {
+    runtime.el.popupRaritySelect.value = runtime.state.settings.popupMinRarity;
+  }
 }
 
 export function syncFiltersFromUI() {
