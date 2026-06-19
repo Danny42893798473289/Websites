@@ -116,6 +116,18 @@ export function cacheElements() {
 
   el.languageSelect = document.getElementById("language-select");
   el.popupRaritySelect = document.getElementById("popup-rarity-select");
+  el.autoRollToggle = document.getElementById("auto-roll-toggle");
+  el.autoRollStatus = document.getElementById("auto-roll-status");
+  el.keybindsSection = document.getElementById("keybinds-section");
+  el.replayTutorialBtn = document.getElementById("replay-tutorial-btn");
+  el.currencyStack = document.getElementById("currency-stack");
+  el.tutorialOverlay = document.getElementById("tutorial-overlay");
+  el.tutorialSpotlight = document.getElementById("tutorial-spotlight");
+  el.tutorialTitle = document.getElementById("tutorial-title");
+  el.tutorialBody = document.getElementById("tutorial-body");
+  el.tutorialStepText = document.getElementById("tutorial-step-text");
+  el.tutorialNextBtn = document.getElementById("tutorial-next-btn");
+  el.tutorialSkipBtn = document.getElementById("tutorial-skip-btn");
   el.darkModeToggle = document.getElementById("dark-mode-toggle");
   el.soundToggle = document.getElementById("sound-toggle");
   el.dailyBtn = document.getElementById("daily-btn");

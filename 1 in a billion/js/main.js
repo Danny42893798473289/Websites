@@ -39,6 +39,7 @@ import {
 import { sellEgg } from "./economy.js";
 import { applyStaticUI, applyLanguage, onLanguageChange } from "./i18n.js";
 import { refreshGuild } from "./guilds.js";
+import { bindTutorialEvents, replayTutorial } from "./tutorial.js";
 
 export function init() {
   initDeviceProfile();
@@ -46,6 +47,8 @@ export function init() {
   applyStaticUI();
   populateRarityFilters();
   bindEvents();
+  bindTutorialEvents();
+  updateKeybindsVisibility();
   runtime.activeTab = "roll";
   setActiveTab("roll");
   renderShop();
@@ -117,6 +120,16 @@ export function bindEvents() {
       runtime.state.settings.popupMinRarity = runtime.el.popupRaritySelect.value || "Epic";
     }
     save();
+  });
+  bindChange(runtime.el.autoRollToggle, () => {
+    if (runtime.state && runtime.el.autoRollToggle) {
+      runtime.state.settings.autoRollEnabled = !!runtime.el.autoRollToggle.checked;
+    }
+    renderCore();
+    save();
+  });
+  bindClick(runtime.el.replayTutorialBtn, () => {
+    replayTutorial();
   });
   bindClick(runtime.el.dailyBtn, claimDailyReward);
   bindClick(runtime.el.saveBtn, () => {
@@ -209,6 +222,12 @@ export function bindEvents() {
   window.addEventListener("beforeunload", () => {
     save();
   });
+}
+
+function updateKeybindsVisibility() {
+  if (runtime.el.keybindsSection) {
+    runtime.el.keybindsSection.classList.toggle("hidden", runtime.isMobile);
+  }
 }
 
 function bindFilterEvents() {

@@ -9,6 +9,10 @@ export function detectMobileDevice() {
   return mobileUa || (coarsePointer && narrowScreen);
 }
 
+export function isDesktopClient() {
+  return /\bElectron\b/i.test(navigator.userAgent || "");
+}
+
 export function initDeviceProfile() {
   runtime.isMobile = detectMobileDevice();
 }

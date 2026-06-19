@@ -14,6 +14,7 @@ export function setActiveTab(tabId) {
       btn.classList.remove("tab-pop");
       void btn.offsetWidth;
       btn.classList.add("tab-pop");
+      btn.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
     }
   });
   el.tabPanels.forEach((panel) => {

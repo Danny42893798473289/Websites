@@ -72,7 +72,7 @@
           <h2 data-i18n="app.title">Egg Roller Idle</h2>
           <p class="muted"><span id="welcome-prefix" data-i18n="ui.welcomePrefix">Welcome,</span> <span id="player-name">Player</span></p>
         </div>
-        <div class="currency-stack">
+        <div class="currency-stack" id="currency-stack">
           <div class="currency-pill coins"><span class="currency-label" data-i18n="ui.coins">Coins:</span> <span class="currency-value" id="coins">0</span></div>
           <div class="currency-pill gems"><span class="currency-label" data-i18n="ui.gems">Gems:</span> <span class="currency-value" id="gems">0</span></div>
           <div class="currency-pill rps"><span class="currency-label" data-i18n="ui.rps1">RPS 1:</span> <span class="currency-value" id="rps">0.00</span></div>
@@ -93,7 +93,10 @@
 
       <section class="grid">
         <article id="rolling-card" class="card tab-panel" data-panel="roll">
-          <h3 data-i18n="roll.area">Rolling Area</h3>
+          <div class="roll-tab-header">
+            <h3 data-i18n="roll.area">Rolling Area</h3>
+            <span id="auto-roll-status" class="auto-roll-pill muted">Auto-roll: On</span>
+          </div>
           <div class="rolling-main">
             <div class="dice-panel">
               <div class="dice-buttons">
@@ -148,6 +151,14 @@
             <button id="prestige-btn" class="warn" data-i18n="roll.prestige">Rebirth (Prestige)</button>
           </div>
           <p id="feed" class="feed feed-bar muted" data-i18n="roll.feedStart">Start rolling to discover eggs.</p>
+          <details class="glossary-card roll-help-card">
+            <summary data-i18n="roll.howTitle">How rolling works</summary>
+            <div class="glossary-body">
+              <p data-i18n="roll.howCoins">Each roll earns coins based on your die result and upgrades.</p>
+              <p data-i18n="roll.howEggs">Rare eggs can appear on any roll — higher rarities are much harder to find.</p>
+              <p data-i18n="roll.howPrestige">Prestige at 5000 rolls to rebirth for permanent bonuses (keeps gem upgrades).</p>
+            </div>
+          </details>
         </article>
 
         <article class="card tab-panel" data-panel="roll">
@@ -400,10 +411,27 @@
             <label><input type="checkbox" id="sound-toggle" checked /> <span data-i18n="settings.sound">Sound Effects</span></label>
           </div>
           <div class="settings-row">
+            <label><input type="checkbox" id="auto-roll-toggle" checked /> <span data-i18n="settings.autoRoll">Auto-roll (RPS)</span></label>
+          </div>
+          <p class="muted section-hint" data-i18n="settings.autoRollHint">Pause automatic rolls from upgrades while keeping manual rolls.</p>
+          <div class="settings-row">
             <label for="popup-rarity-select" data-i18n="settings.popupMinRarity">Egg popup from rarity</label>
             <select id="popup-rarity-select"></select>
           </div>
           <p class="muted section-hint" data-i18n="settings.popupMinRarityHint">Show the big egg popup for this rarity and above. Shinies always pop up.</p>
+          <div id="keybinds-section" class="keybinds-section hidden">
+            <h4 class="section-title" data-i18n="settings.keybinds">Keyboard shortcuts</h4>
+            <ul class="keybinds-list muted">
+              <li data-i18n="settings.keySpace">Space — Roll Die 1</li>
+              <li data-i18n="settings.key2">2 — Roll Die 2</li>
+              <li data-i18n="settings.keyL">L — Lucky roll</li>
+              <li data-i18n="settings.keyS">S — Super lucky roll</li>
+              <li data-i18n="settings.keyTabs">1–7 — Switch tabs</li>
+            </ul>
+          </div>
+          <div class="settings-row">
+            <button id="replay-tutorial-btn" type="button" class="small ghost" data-i18n="settings.replayTutorial">Replay tutorial</button>
+          </div>
           <div class="settings-row">
             <button id="daily-btn" data-i18n="settings.daily">Claim Daily Reward</button>
             <span id="daily-text" class="muted"></span>
@@ -437,6 +465,19 @@
     </main>
 
     <div id="rare-popup" class="rare-popup hidden"></div>
+
+    <div id="tutorial-overlay" class="tutorial-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="tutorial-title">
+      <div id="tutorial-spotlight" class="tutorial-spotlight hidden"></div>
+      <div class="tutorial-card">
+        <p id="tutorial-step-text" class="tutorial-step-text muted"></p>
+        <h3 id="tutorial-title"></h3>
+        <p id="tutorial-body" class="tutorial-body"></p>
+        <div class="tutorial-actions">
+          <button id="tutorial-skip-btn" type="button" class="small ghost" data-i18n="tutorial.skip">Skip</button>
+          <button id="tutorial-next-btn" type="button" class="small primary" data-i18n="tutorial.next">Next</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="js/main.js"></script>

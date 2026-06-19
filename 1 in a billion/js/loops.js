@@ -79,30 +79,32 @@ export function gameTick() {
     runtime.state.manualStreak = 0;
   }
 
-  const rps1 = getPrimaryRPS();
-  const rps2 = getSecondDieRPS();
-  runtime.rollBuffer += rps1 * dtSeconds;
-  runtime.rollBuffer2 += rps2 * dtSeconds;
-  const cap = runtime.isMobile ? MAX_ROLLS_PER_TICK_MOBILE : MAX_ROLLS_PER_TICK;
-  const toProcess1 = Math.min(Math.floor(runtime.rollBuffer), cap);
-  if (toProcess1 > 0) {
-    runtime.rollBuffer -= toProcess1;
-    try {
-      performRoll(toProcess1, false);
-    } catch (err) {
-      console.error("Auto-roll tick failed:", err);
-      runtime.rollBuffer = 0;
+  if (runtime.state.settings.autoRollEnabled !== false) {
+    const rps1 = getPrimaryRPS();
+    const rps2 = getSecondDieRPS();
+    runtime.rollBuffer += rps1 * dtSeconds;
+    runtime.rollBuffer2 += rps2 * dtSeconds;
+    const cap = runtime.isMobile ? MAX_ROLLS_PER_TICK_MOBILE : MAX_ROLLS_PER_TICK;
+    const toProcess1 = Math.min(Math.floor(runtime.rollBuffer), cap);
+    if (toProcess1 > 0) {
+      runtime.rollBuffer -= toProcess1;
+      try {
+        performRoll(toProcess1, false);
+      } catch (err) {
+        console.error("Auto-roll tick failed:", err);
+        runtime.rollBuffer = 0;
+      }
     }
-  }
-  const cap2 = Math.max(0, cap - toProcess1);
-  const toProcess2 = Math.min(Math.floor(runtime.rollBuffer2), cap2);
-  if (toProcess2 > 0 && hasSecondDie(runtime.state)) {
-    runtime.rollBuffer2 -= toProcess2;
-    try {
-      performSecondRoll(toProcess2, false);
-    } catch (err) {
-      console.error("Die 2 auto-roll tick failed:", err);
-      runtime.rollBuffer2 = 0;
+    const cap2 = Math.max(0, cap - toProcess1);
+    const toProcess2 = Math.min(Math.floor(runtime.rollBuffer2), cap2);
+    if (toProcess2 > 0 && hasSecondDie(runtime.state)) {
+      runtime.rollBuffer2 -= toProcess2;
+      try {
+        performSecondRoll(toProcess2, false);
+      } catch (err) {
+        console.error("Die 2 auto-roll tick failed:", err);
+        runtime.rollBuffer2 = 0;
+      }
     }
   }
 

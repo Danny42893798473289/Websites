@@ -1687,6 +1687,43 @@ button:focus-visible {
     padding: 10px 12px;
   }
 
+  .dice-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .dice-buttons-lucky {
+    width: 100%;
+  }
+
+  .big-roll {
+    min-width: 0;
+    width: 100%;
+    min-height: 56px;
+  }
+
+  #currency-stack {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--card);
+    padding: 6px;
+    margin: -6px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(31, 36, 64, 0.08);
+  }
+
+  body.dark #currency-stack {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .tab-bar {
+    mask-image: linear-gradient(to right, transparent, #000 12px, #000 calc(100% - 12px), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12px, #000 calc(100% - 12px), transparent);
+  }
+
   .pp-display strong {
     font-size: 1.15rem;
   }
@@ -1943,5 +1980,157 @@ button:active:not(:disabled) {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ── Polish: roll header, tutorial, keybinds, empty states ── */
+
+.roll-tab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.roll-tab-header h3 {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.auto-roll-pill {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--success) 35%, var(--border));
+  background: color-mix(in srgb, var(--success) 12%, var(--card));
+  color: var(--success);
+}
+
+.auto-roll-pill.paused {
+  border-color: color-mix(in srgb, var(--muted) 35%, var(--border));
+  background: color-mix(in srgb, var(--muted) 12%, var(--card));
+  color: var(--muted);
+}
+
+.roll-help-card {
+  margin-top: 10px;
+}
+
+.keybinds-section {
+  margin-top: 8px;
+}
+
+.keybinds-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.empty-state {
+  padding: 20px 12px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  pointer-events: none;
+}
+
+.tutorial-overlay:not(.hidden) {
+  pointer-events: auto;
+}
+
+.tutorial-spotlight {
+  position: fixed;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  z-index: 10002;
+  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+
+.tutorial-card {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(420px, calc(100vw - 32px));
+  padding: 16px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  z-index: 10003;
+}
+
+.tutorial-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.tutorial-step-text {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+}
+
+.tutorial-body {
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.tutorial-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+body.tutorial-open {
+  overflow: hidden;
+}
+
+.tab-btn.active {
+  position: relative;
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 3px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 768px), (pointer: coarse) {
+  .login-card {
+    margin: 4vh auto 2vh;
+    max-width: none;
+  }
+
+  .login-card .auth-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .login-card .auth-actions button {
+    width: 100%;
+  }
+
+  .tutorial-card {
+    bottom: calc(12px + env(safe-area-inset-bottom));
   }
 }

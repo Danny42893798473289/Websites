@@ -37,6 +37,7 @@ import { playClickTone, playToneByRarity } from "./audio.js";
 import { setFeed, showRarePopup, triggerRareFx, flashJackpot } from "./feedback.js";
 import { diceRollAnim, flashEggFound, flashRollResult, flashStreak } from "./animations.js";
 import { escapeHtml, formatDuration, formatNumber } from "./utils.js";
+import { t } from "./i18n.js";
 import { checkAchievements } from "./economy.js";
 import { getGlobalEventBonus } from "./events.js";
 import { bumpChallenge, ensureWeeklyChallenges } from "./challenges.js";
@@ -94,6 +95,7 @@ export async function applyOfflineProgress({ loginBoot = false } = {}) {
   const later2 = rollsLater - later1;
 
   runtime.offlineProgressRunning = true;
+  const coinsBefore = runtime.state.coins;
   try {
     await performRollBatched(rolls1, false);
     await performSecondRollBatched(rolls2, false);
@@ -101,9 +103,18 @@ export async function applyOfflineProgress({ loginBoot = false } = {}) {
       runtime.pendingOfflineRolls += later1;
       runtime.pendingOfflineRolls2 += later2;
     }
+    const coinsGained = Math.max(0, runtime.state.coins - coinsBefore);
     const message = rollsLater > 0
-      ? `Offline gains started: ${formatNumber(rollsNow)} rolls now, ${formatNumber(rollsLater)} more rolling in.`
-      : `Offline gains: ${formatNumber(rollsNow)} rolls while away (${formatDuration(deltaMs)}).`;
+      ? t("offline.started", {
+          rolls: formatNumber(rollsNow),
+          later: formatNumber(rollsLater),
+          coins: formatNumber(coinsGained)
+        })
+      : t("offline.summary", {
+          rolls: formatNumber(rollsNow),
+          duration: formatDuration(deltaMs),
+          coins: formatNumber(coinsGained)
+        });
     setFeed(message, "offline");
     if (runtime.el.offlineInfo) {
       runtime.el.offlineInfo.textContent = message;

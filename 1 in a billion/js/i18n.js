@@ -54,11 +54,20 @@ const UI = {
     "roll.prestige": "Rebirth (Prestige)",
     "roll.ready": "Ready",
     "roll.feedStart": "Start rolling to discover eggs.",
+    "roll.autoRollOn": "Auto-roll: On",
+    "roll.autoRollPaused": "Auto-roll: Paused",
+    "roll.howTitle": "How rolling works",
+    "roll.howCoins": "Each roll earns coins based on your die result and upgrades.",
+    "roll.howEggs": "Rare eggs can appear on any roll — higher rarities are much harder to find.",
+    "roll.howPrestige": "Prestige at 5000 rolls to rebirth for permanent bonuses (keeps gem upgrades).",
     "roll.history": "Roll History",
+    "offline.summary": "While away: +{rolls} rolls, +{coins} coins ({duration}).",
+    "offline.started": "While away: +{rolls} rolls now (+{coins} coins), {later} more rolling in.",
     "collection.eggs": "Egg Collection",
     "collection.museum": "Egg Museum",
     "collection.museumHint": "Pin up to 3 normal or shiny eggs from the codex to show off on your profile.",
     "collection.codex": "Egg Codex",
+    "collection.empty": "No eggs yet — roll to discover your first egg!",
     "collection.codexHint": "Discover every egg variant. Shinies have their own codex and do not count toward set bonuses. Fusion eggs are crafted in the Fusion Lab.",
     "collection.codexProgress": "Codex Completion",
     "shops.coin": "Coin Shop",
@@ -142,6 +151,15 @@ const UI = {
     "settings.popupMinRarityHint": "Show the big egg popup for this rarity and above. Shinies always pop up.",
     "settings.popupOff": "Off",
     "settings.popupAndAbove": "{rarity} and above",
+    "settings.autoRoll": "Auto-roll (RPS)",
+    "settings.autoRollHint": "Pause automatic rolls from upgrades while keeping manual rolls.",
+    "settings.keybinds": "Keyboard shortcuts",
+    "settings.keySpace": "Space — Roll Die 1",
+    "settings.key2": "2 — Roll Die 2",
+    "settings.keyL": "L — Lucky roll",
+    "settings.keyS": "S — Super lucky roll",
+    "settings.keyTabs": "1–7 — Switch tabs",
+    "settings.replayTutorial": "Replay tutorial",
     "settings.daily": "Claim Daily Reward",
     "settings.dailyCooldown": "Daily Reward Cooldown",
     "settings.dailyReady": "Ready now",
@@ -197,6 +215,21 @@ const UI = {
     "codex.shinyProgress": "{found} / {total}",
     "codex.rollableProgress": "Roll: {found}/{total}",
     "codex.fusionProgress": "Fusion: {found}/{total}",
+    "codex.empty": "Your codex is empty — keep rolling to discover eggs!",
+    "tutorial.skip": "Skip",
+    "tutorial.next": "Next",
+    "tutorial.done": "Done",
+    "tutorial.stepOf": "Step {current} of {total}",
+    "tutorial.step1Title": "Roll the dice",
+    "tutorial.step1Body": "Tap Roll or press Space. Upgrades add auto-rolls (RPS) in the background.",
+    "tutorial.step2Title": "Find eggs",
+    "tutorial.step2Body": "Lucky rolls can hatch eggs. Rarer eggs are worth more and unlock codex entries.",
+    "tutorial.step3Title": "Buy upgrades",
+    "tutorial.step3Body": "Spend coins and gems in Shops to boost RPS, luck, and unlock Die 2.",
+    "tutorial.step4Title": "Fill the codex",
+    "tutorial.step4Body": "Discover every egg variant. Complete a rarity set for permanent bonuses.",
+    "tutorial.step5Title": "Prestige goal",
+    "tutorial.step5Body": "Reach 5000 rolls to Rebirth — reset coins and eggs but keep gem upgrades.",
     "status.owned": "Owned: {n}",
     "status.shiniesOwned": "Shinies owned: {n}",
     "status.pinShiny": "Pin Shiny",
@@ -391,11 +424,20 @@ const UI = {
     "roll.prestige": "转生（重生）",
     "roll.ready": "可用",
     "roll.feedStart": "开始掷骰以发现新蛋。",
+    "roll.autoRollOn": "自动掷骰：开",
+    "roll.autoRollPaused": "自动掷骰：暂停",
+    "roll.howTitle": "掷骰说明",
+    "roll.howCoins": "每次掷骰根据点数和升级获得金币。",
+    "roll.howEggs": "任何掷骰都可能出蛋——越稀有越难获得。",
+    "roll.howPrestige": "5000 次掷骰后可转生，保留宝石升级。",
     "roll.history": "掷骰记录",
+    "offline.summary": "离线期间：+{rolls} 次掷骰，+{coins} 金币（{duration}）。",
+    "offline.started": "离线期间：+{rolls} 次掷骰（+{coins} 金币），另有 {later} 次进行中。",
     "collection.eggs": "蛋收藏",
     "collection.museum": "蛋博物馆",
     "collection.museumHint": "从图鉴中挑选最多 3 枚普通或闪亮蛋展示在个人资料上。",
     "collection.codex": "蛋图鉴",
+    "collection.empty": "还没有蛋——掷骰发现第一枚吧！",
     "collection.codexHint": "发现每一种蛋。闪亮蛋有独立图鉴，不计入套装加成。融合蛋需在融合实验室合成。",
     "collection.codexProgress": "图鉴完成度",
     "shops.coin": "金币商店",
@@ -478,6 +520,15 @@ const UI = {
     "settings.popupMinRarityHint": "达到该稀有度及以上时显示大弹窗。闪光蛋始终弹窗。",
     "settings.popupOff": "关闭",
     "settings.popupAndAbove": "{rarity} 及以上",
+    "settings.autoRoll": "自动掷骰（RPS）",
+    "settings.autoRollHint": "暂停升级带来的自动掷骰，手动掷骰不受影响。",
+    "settings.keybinds": "键盘快捷键",
+    "settings.keySpace": "空格 — 掷骰子 1",
+    "settings.key2": "2 — 掷骰子 2",
+    "settings.keyL": "L — 幸运掷骰",
+    "settings.keyS": "S — 超级幸运掷骰",
+    "settings.keyTabs": "1–7 — 切换标签页",
+    "settings.replayTutorial": "重看教程",
     "settings.daily": "领取每日奖励",
     "settings.dailyCooldown": "每日奖励冷却",
     "settings.dailyReady": "现在可领",
@@ -533,6 +584,21 @@ const UI = {
     "codex.shinyProgress": "{found} / {total}",
     "codex.rollableProgress": "掷骰：{found}/{total}",
     "codex.fusionProgress": "融合：{found}/{total}",
+    "codex.empty": "图鉴还是空的——继续掷骰发现新蛋吧！",
+    "tutorial.skip": "跳过",
+    "tutorial.next": "下一步",
+    "tutorial.done": "完成",
+    "tutorial.stepOf": "第 {current} / {total} 步",
+    "tutorial.step1Title": "掷骰子",
+    "tutorial.step1Body": "点击掷骰或按空格。升级会在后台自动掷骰（RPS）。",
+    "tutorial.step2Title": "发现蛋",
+    "tutorial.step2Body": "幸运掷骰可能孵出蛋。越稀有越有价值，并解锁图鉴。",
+    "tutorial.step3Title": "购买升级",
+    "tutorial.step3Body": "在商店用金币和宝石提升 RPS、运气，并解锁骰子 2。",
+    "tutorial.step4Title": "填满图鉴",
+    "tutorial.step4Body": "发现每种蛋。集齐一个稀有度套装可获得永久加成。",
+    "tutorial.step5Title": "转生目标",
+    "tutorial.step5Body": "达到 5000 次掷骰可转生——重置金币和蛋，保留宝石升级。",
     "status.owned": "拥有：{n}",
     "status.shiniesOwned": "闪亮：{n}",
     "status.pinShiny": "展示闪亮",
@@ -801,7 +867,12 @@ export function applyStaticUI() {
   const serverHint = document.querySelector('[data-i18n="login.serverHint"]');
   if (serverHint) {
     const isDesktop = /\bElectron\b/i.test(navigator.userAgent);
-    serverHint.textContent = t(isDesktop ? "login.desktopHint" : "login.serverHint");
+    if (isDesktop) {
+      serverHint.classList.add("hidden");
+    } else {
+      serverHint.classList.remove("hidden");
+      serverHint.textContent = t("login.serverHint");
+    }
   }
   document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
     el.placeholder = t(el.dataset.i18nPlaceholder);
@@ -821,6 +892,9 @@ export function applyStaticUI() {
 
 export function applyLanguage() {
   applyStaticUI();
+  if (runtime.el.keybindsSection) {
+    runtime.el.keybindsSection.classList.toggle("hidden", runtime.isMobile);
+  }
   if (!runtime.state) return;
   import("./render.js").then(({ renderCore, renderHeavyForTab, populateRarityFilters }) => {
     populateRarityFilters();

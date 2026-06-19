@@ -116,6 +116,10 @@ export function renderCore() {
     if (runtime.el.popupRaritySelect) {
       runtime.el.popupRaritySelect.value = runtime.state.settings.popupMinRarity || "Epic";
     }
+    if (runtime.el.autoRollToggle) {
+      runtime.el.autoRollToggle.checked = runtime.state.settings.autoRollEnabled !== false;
+    }
+    renderAutoRollStatus();
   } catch (err) {
     console.error("Render core error:", err);
   }
@@ -303,8 +307,22 @@ export function showFloatingGain(target, text, kind) {
   }, 900);
 }
 
+function renderAutoRollStatus() {
+  if (!runtime.el.autoRollStatus || !runtime.state) return;
+  const on = runtime.state.settings.autoRollEnabled !== false;
+  runtime.el.autoRollStatus.textContent = on ? t("roll.autoRollOn") : t("roll.autoRollPaused");
+  runtime.el.autoRollStatus.classList.toggle("paused", !on);
+}
+
 export function renderEggCollection() {
   const filters = runtime.state?.settings?.filters || {};
+  const hasAnyEgg =
+    RARITIES.some((r) => getRarityEggCount(runtime.state, r.name) > 0) ||
+    FUSION_EGG_TYPES.some((egg) => Number(runtime.state.eggCollection[egg.id] || 0) > 0);
+  if (!hasAnyEgg) {
+    runtime.el.eggLog.innerHTML = `<div class="empty-state muted">${t("collection.empty")}</div>`;
+    return;
+  }
   const rows = RARITIES.filter((r) => {
     if (filters.collectionRarity && filters.collectionRarity !== "all" && r.name !== filters.collectionRarity) return false;
     return true;
@@ -488,6 +506,7 @@ export function renderEggCodex() {
     : `<div class="settings-row"><button class="small shiny-button" data-expand-shiny-codex>${t("codex.expandShiny")}</button></div>`;
 
   runtime.el.eggCodex.innerHTML = `
+      ${rollableFound === 0 && fusionFound === 0 ? `<div class="empty-state muted">${t("codex.empty")}</div>` : ""}
       ${rows.join("")}
       ${fusionSection}
       <div class="codex-rarity-group shiny-codex-section">

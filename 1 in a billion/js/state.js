@@ -102,7 +102,10 @@ export function createDefaultState(username, userRecord) {
       activeTheme: "classic",
       unlockedThemes: ["classic"],
       autoFusionEnabled: false,
-      popupMinRarity: "Epic"
+      autoRollEnabled: true,
+      popupMinRarity: "Epic",
+      tutorialCompleted: false,
+      tutorialStep: 0
     },
     daily: {
       lastClaimAt: 0
@@ -237,6 +240,9 @@ export function sanitizeState(s) {
     s.settings.activeTheme = "classic";
   }
   s.settings.autoFusionEnabled = !!s.settings.autoFusionEnabled;
+  s.settings.autoRollEnabled = s.settings.autoRollEnabled !== false;
+  s.settings.tutorialCompleted = !!s.settings.tutorialCompleted;
+  s.settings.tutorialStep = Math.max(0, Math.min(4, Number(s.settings.tutorialStep || 0)));
   const validPopupRarities = new Set(["none", "off", ...RARITIES.map((r) => r.name)]);
   if (!validPopupRarities.has(s.settings.popupMinRarity)) {
     s.settings.popupMinRarity = "Epic";

@@ -12,6 +12,8 @@ import { checkAchievements } from "./economy.js";
 import { applyTheme } from "./themes.js";
 import { applyStaticUI, applyLanguage, setLang } from "./i18n.js";
 import { bootGameServices } from "./boot.js";
+import { bindKeybinds, unbindKeybinds } from "./keybinds.js";
+import { maybeStartTutorial } from "./tutorial.js";
 
 function yieldToBrowser(ms = 50) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -148,9 +150,13 @@ export async function loginAs(username, userRecord) {
     await bootGameServices();
     applyLanguage();
     startLoops();
+    bindKeybinds();
     void refreshLeaderboard();
     void fetchGlobalEventFromServer();
     setFeed(`Welcome back, ${username}!`);
+    setTimeout(() => {
+      maybeStartTutorial();
+    }, 400);
     setTimeout(() => save(), 250);
   } catch (err) {
     console.error("Post-login boot failed:", err);
@@ -164,6 +170,7 @@ export async function loginAs(username, userRecord) {
 export function onLogout() {
   save();
   stopLoops();
+  unbindKeybinds();
   runtime.currentUser = null;
   runtime.state = null;
   runtime.pendingOfflineRolls = 0;
